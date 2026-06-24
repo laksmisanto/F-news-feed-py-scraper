@@ -1,0 +1,103 @@
+{
+  "রাজনীতি": {
+    "keywords": ["রাজনীতি", "রাজনৈতিক", "নির্বাচন", "ভোট", "সংসদ", "parliament", "politics", "political", "election", "vote", "government", "সরকার", "মন্ত্রী", "minister"],
+    "children": {
+      "আওয়ামী লীগ": ["আওয়ামী লীগ", "আওয়ামীলীগ", "awami league", "AL ", " AL,", "শেখ হাসিনা", "sheikh hasina", "হাসিনা"],
+      "বিএনপি": ["বিএনপি", "BNP", "bnp", "খালেদা জিয়া", "khaleda zia", "তারেক রহমান", "tarique rahman"],
+      "জামায়াত": ["জামায়াত", "জামাত", "jamaat", "jamaat-e-islami", "জামায়াতে ইসলামী", "শিবির"],
+      "এনসিপি": ["এনসিপি", "NCP", "national consensus party", "জাতীয় ঐকমত্য"],
+      "জাতীয় পার্টি": ["জাতীয় পার্টি", "জাপা", "jatiya party", "এরশাদ"],
+      "বিপ্লব": ["বিপ্লব", "অভ্যুত্থান", "revolution", "uprising", "জুলাই বিপ্লব"]
+    }
+  },
+  "খেলাধুলা": {
+    "keywords": ["খেলাধুলা", "খেলা", "ক্রীড়া", "sport", "sports", "game", "tournament", "championship", "টুর্নামেন্ট"],
+    "children": {
+      "ক্রিকেট": ["ক্রিকেট", "cricket", "বিসিবি", "BCB", "টেস্ট", "ওয়ানডে", "T20", "টি-টোয়েন্টি", "IPL", "আইপিএল"],
+      "ফুটবল": ["ফুটবল", "football", "soccer", "FIFA", "ফিফা", "বাফুফে", "BAFF", "world cup", "বিশ্বকাপ"],
+      "বাস্কেটবল": ["basketball", "বাস্কেটবল", "NBA", "এনবিএ"],
+      "টেনিস": ["tennis", "টেনিস", "Wimbledon", "উইম্বলডন", "ATP", "WTA"],
+      "হকি": ["hockey", "হকি"],
+      "কাবাডি": ["কাবাডি", "kabaddi"]
+    }
+  },
+  "অর্থনীতি": {
+    "keywords": ["অর্থনীতি", "অর্থ", "বাজেট", "economy", "economic", "finance", "financial", "budget", "বিনিয়োগ", "investment", "রপ্তানি", "export", "আমদানি", "import"],
+    "children": {
+      "শেয়ার বাজার": ["শেয়ার", "শেয়ার বাজার", "ডিএসই", "DSE", "CSE", "stock market", "stock exchange", "শেয়ার মার্কেট"],
+      "ব্যাংকিং": ["ব্যাংক", "bank", "banking", "বাংলাদেশ ব্যাংক", "bangladesh bank", "loan", "ঋণ", "সুদ", "interest rate"],
+      "রেমিট্যান্স": ["রেমিট্যান্স", "remittance", "প্রবাসী", "expatriate"],
+      "গার্মেন্টস": ["গার্মেন্টস", "পোশাক", "RMG", "garment", "textile", "BGMEA"],
+      "বাজার": ["বাজার দর", "মূল্যস্ফীতি", "inflation", "পণ্যমূল্য", "commodity price"]
+    }
+  },
+  "আন্তর্জাতিক": {
+    "keywords": ["আন্তর্জাতিক", "বিশ্ব", "international", "world", "global", "foreign", "বিদেশ", "বৈদেশিক"],
+    "children": {
+      "যুক্তরাষ্ট্র": ["যুক্তরাষ্ট্র", "আমেরিকা", "USA", "US ", "United States", "ট্রাম্প", "Trump", "Biden", "বাইডেন", "White House"],
+      "ভারত": ["ভারত", "India", "মোদি", "Modi", "দিল্লি", "Delhi", "নয়াদিল্লি"],
+      "মধ্যপ্রাচ্য": ["মধ্যপ্রাচ্য", "Middle East", "ইসরায়েল", "Israel", "ফিলিস্তিন", "Palestine", "Gaza", "গাজা", "সৌদি আরব", "Saudi Arabia"],
+      "চীন": ["চীন", "China", "বেইজিং", "Beijing", "শি জিনপিং"],
+      "রাশিয়া-ইউক্রেন": ["রাশিয়া", "Russia", "ইউক্রেন", "Ukraine", "পুতিন", "Putin", "যুদ্ধ", "war"]
+    }
+  },
+  "প্রযুক্তি": {
+    "keywords": ["প্রযুক্তি", "তথ্যপ্রযুক্তি", "technology", "tech", "digital", "ডিজিটাল", "সফটওয়্যার", "software", "হার্ডওয়্যার", "hardware"],
+    "children": {
+      "কৃত্রিম বুদ্ধিমত্তা": ["কৃত্রিম বুদ্ধিমত্তা", "AI", "artificial intelligence", "ChatGPT", "machine learning"],
+      "মোবাইল": ["মোবাইল", "smartphone", "iPhone", "Android", "Samsung", "app"],
+      "সাইবার নিরাপত্তা": ["সাইবার", "cyber", "hacking", "হ্যাকিং", "data breach", "malware"]
+    }
+  },
+  "স্বাস্থ্য": {
+    "keywords": ["স্বাস্থ্য", "চিকিৎসা", "health", "medical", "disease", "রোগ", "হাসপাতাল", "hospital", "ডাক্তার", "doctor"],
+    "children": {
+      "করোনাভাইরাস": ["করোনা", "কোভিড", "COVID", "coronavirus", "pandemic"],
+      "ডেঙ্গু": ["ডেঙ্গু", "dengue"],
+      "মানসিক স্বাস্থ্য": ["মানসিক স্বাস্থ্য", "mental health", "depression", "বিষণ্নতা"]
+    }
+  },
+  "শিক্ষা": {
+    "keywords": ["শিক্ষা", "বিশ্ববিদ্যালয়", "education", "university", "school", "স্কুল", "কলেজ", "college", "পরীক্ষা", "exam", "SSC", "HSC"],
+    "children": {
+      "বিশ্ববিদ্যালয়": ["ঢাকা বিশ্ববিদ্যালয়", "DU", "BUET", "বুয়েট", "জাহাঙ্গীরনগর", "চট্টগ্রাম বিশ্ববিদ্যালয়"],
+      "পাবলিক পরীক্ষা": ["SSC", "HSC", "JSC", "পিএসসি", "PSC", "result", "ফলাফল"]
+    }
+  },
+  "বিনোদন": {
+    "keywords": ["বিনোদন", "entertainment", "সিনেমা", "cinema", "movie", "নাটক", "drama", "গান", "music", "শিল্পী", "celebrity"],
+    "children": {
+      "চলচ্চিত্র": ["চলচ্চিত্র", "সিনেমা", "film", "movie", "ঢালিউড", "Dhallywood", "Bollywood", "বলিউড", "Hollywood"],
+      "সংগীত": ["গান", "সংগীত", "music", "concert", "শিল্পী", "singer"],
+      "টেলিভিশন": ["টেলিভিশন", "টিভি", "TV", "নাটক", "serial", "OTT", "Netflix", "streaming"]
+    }
+  },
+  "অপরাধ": {
+    "keywords": ["অপরাধ", "crime", "হত্যা", "murder", "চুরি", "theft", "ধর্ষণ", "rape", "দুর্নীতি", "corruption", "মামলা", "case", "গ্রেফতার", "arrest"],
+    "children": {
+      "দুর্নীতি": ["দুর্নীতি", "corruption", "দুদক", "ACC", "ঘুষ", "bribe"],
+      "সন্ত্রাস": ["সন্ত্রাস", "terrorism", "জঙ্গি", "militant", "বোমা", "bomb"]
+    }
+  },
+  "পরিবেশ": {
+    "keywords": ["পরিবেশ", "environment", "জলবায়ু", "climate", "বন্যা", "flood", "ঘূর্ণিঝড়", "cyclone", "দূষণ", "pollution", "নদী", "river"],
+    "children": {
+      "জলবায়ু পরিবর্তন": ["জলবায়ু পরিবর্তন", "climate change", "global warming", "বৈশ্বিক উষ্ণতা", "COP"],
+      "দুর্যোগ": ["বন্যা", "flood", "ঘূর্ণিঝড়", "cyclone", "ভূমিকম্প", "earthquake", "tornado", "drought", "খরা"]
+    }
+  },
+  "ধর্ম": {
+    "keywords": ["ধর্ম", "religion", "ইসলাম", "Islam", "হিন্দু", "Hindu", "বৌদ্ধ", "Buddhist", "মসজিদ", "mosque", "মন্দির", "temple"],
+    "children": {
+      "ইসলাম": ["ইসলাম", "Islam", "মুসলিম", "Muslim", "রমজান", "Ramadan", "ঈদ", "Eid", "হজ", "Hajj", "কোরআন", "Quran"],
+      "হিন্দু ধর্ম": ["হিন্দু", "Hindu", "পূজা", "puja", "দুর্গাপূজা", "durga puja"]
+    }
+  },
+  "বিজ্ঞান": {
+    "keywords": ["বিজ্ঞান", "science", "গবেষণা", "research", "মহাকাশ", "space", "NASA", "physics", "পদার্থবিজ্ঞান"],
+    "children": {
+      "মহাকাশ": ["মহাকাশ", "space", "NASA", "rocket", "satellite", "চাঁদ", "moon", "Mars"],
+      "চিকিৎসা বিজ্ঞান": ["vaccine", "টিকা", "drug", "ওষুধ", "clinical trial", "গবেষণা"]
+    }
+  }
+}

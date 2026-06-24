@@ -1,0 +1,118 @@
+{
+  "United States": {
+    "code": "US",
+    "keywords": ["United States", "USA", "U.S.A", "America", "American", "Washington D.C.", "যুক্তরাষ্ট্র", "আমেরিকা"]
+  },
+  "United Kingdom": {
+    "code": "GB",
+    "keywords": ["United Kingdom", "UK", "Britain", "British", "England", "London", "যুক্তরাজ্য", "ব্রিটেন"]
+  },
+  "India": {
+    "code": "IN",
+    "keywords": ["India", "Indian", "New Delhi", "Mumbai", "ভারত", "ভারতীয়", "নয়াদিল্লি"]
+  },
+  "Pakistan": {
+    "code": "PK",
+    "keywords": ["Pakistan", "Pakistani", "Islamabad", "Karachi", "পাকিস্তান"]
+  },
+  "China": {
+    "code": "CN",
+    "keywords": ["China", "Chinese", "Beijing", "Shanghai", "চীন", "বেইজিং"]
+  },
+  "Russia": {
+    "code": "RU",
+    "keywords": ["Russia", "Russian", "Moscow", "রাশিয়া", "মস্কো"]
+  },
+  "Ukraine": {
+    "code": "UA",
+    "keywords": ["Ukraine", "Ukrainian", "Kyiv", "Zelensky", "ইউক্রেন", "কিয়েভ"]
+  },
+  "Israel": {
+    "code": "IL",
+    "keywords": ["Israel", "Israeli", "Tel Aviv", "Jerusalem", "ইসরায়েল", "জেরুসালেম"]
+  },
+  "Palestine": {
+    "code": "PS",
+    "keywords": ["Palestine", "Palestinian", "Gaza", "West Bank", "Hamas", "ফিলিস্তিন", "গাজা"]
+  },
+  "Saudi Arabia": {
+    "code": "SA",
+    "keywords": ["Saudi Arabia", "Saudi", "Riyadh", "সৌদি আরব", "রিয়াদ"]
+  },
+  "Myanmar": {
+    "code": "MM",
+    "keywords": ["Myanmar", "Burma", "Burmese", "Naypyidaw", "মিয়ানমার", "বার্মা", "রোহিঙ্গা", "Rohingya"]
+  },
+  "Afghanistan": {
+    "code": "AF",
+    "keywords": ["Afghanistan", "Afghan", "Kabul", "Taliban", "আফগানিস্তান", "কাবুল", "তালেবান"]
+  },
+  "Iran": {
+    "code": "IR",
+    "keywords": ["Iran", "Iranian", "Tehran", "ইরান", "তেহরান"]
+  },
+  "Turkey": {
+    "code": "TR",
+    "keywords": ["Turkey", "Turkish", "Ankara", "Istanbul", "Erdogan", "তুরস্ক", "আঙ্কারা"]
+  },
+  "Germany": {
+    "code": "DE",
+    "keywords": ["Germany", "German", "Berlin", "জার্মানি", "বার্লিন"]
+  },
+  "France": {
+    "code": "FR",
+    "keywords": ["France", "French", "Paris", "ফ্রান্স", "প্যারিস"]
+  },
+  "Japan": {
+    "code": "JP",
+    "keywords": ["Japan", "Japanese", "Tokyo", "জাপান", "টোকিও"]
+  },
+  "South Korea": {
+    "code": "KR",
+    "keywords": ["South Korea", "Korean", "Seoul", "দক্ষিণ কোরিয়া", "সিউল"]
+  },
+  "Australia": {
+    "code": "AU",
+    "keywords": ["Australia", "Australian", "Canberra", "Sydney", "অস্ট্রেলিয়া"]
+  },
+  "Canada": {
+    "code": "CA",
+    "keywords": ["Canada", "Canadian", "Ottawa", "Toronto", "কানাডা"]
+  },
+  "United Arab Emirates": {
+    "code": "AE",
+    "keywords": ["UAE", "United Arab Emirates", "Dubai", "Abu Dhabi", "সংযুক্ত আরব আমিরাত", "দুবাই"]
+  },
+  "Qatar": {
+    "code": "QA",
+    "keywords": ["Qatar", "Qatari", "Doha", "কাতার", "দোহা"]
+  },
+  "Nepal": {
+    "code": "NP",
+    "keywords": ["Nepal", "Nepali", "Kathmandu", "নেপাল", "কাঠমান্ডু"]
+  },
+  "Sri Lanka": {
+    "code": "LK",
+    "keywords": ["Sri Lanka", "Colombo", "শ্রীলঙ্কা", "কলম্বো"]
+  },
+  "Malaysia": {
+    "code": "MY",
+    "keywords": ["Malaysia", "Malaysian", "Kuala Lumpur", "মালয়েশিয়া"]
+  },
+  "Singapore": {
+    "code": "SG",
+    "keywords": ["Singapore", "সিঙ্গাপুর"]
+  },
+  "Indonesia": {
+    "code": "ID",
+    "keywords": ["Indonesia", "Indonesian", "Jakarta", "ইন্দোনেশিয়া"]
+  },
+  "North Korea": {
+    "code": "KP",
+    "keywords": ["North Korea", "Kim Jong-un", "Pyongyang", "উত্তর কোরিয়া"]
+  },
+  "Brazil": {
+    "code": "BR",
+    "keywords": ["Brazil", "Brazilian", "Brasilia", "ব্রাজিল"]
+  }
+}

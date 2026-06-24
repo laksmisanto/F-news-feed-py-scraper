@@ -1,0 +1,351 @@
+{
+  "ঢাকা বিভাগ": {
+    "type": "division",
+    "keywords": ["ঢাকা বিভাগ", "dhaka division"],
+    "districts": {
+      "ঢাকা": {
+        "keywords": ["ঢাকা", "dhaka", "ঢাকায়"],
+        "cities": {
+          "মিরপুর": ["মিরপুর", "mirpur"],
+          "মোহাম্মদপুর": ["মোহাম্মদপুর", "mohammadpur"],
+          "উত্তরা": ["উত্তরা", "uttara"],
+          "গুলশান": ["গুলশান", "gulshan"],
+          "বনানী": ["বনানী", "banani"],
+          "ধানমন্ডি": ["ধানমন্ডি", "dhanmondi"],
+          "মতিঝিল": ["মতিঝিল", "motijheel"],
+          "রামপুরা": ["রামপুরা", "rampura"],
+          "বাড্ডা": ["বাড্ডা", "badda"],
+          "খিলগাঁও": ["খিলগাঁও", "khilgaon"],
+          "ডেমরা": ["ডেমরা", "demra"],
+          "যাত্রাবাড়ী": ["যাত্রাবাড়ী", "jatrabari"],
+          "কেরাণীগঞ্জ": ["কেরাণীগঞ্জ", "keraniganj"],
+          "সাভার": ["সাভার", "savar"],
+          "আশুলিয়া": ["আশুলিয়া", "ashulia"]
+        }
+      },
+      "গাজীপুর": {
+        "keywords": ["গাজীপুর", "gazipur"],
+        "cities": {
+          "টঙ্গী": ["টঙ্গী", "tongi"],
+          "কালিয়াকৈর": ["কালিয়াকৈর", "kaliakoir"]
+        }
+      },
+      "নারায়ণগঞ্জ": {
+        "keywords": ["নারায়ণগঞ্জ", "narayanganj"],
+        "cities": {
+          "সোনারগাঁও": ["সোনারগাঁও", "sonargaon"]
+        }
+      },
+      "মানিকগঞ্জ": {
+        "keywords": ["মানিকগঞ্জ", "manikganj"],
+        "cities": {}
+      },
+      "মুন্সীগঞ্জ": {
+        "keywords": ["মুন্সীগঞ্জ", "munshiganj"],
+        "cities": {}
+      },
+      "কিশোরগঞ্জ": {
+        "keywords": ["কিশোরগঞ্জ", "kishoreganj"],
+        "cities": {}
+      },
+      "ময়মনসিংহ": {
+        "keywords": ["ময়মনসিংহ", "mymensingh"],
+        "cities": {}
+      },
+      "নেত্রকোনা": {
+        "keywords": ["নেত্রকোনা", "netrokona"],
+        "cities": {}
+      },
+      "শেরপুর": {
+        "keywords": ["শেরপুর", "sherpur"],
+        "cities": {}
+      },
+      "জামালপুর": {
+        "keywords": ["জামালপুর", "jamalpur"],
+        "cities": {}
+      },
+      "টাঙ্গাইল": {
+        "keywords": ["টাঙ্গাইল", "tangail"],
+        "cities": {}
+      },
+      "ফরিদপুর": {
+        "keywords": ["ফরিদপুর", "faridpur"],
+        "cities": {}
+      },
+      "গোপালগঞ্জ": {
+        "keywords": ["গোপালগঞ্জ", "gopalganj"],
+        "cities": {}
+      },
+      "রাজবাড়ী": {
+        "keywords": ["রাজবাড়ী", "rajbari"],
+        "cities": {}
+      },
+      "মাদারীপুর": {
+        "keywords": ["মাদারীপুর", "madaripur"],
+        "cities": {}
+      },
+      "শরীয়তপুর": {
+        "keywords": ["শরীয়তপুর", "shariatpur"],
+        "cities": {}
+      }
+    }
+  },
+  "চট্টগ্রাম বিভাগ": {
+    "type": "division",
+    "keywords": ["চট্টগ্রাম বিভাগ", "chittagong division"],
+    "districts": {
+      "চট্টগ্রাম": {
+        "keywords": ["চট্টগ্রাম", "chittagong", "chattogram"],
+        "cities": {
+          "আগ্রাবাদ": ["আগ্রাবাদ", "agrabad"],
+          "পতেঙ্গা": ["পতেঙ্গা", "patenga"],
+          "হাটহাজারী": ["হাটহাজারী", "hathazari"],
+          "কর্ণফুলী": ["কর্ণফুলী", "karnaphuli"],
+          "সীতাকুণ্ড": ["সীতাকুণ্ড", "sitakunda"]
+        }
+      },
+      "কক্সবাজার": {
+        "keywords": ["কক্সবাজার", "cox's bazar", "coxsbazar"],
+        "cities": {
+          "রোহিঙ্গা ক্যাম্প": ["রোহিঙ্গা", "rohingya", "উখিয়া", "ukhia", "টেকনাফ", "teknaf"]
+        }
+      },
+      "রাঙামাটি": {
+        "keywords": ["রাঙামাটি", "rangamati"],
+        "cities": {}
+      },
+      "খাগড়াছড়ি": {
+        "keywords": ["খাগড়াছড়ি", "khagrachari"],
+        "cities": {}
+      },
+      "বান্দরবান": {
+        "keywords": ["বান্দরবান", "bandarban"],
+        "cities": {}
+      },
+      "কুমিল্লা": {
+        "keywords": ["কুমিল্লা", "comilla", "cumilla"],
+        "cities": {}
+      },
+      "ব্রাহ্মণবাড়িয়া": {
+        "keywords": ["ব্রাহ্মণবাড়িয়া", "brahmanbaria"],
+        "cities": {}
+      },
+      "চাঁদপুর": {
+        "keywords": ["চাঁদপুর", "chandpur"],
+        "cities": {}
+      },
+      "লক্ষ্মীপুর": {
+        "keywords": ["লক্ষ্মীপুর", "lakshmipur"],
+        "cities": {}
+      },
+      "নোয়াখালী": {
+        "keywords": ["নোয়াখালী", "noakhali"],
+        "cities": {}
+      },
+      "ফেনী": {
+        "keywords": ["ফেনী", "feni"],
+        "cities": {}
+      }
+    }
+  },
+  "রাজশাহী বিভাগ": {
+    "type": "division",
+    "keywords": ["রাজশাহী বিভাগ", "rajshahi division"],
+    "districts": {
+      "রাজশাহী": {
+        "keywords": ["রাজশাহী", "rajshahi"],
+        "cities": {}
+      },
+      "নাটোর": {
+        "keywords": ["নাটোর", "natore"],
+        "cities": {}
+      },
+      "নওগাঁ": {
+        "keywords": ["নওগাঁ", "naogaon"],
+        "cities": {}
+      },
+      "চাঁপাইনবাবগঞ্জ": {
+        "keywords": ["চাঁপাইনবাবগঞ্জ", "chapainawabganj"],
+        "cities": {}
+      },
+      "পাবনা": {
+        "keywords": ["পাবনা", "pabna"],
+        "cities": {}
+      },
+      "সিরাজগঞ্জ": {
+        "keywords": ["সিরাজগঞ্জ", "sirajganj"],
+        "cities": {}
+      },
+      "বগুড়া": {
+        "keywords": ["বগুড়া", "bogura"],
+        "cities": {}
+      },
+      "জয়পুরহাট": {
+        "keywords": ["জয়পুরহাট", "joypurhat"],
+        "cities": {}
+      }
+    }
+  },
+  "খুলনা বিভাগ": {
+    "type": "division",
+    "keywords": ["খুলনা বিভাগ", "khulna division"],
+    "districts": {
+      "খুলনা": {
+        "keywords": ["খুলনা", "khulna"],
+        "cities": {
+          "মংলা": ["মংলা", "mongla"]
+        }
+      },
+      "বাগেরহাট": {
+        "keywords": ["বাগেরহাট", "bagerhat"],
+        "cities": {
+          "সুন্দরবন": ["সুন্দরবন", "sundarbans"]
+        }
+      },
+      "সাতক্ষীরা": {
+        "keywords": ["সাতক্ষীরা", "satkhira"],
+        "cities": {}
+      },
+      "যশোর": {
+        "keywords": ["যশোর", "jessore", "jashore"],
+        "cities": {}
+      },
+      "ঝিনাইদহ": {
+        "keywords": ["ঝিনাইদহ", "jhenaidah"],
+        "cities": {}
+      },
+      "মাগুরা": {
+        "keywords": ["মাগুরা", "magura"],
+        "cities": {}
+      },
+      "নড়াইল": {
+        "keywords": ["নড়াইল", "narail"],
+        "cities": {}
+      },
+      "কুষ্টিয়া": {
+        "keywords": ["কুষ্টিয়া", "kushtia"],
+        "cities": {}
+      },
+      "মেহেরপুর": {
+        "keywords": ["মেহেরপুর", "meherpur"],
+        "cities": {}
+      },
+      "চুয়াডাঙ্গা": {
+        "keywords": ["চুয়াডাঙ্গা", "chuadanga"],
+        "cities": {}
+      }
+    }
+  },
+  "বরিশাল বিভাগ": {
+    "type": "division",
+    "keywords": ["বরিশাল বিভাগ", "barishal division", "barisal division"],
+    "districts": {
+      "বরিশাল": {
+        "keywords": ["বরিশাল", "barishal", "barisal"],
+        "cities": {}
+      },
+      "ভোলা": {
+        "keywords": ["ভোলা", "bhola"],
+        "cities": {}
+      },
+      "পটুয়াখালী": {
+        "keywords": ["পটুয়াখালী", "patuakhali"],
+        "cities": {}
+      },
+      "পিরোজপুর": {
+        "keywords": ["পিরোজপুর", "pirojpur"],
+        "cities": {}
+      },
+      "ঝালকাঠি": {
+        "keywords": ["ঝালকাঠি", "jhalokati"],
+        "cities": {}
+      },
+      "বরগুনা": {
+        "keywords": ["বরগুনা", "barguna"],
+        "cities": {}
+      }
+    }
+  },
+  "সিলেট বিভাগ": {
+    "type": "division",
+    "keywords": ["সিলেট বিভাগ", "sylhet division"],
+    "districts": {
+      "সিলেট": {
+        "keywords": ["সিলেট", "sylhet"],
+        "cities": {}
+      },
+      "মৌলভীবাজার": {
+        "keywords": ["মৌলভীবাজার", "moulvibazar"],
+        "cities": {}
+      },
+      "হবিগঞ্জ": {
+        "keywords": ["হবিগঞ্জ", "habiganj"],
+        "cities": {}
+      },
+      "সুনামগঞ্জ": {
+        "keywords": ["সুনামগঞ্জ", "sunamganj"],
+        "cities": {}
+      }
+    }
+  },
+  "রংপুর বিভাগ": {
+    "type": "division",
+    "keywords": ["রংপুর বিভাগ", "rangpur division"],
+    "districts": {
+      "রংপুর": {
+        "keywords": ["রংপুর", "rangpur"],
+        "cities": {}
+      },
+      "দিনাজপুর": {
+        "keywords": ["দিনাজপুর", "dinajpur"],
+        "cities": {}
+      },
+      "কুড়িগ্রাম": {
+        "keywords": ["কুড়িগ্রাম", "kurigram"],
+        "cities": {}
+      },
+      "গাইবান্ধা": {
+        "keywords": ["গাইবান্ধা", "gaibandha"],
+        "cities": {}
+      },
+      "নীলফামারী": {
+        "keywords": ["নীলফামারী", "nilphamari"],
+        "cities": {}
+      },
+      "লালমনিরহাট": {
+        "keywords": ["লালমনিরহাট", "lalmonirhat"],
+        "cities": {}
+      },
+      "ঠাকুরগাঁও": {
+        "keywords": ["ঠাকুরগাঁও", "thakurgaon"],
+        "cities": {}
+      },
+      "পঞ্চগড়": {
+        "keywords": ["পঞ্চগড়", "panchagarh"],
+        "cities": {}
+      }
+    }
+  },
+  "ময়মনসিংহ বিভাগ": {
+    "type": "division",
+    "keywords": ["ময়মনসিংহ বিভাগ", "mymensingh division"],
+    "districts": {
+      "ময়মনসিংহ": {
+        "keywords": ["ময়মনসিংহ", "mymensingh"],
+        "cities": {}
+      },
+      "নেত্রকোনা": {
+        "keywords": ["নেত্রকোনা", "netrokona"],
+        "cities": {}
+      },
+      "শেরপুর": {
+        "keywords": ["শেরপুর", "sherpur"],
+        "cities": {}
+      },
+      "জামালপুর": {
+        "keywords": ["জামালপুর", "jamalpur"],
+        "cities": {}
+      }
+    }
+  }
+}
