@@ -1,122 +1,388 @@
 """
-Category processor — keyword-based matching.
-Resolves parent + child categories from article text.
+Category processor — multi-signal category detection.
 
-Logic:
-  1. Match child keywords first (most specific)
-  2. If child found → assign child + its parent
-  3. If only parent keywords match → assign parent only
-  4. Multiple categories per article are allowed
+Priority chain:
+  1. URL path parsing  (e.g. /sports/cricket/ → Sports + Cricket)
+  2. JSON-LD articleSection / OpenGraph article:section (passed in as `section`)
+  3. Keyword matching against categories.json (supplemental, strict)
+
+Why this approach:
+  Publishers' own URL taxonomies and structured data are far more reliable
+  than guessing categories from article body text. Body matching alone
+  produces noise — an ad or "related news" widget mentioning "ক্রিকেট"
+  shouldn't make a politics article into a cricket article.
 """
 
+import os
 import json
 import re
-import os
-from typing import Optional
-from sqlalchemy.ext.asyncio import AsyncSession
+import logging
+from urllib.parse import urlparse
 
-from db.queries import get_or_create_category
-from utils.logger import get_logger
+from sqlalchemy import select
 
-logger = get_logger("processor.category")
+from db.models import Category
 
-KEYWORDS_PATH = os.path.join(
-    os.path.dirname(__file__), "..", "config", "keywords", "categories.json"
-)
+logger = logging.getLogger("processors.category")
+
+CATEGORIES_PATH = os.path.join("config", "keywords", "categories.json")
+
+# Cache for loaded keyword config
+_CATEGORIES_CONFIG: dict | None = None
 
 
-class CategoryProcessor:
+# ---------------------------------------------------------------------------
+# URL path → category map
+# Common patterns across BD and international news sites.
+# Format: { "url_segment": ("Parent Category", "Child Category" or None) }
+# ---------------------------------------------------------------------------
+URL_PATH_MAP = {
+    # ── Sports ──
+    "sports": ("Sports", None),
+    "sport": ("Sports", None),
+    "খেলা": ("Sports", None),
+    "khela": ("Sports", None),
+    "cricket": ("Sports", "Cricket"),
+    "ক্রিকেট": ("Sports", "Cricket"),
+    "football": ("Sports", "Football"),
+    "ফুটবল": ("Sports", "Football"),
+    "tennis": ("Sports", "Tennis"),
 
-    def __init__(self):
-        self._data: dict = {}
-        self._load()
+    # ── Politics ──
+    "politics": ("Politics", None),
+    "political": ("Politics", None),
+    "রাজনীতি": ("Politics", None),
+    "rajniti": ("Politics", None),
 
-    def _load(self):
-        try:
-            with open(KEYWORDS_PATH, "r", encoding="utf-8") as f:
-                self._data = json.load(f)
-            logger.info(f"[Category] Loaded {len(self._data)} parent categories")
-        except Exception as e:
-            logger.error(f"[Category] Failed to load categories.json: {e}")
-            self._data = {}
+    # ── Business / Economy ──
+    "business": ("Business", None),
+    "economy": ("Business", "Economy"),
+    "economic": ("Business", "Economy"),
+    "finance": ("Business", "Finance"),
+    "markets": ("Business", "Markets"),
+    "stocks": ("Business", "Markets"),
+    "অর্থনীতি": ("Business", "Economy"),
+    "বাণিজ্য": ("Business", None),
+    "banijjo": ("Business", None),
 
-    def _matches(self, text: str, keywords: list[str]) -> bool:
-        """Case-insensitive keyword search in text."""
-        text_lower = text.lower()
-        for kw in keywords:
-            if kw.lower() in text_lower:
-                return True
-        return False
+    # ── International / World ──
+    "international": ("International", None),
+    "world": ("International", None),
+    "global": ("International", None),
+    "আন্তর্জাতিক": ("International", None),
+    "antorjatik": ("International", None),
+    "foreign": ("International", None),
 
-    def detect(self, text: str) -> list[dict]:
-        """
-        Detect matching categories from text.
-        Returns list of dicts: {parent_name, child_name (optional)}
-        """
-        if not text or not self._data:
-            return []
+    # ── National / Bangladesh ──
+    "bangladesh": ("Bangladesh", None),
+    "national": ("Bangladesh", None),
+    "জাতীয়": ("Bangladesh", None),
+    "jatiyo": ("Bangladesh", None),
+    "country": ("Bangladesh", None),
 
-        matches = []
-        seen_parents = set()
+    # ── Technology ──
+    "technology": ("Technology", None),
+    "tech": ("Technology", None),
+    "gadgets": ("Technology", "Gadgets"),
+    "ai": ("Technology", "AI"),
+    "প্রযুক্তি": ("Technology", None),
+    "projukti": ("Technology", None),
+    "tech-and-gadget": ("Technology", None),
 
-        for parent_name, parent_data in self._data.items():
-            children = parent_data.get("children", {})
+    # ── Entertainment ──
+    "entertainment": ("Entertainment", None),
+    "bollywood": ("Entertainment", None),
+    "dhallywood": ("Entertainment", None),
+    "hollywood": ("Entertainment", None),
+    "music": ("Entertainment", "Music"),
+    "cinema": ("Entertainment", "Movies"),
+    "movies": ("Entertainment", "Movies"),
+    "বিনোদন": ("Entertainment", None),
+    "binodon": ("Entertainment", None),
 
-            # Try children first (most specific)
-            child_matched = False
-            for child_name, child_keywords in children.items():
-                if self._matches(text, child_keywords):
-                    matches.append({
-                        "parent_name": parent_name,
-                        "child_name": child_name,
-                    })
-                    seen_parents.add(parent_name)
-                    child_matched = True
+    # ── Lifestyle ──
+    "lifestyle": ("Lifestyle", None),
+    "life-style": ("Lifestyle", None),
+    "fashion": ("Lifestyle", "Fashion"),
+    "food": ("Lifestyle", "Food"),
+    "travel": ("Lifestyle", "Travel"),
+    "জীবনযাপন": ("Lifestyle", None),
 
-            # If no child matched, try parent keywords
-            if not child_matched and parent_name not in seen_parents:
-                if self._matches(text, parent_data.get("keywords", [])):
-                    matches.append({
-                        "parent_name": parent_name,
-                        "child_name": None,
-                    })
+    # ── Health ──
+    "health": ("Health", None),
+    "স্বাস্থ্য": ("Health", None),
+    "shasthya": ("Health", None),
+    "medicine": ("Health", None),
 
-        return matches
+    # ── Education ──
+    "education": ("Education", None),
+    "শিক্ষা": ("Education", None),
+    "shikkha": ("Education", None),
+    "campus": ("Education", "Campus"),
 
-    async def resolve(
-        self, text: str, session: AsyncSession
-    ) -> list[int]:
-        """
-        Run detect() and resolve each match to DB category IDs.
-        Creates categories on the fly if they don't exist.
-        Returns list of category IDs to attach to the article.
-        """
-        matches = self.detect(text)
-        if not matches:
-            return []
+    # ── Opinion / Editorial ──
+    "opinion": ("Opinion", None),
+    "editorial": ("Opinion", "Editorial"),
+    "column": ("Opinion", "Column"),
+    "মতামত": ("Opinion", None),
+    "motamot": ("Opinion", None),
 
-        category_ids = []
+    # ── Crime ──
+    "crime": ("Crime", None),
+    "অপরাধ": ("Crime", None),
 
-        for match in matches:
-            parent_name = match["parent_name"]
-            child_name = match.get("child_name")
+    # ── Science / Environment ──
+    "science": ("Science", None),
+    "environment": ("Environment", None),
+    "climate": ("Environment", "Climate"),
+    "বিজ্ঞান": ("Science", None),
 
-            try:
-                # Get or create parent
-                parent = await get_or_create_category(session, parent_name, parent_id=None)
+    # ── Religion ──
+    "religion": ("Religion", None),
+    "islam": ("Religion", "Islam"),
+    "ধর্ম": ("Religion", None),
+}
 
-                if child_name:
-                    # Get or create child, linked to parent
-                    child = await get_or_create_category(session, child_name, parent_id=parent.id)
-                    if parent.id not in category_ids:
-                        category_ids.append(parent.id)
-                    if child.id not in category_ids:
-                        category_ids.append(child.id)
-                else:
-                    if parent.id not in category_ids:
-                        category_ids.append(parent.id)
 
-            except Exception as e:
-                logger.warning(f"[Category] DB error for '{parent_name}': {e}")
+# ---------------------------------------------------------------------------
+# Section name → category map (for JSON-LD articleSection / og:section)
+# ---------------------------------------------------------------------------
+SECTION_MAP = {
+    # English
+    "sports": ("Sports", None),
+    "cricket": ("Sports", "Cricket"),
+    "football": ("Sports", "Football"),
+    "politics": ("Politics", None),
+    "business": ("Business", None),
+    "economy": ("Business", "Economy"),
+    "world": ("International", None),
+    "international": ("International", None),
+    "bangladesh": ("Bangladesh", None),
+    "national": ("Bangladesh", None),
+    "technology": ("Technology", None),
+    "tech": ("Technology", None),
+    "entertainment": ("Entertainment", None),
+    "lifestyle": ("Lifestyle", None),
+    "health": ("Health", None),
+    "education": ("Education", None),
+    "opinion": ("Opinion", None),
+    "editorial": ("Opinion", "Editorial"),
+    "crime": ("Crime", None),
+    "science": ("Science", None),
+    "environment": ("Environment", None),
+    # Bangla
+    "খেলা": ("Sports", None),
+    "ক্রিকেট": ("Sports", "Cricket"),
+    "রাজনীতি": ("Politics", None),
+    "অর্থনীতি": ("Business", "Economy"),
+    "বাণিজ্য": ("Business", None),
+    "আন্তর্জাতিক": ("International", None),
+    "জাতীয়": ("Bangladesh", None),
+    "প্রযুক্তি": ("Technology", None),
+    "বিনোদন": ("Entertainment", None),
+    "স্বাস্থ্য": ("Health", None),
+    "শিক্ষা": ("Education", None),
+    "মতামত": ("Opinion", None),
+}
 
-        return category_ids
+
+def _load_categories_config() -> dict:
+    """Lazy-load categories.json once and cache."""
+    global _CATEGORIES_CONFIG
+    if _CATEGORIES_CONFIG is not None:
+        return _CATEGORIES_CONFIG
+    try:
+        with open(CATEGORIES_PATH, "r", encoding="utf-8") as f:
+            _CATEGORIES_CONFIG = json.load(f)
+    except Exception as e:
+        logger.warning(f"[category] Failed to load categories.json: {e}")
+        _CATEGORIES_CONFIG = {}
+    return _CATEGORIES_CONFIG
+
+
+# ---------------------------------------------------------------------------
+# Signal 1: URL path parsing
+# ---------------------------------------------------------------------------
+def detect_from_url(url: str) -> list[tuple[str, str | None]]:
+    """
+    Extract category from URL path segments.
+
+    Examples:
+      https://prothomalo.com/sports/cricket/article → [("Sports", "Cricket")]
+      https://thedailystar.net/business/economy/x  → [("Business", "Economy")]
+    """
+    if not url:
+        return []
+
+    try:
+        parsed = urlparse(url)
+        # Lowercase + split path
+        segments = [s.lower() for s in parsed.path.split("/") if s]
+    except Exception:
+        return []
+
+    detected = []
+    for seg in segments:
+        # Try direct match
+        if seg in URL_PATH_MAP:
+            detected.append(URL_PATH_MAP[seg])
+            continue
+        # Try without trailing punctuation/numbers
+        cleaned = re.sub(r"[-_].*$", "", seg)
+        if cleaned in URL_PATH_MAP:
+            detected.append(URL_PATH_MAP[cleaned])
+
+    return detected
+
+
+# ---------------------------------------------------------------------------
+# Signal 2: Section from structured data
+# ---------------------------------------------------------------------------
+def detect_from_section(section: str | None) -> list[tuple[str, str | None]]:
+    """Map JSON-LD articleSection or og:section to category tuple."""
+    if not section or not isinstance(section, str):
+        return []
+
+    key = section.lower().strip()
+    if key in SECTION_MAP:
+        return [SECTION_MAP[key]]
+
+    # Try first word
+    first_word = key.split()[0] if key else ""
+    if first_word in SECTION_MAP:
+        return [SECTION_MAP[first_word]]
+
+    return []
+
+
+# ---------------------------------------------------------------------------
+# Signal 3: Keyword matching (supplemental, strict)
+# ---------------------------------------------------------------------------
+def detect_from_keywords(text: str) -> list[tuple[str, str | None]]:
+    """
+    Match category keywords in article text.
+    Only used as supplemental signal — requires multiple matches to count.
+    """
+    if not text or len(text) < 50:
+        return []
+
+    cfg = _load_categories_config()
+    if not cfg:
+        return []
+
+    text_lower = text.lower()
+    detected = []
+
+    for parent_name, parent_data in cfg.items():
+        parent_keywords = parent_data.get("keywords", [])
+        # Count parent matches
+        parent_hits = sum(
+            1 for kw in parent_keywords
+            if kw.lower() in text_lower
+        )
+
+        # Check children first (more specific)
+        children = parent_data.get("children", {})
+        child_matched = False
+        for child_name, child_keywords in children.items():
+            child_hits = sum(
+                1 for kw in child_keywords
+                if kw.lower() in text_lower
+            )
+            # Require at least 2 keyword hits to consider it a real match
+            if child_hits >= 2:
+                detected.append((parent_name, child_name))
+                child_matched = True
+                break  # one child per parent
+
+        # Parent-only if no child matched but parent has multiple hits
+        if not child_matched and parent_hits >= 3:
+            detected.append((parent_name, None))
+
+    return detected
+
+
+# ---------------------------------------------------------------------------
+# Main entry: combine all signals and persist categories
+# ---------------------------------------------------------------------------
+async def process_categories(
+    session,
+    article,
+    url: str,
+    text: str,
+    section: str | None = None,
+) -> list[Category]:
+    """
+    Run all signals, deduplicate, and return Category ORM objects.
+    Caller is responsible for attaching them to article via article_categories.
+
+    Args:
+        session: SQLAlchemy AsyncSession
+        article: Article ORM (only used for logging)
+        url: Article URL — for URL path detection
+        text: title + description + body for keyword detection (supplemental)
+        section: structured-data section if available
+    """
+    # Run all three signals
+    sig_url = detect_from_url(url)
+    sig_section = detect_from_section(section)
+    sig_keywords = detect_from_keywords(text) if (not sig_url and not sig_section) else []
+    # Note: only fall back to keywords if structured signals returned nothing.
+    # This prevents keyword noise overriding clean URL/JSON-LD signals.
+
+    # Combine in priority order, dedupe by (parent, child) tuple
+    combined: list[tuple[str, str | None]] = []
+    seen = set()
+    for sig in (sig_url, sig_section, sig_keywords):
+        for tup in sig:
+            if tup not in seen:
+                seen.add(tup)
+                combined.append(tup)
+
+    if not combined:
+        return []
+
+    # Convert to Category ORM rows (create-if-missing)
+    categories: list[Category] = []
+    for parent_name, child_name in combined:
+        parent = await _get_or_create_category(session, parent_name, parent_id=None)
+        categories.append(parent)
+
+        if child_name:
+            child = await _get_or_create_category(
+                session, child_name, parent_id=parent.id
+            )
+            categories.append(child)
+
+    return categories
+
+
+async def _get_or_create_category(
+    session,
+    name: str,
+    parent_id: int | None,
+) -> Category:
+    """Find category by name+parent, or create it."""
+    result = await session.execute(
+        select(Category).where(
+            Category.name == name,
+            Category.parent_id == parent_id,
+        )
+    )
+    existing = result.scalar_one_or_none()
+    if existing:
+        return existing
+
+    slug = _slugify(name)
+    cat = Category(name=name, slug=slug, parent_id=parent_id)
+    session.add(cat)
+    await session.flush()
+    return cat
+
+
+def _slugify(text: str) -> str:
+    """Simple slugify — keep alphanumerics and dashes, lowercase."""
+    text = text.lower().strip()
+    text = re.sub(r"[^\w\s-]", "", text, flags=re.UNICODE)
+    text = re.sub(r"[-\s]+", "-", text)
+    return text or "category"
