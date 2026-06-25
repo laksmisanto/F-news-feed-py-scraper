@@ -248,7 +248,8 @@ async def _process_url(url: str, source, client: httpx.AsyncClient, counters: di
                 )
 
         counters["articles_saved"] += 1
-        logger.debug(f"[Article] Saved: {article_data.title[:60]}...")
+        title_preview = article_data.title[:60] + ("..." if len(article_data.title) > 60 else "")
+        logger.debug(f"[Article] Saved: {title_preview}")
 
     except Exception as e:
         logger.error(f"[Article] Error processing {url}: {e}", exc_info=True)

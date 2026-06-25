@@ -40,16 +40,14 @@ class ArticleCleaner:
         # Work on a copy to avoid mutating the original soup
         el = element.__copy__()
 
-        # Remove noisy tags
-        for tag in el.find_all(NOISE_PATTERNS):
-            tag.decompose()
-
         for tag_name in REMOVE_TAGS:
             for tag in el.find_all(tag_name):
                 tag.decompose()
 
         # Remove elements with noisy class/id attributes
         for tag in el.find_all(True):
+            if tag.attrs is None:
+                continue
             classes = " ".join(tag.get("class", []))
             tag_id = tag.get("id", "")
             if NOISE_PATTERNS.search(classes) or NOISE_PATTERNS.search(tag_id):

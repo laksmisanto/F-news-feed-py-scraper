@@ -57,17 +57,17 @@ Scheduler (APScheduler)
 
 ### Tech Stack
 
-| Layer | Library |
-|---|---|
-| Language | Python 3.11+ |
-| Scheduler | APScheduler (AsyncIOScheduler) |
-| HTTP client | httpx (async) |
-| RSS parsing | feedparser |
-| HTML/XML parsing | BeautifulSoup4 + lxml |
-| Database ORM | SQLAlchemy 2.0 (async) |
-| DB driver | asyncpg |
-| Migrations | Alembic |
-| Date parsing | python-dateutil |
+| Layer            | Library                        |
+| ---------------- | ------------------------------ |
+| Language         | Python 3.11+                   |
+| Scheduler        | APScheduler (AsyncIOScheduler) |
+| HTTP client      | httpx (async)                  |
+| RSS parsing      | feedparser                     |
+| HTML/XML parsing | BeautifulSoup4 + lxml          |
+| Database ORM     | SQLAlchemy 2.0 (async)         |
+| DB driver        | asyncpg                        |
+| Migrations       | Alembic                        |
+| Date parsing     | python-dateutil                |
 
 ---
 
@@ -123,21 +123,23 @@ news-scraper/
 ## Database Schema
 
 ### `sources`
+
 Stores all news source configurations. Controlled via dashboard.
 
-| Column | Type | Description |
-|---|---|---|
-| id | int | Primary key |
-| name | varchar | Source display name |
-| language | enum(bn/en) | Content language |
-| base_url | varchar | Homepage URL |
-| rss_url | varchar | RSS feed URL (nullable) |
-| sitemap_url | varchar | Sitemap URL (nullable) |
-| html_scrape_config | jsonb | Per-source CSS selectors |
-| is_active | bool | Enable/disable without deleting |
-| priority | int | Processing order (lower = first) |
+| Column             | Type        | Description                      |
+| ------------------ | ----------- | -------------------------------- |
+| id                 | int         | Primary key                      |
+| name               | varchar     | Source display name              |
+| language           | enum(bn/en) | Content language                 |
+| base_url           | varchar     | Homepage URL                     |
+| rss_url            | varchar     | RSS feed URL (nullable)          |
+| sitemap_url        | varchar     | Sitemap URL (nullable)           |
+| html_scrape_config | jsonb       | Per-source CSS selectors         |
+| is_active          | bool        | Enable/disable without deleting  |
+| priority           | int         | Processing order (lower = first) |
 
 `html_scrape_config` example:
+
 ```json
 {
   "listing_url": "https://example.com/news",
@@ -152,35 +154,38 @@ Stores all news source configurations. Controlled via dashboard.
 ---
 
 ### `articles`
+
 Core table. One row per article URL.
 
-| Column | Type | Description |
-|---|---|---|
-| id | uuid | Primary key |
-| source_id | int FK | Source reference |
-| url | varchar (unique) | Article URL — used for dedup |
-| title | text | Required — article is skipped if missing |
-| short_description | text | Meta description or first paragraph |
-| body | text | Full plain text body (nullable) |
-| image_url | varchar | Primary image URL (nullable) |
-| language | enum(bn/en) | Inherited from source |
-| published_at | timestamptz | Article publish date (UTC) |
-| scraped_at | timestamptz | When the scraper saved it |
-| is_published | bool | Soft toggle for backend |
+| Column            | Type             | Description                              |
+| ----------------- | ---------------- | ---------------------------------------- |
+| id                | uuid             | Primary key                              |
+| source_id         | int FK           | Source reference                         |
+| url               | varchar (unique) | Article URL — used for dedup             |
+| title             | text             | Required — article is skipped if missing |
+| short_description | text             | Meta description or first paragraph      |
+| body              | text             | Full plain text body (nullable)          |
+| image_url         | varchar          | Primary image URL (nullable)             |
+| language          | enum(bn/en)      | Inherited from source                    |
+| published_at      | timestamptz      | Article publish date (UTC)               |
+| scraped_at        | timestamptz      | When the scraper saved it                |
+| is_published      | bool             | Soft toggle for backend                  |
 
 ---
 
 ### `categories`
+
 Self-referencing table for parent → child hierarchy.
 
-| Column | Type | Description |
-|---|---|---|
-| id | int | Primary key |
-| name | varchar (unique) | e.g. "Sports", "Cricket" |
-| slug | varchar (unique) | URL-safe identifier |
-| parent_id | int FK (self) | Null for top-level categories |
+| Column    | Type             | Description                   |
+| --------- | ---------------- | ----------------------------- |
+| id        | int              | Primary key                   |
+| name      | varchar (unique) | e.g. "Sports", "Cricket"      |
+| slug      | varchar (unique) | URL-safe identifier           |
+| parent_id | int FK (self)    | Null for top-level categories |
 
 Example rows:
+
 ```
 id=1  name="খেলাধুলা"   parent_id=null    (Sports)
 id=2  name="ক্রিকেট"    parent_id=1       (Cricket → under Sports)
@@ -191,28 +196,31 @@ id=4  name="বিএনপি"     parent_id=3       (BNP → under Politics)
 ---
 
 ### `tags`
+
 Open/dynamic. New tags are created automatically when detected.
 
-| Column | Type | Description |
-|---|---|---|
-| id | int | Primary key |
-| name | varchar (unique) | Tag text |
-| slug | varchar (unique) | URL-safe |
+| Column | Type             | Description |
+| ------ | ---------------- | ----------- |
+| id     | int              | Primary key |
+| name   | varchar (unique) | Tag text    |
+| slug   | varchar (unique) | URL-safe    |
 
 ---
 
 ### `locations`
+
 Hierarchical geo table for both BD and international.
 
-| Column | Type | Description |
-|---|---|---|
-| id | int | Primary key |
-| name | varchar | Location name |
-| type | enum | city / district / division / country |
-| parent_id | int FK (self) | Parent in hierarchy |
-| country_code | varchar | ISO 2-letter code (BD, US, etc.) |
+| Column       | Type          | Description                          |
+| ------------ | ------------- | ------------------------------------ |
+| id           | int           | Primary key                          |
+| name         | varchar       | Location name                        |
+| type         | enum          | city / district / division / country |
+| parent_id    | int FK (self) | Parent in hierarchy                  |
+| country_code | varchar       | ISO 2-letter code (BD, US, etc.)     |
 
 BD hierarchy example:
+
 ```
 division: ঢাকা বিভাগ
   └── district: ঢাকা
@@ -224,33 +232,36 @@ division: ঢাকা বিভাগ
 ---
 
 ### `article_categories`, `article_tags`, `article_locations`
+
 M2M junction tables. Composite primary keys.
 
 ---
 
 ### `fetch_run_logs`
+
 Per-source, per-run audit trail.
 
-| Column | Type | Description |
-|---|---|---|
-| id | int | Primary key |
-| run_id | uuid | Groups all sources in one run |
-| source_id | int FK | Source reference |
-| started_at | datetime | When this source started |
-| finished_at | datetime | When it completed |
-| status | enum | success / partial / failed |
-| fetcher_used | enum | rss / sitemap / html |
-| urls_found | int | Total URLs collected |
-| articles_saved | int | Successfully saved |
-| duplicates_skipped | int | Already existed in DB |
-| errors_skipped | int | Scrape or parse failures |
-| error_detail | text | Error message if failed |
+| Column             | Type     | Description                   |
+| ------------------ | -------- | ----------------------------- |
+| id                 | int      | Primary key                   |
+| run_id             | uuid     | Groups all sources in one run |
+| source_id          | int FK   | Source reference              |
+| started_at         | datetime | When this source started      |
+| finished_at        | datetime | When it completed             |
+| status             | enum     | success / partial / failed    |
+| fetcher_used       | enum     | rss / sitemap / html          |
+| urls_found         | int      | Total URLs collected          |
+| articles_saved     | int      | Successfully saved            |
+| duplicates_skipped | int      | Already existed in DB         |
+| errors_skipped     | int      | Scrape or parse failures      |
+| error_detail       | text     | Error message if failed       |
 
 ---
 
 ## How It Works
 
 ### Fetcher Chain
+
 Each source is tried in this order. Once one succeeds and returns URLs, the chain stops.
 
 ```
@@ -267,10 +278,13 @@ Each source is tried in this order. Once one succeeds and returns URLs, the chai
 ```
 
 ### Dedup Check
+
 Before scraping any article, the URL is checked against `articles.url` (indexed, unique constraint). If it exists → skip.
 
 ### Article Scraping
+
 For each new URL, the scraper attempts to extract:
+
 - **Title** — config selector → `<h1>` → `og:title` → `<title>` tag
 - **Description** — config selector → meta description → first paragraph
 - **Body** — config selector → common article selectors → plain text cleaned
@@ -280,9 +294,11 @@ For each new URL, the scraper attempts to extract:
 If no title is found, the article is skipped entirely.
 
 ### Processing Pipeline
+
 After scraping, the combined text (title + description + body) is passed through three processors:
 
 **Category Processor**
+
 - Loads `categories.json` keyword map
 - Matches child keywords first (e.g. "ক্রিকেট" → Cricket)
 - If child found → stores child + its parent (Sports) automatically
@@ -290,19 +306,23 @@ After scraping, the combined text (title + description + body) is passed through
 - Categories are created on the fly if they don't exist
 
 **Tag Processor**
+
 - Extracts proper nouns and acronyms using regex
 - For English: Title Case phrases, ALL CAPS acronyms
 - For Bangla: patterns after title markers (মন্ত্রী, সভাপতি, etc.), quoted phrases
 - Tags are created dynamically in the DB
 
 **Location Processor**
+
 - Bangla sources: scans for BD geo keywords (City → District → Division)
   - When a city is matched, all three levels are stored (city + district + division)
 - English sources: scans for country keywords only
 - No match → no location stored (silently skipped)
 
 ### Database Write
+
 All inserts for one article happen inside a single transaction:
+
 - `articles` row
 - `article_categories` M2M rows
 - `article_tags` M2M rows
@@ -336,6 +356,7 @@ cp .env.example .env
 ```
 
 Edit `.env`:
+
 ```env
 DATABASE_URL=postgresql+asyncpg://youruser:yourpassword@localhost:5432/news_scraper
 SCRAPER_INTERVAL_MINUTES=10
@@ -369,12 +390,15 @@ python seed.py
 ## Running the Engine
 
 ### Start the scheduler (production)
+
 ```bash
 python main.py
 ```
+
 Runs immediately on startup, then every `SCRAPER_INTERVAL_MINUTES` minutes. Press `Ctrl+C` to stop gracefully.
 
 ### Run once (testing / debugging)
+
 ```bash
 python main.py --once
 ```
@@ -382,6 +406,7 @@ python main.py --once
 ### Run as a background service (Linux)
 
 Create `/etc/systemd/system/news-scraper.service`:
+
 ```ini
 [Unit]
 Description=News Scraper Engine
@@ -412,15 +437,15 @@ sudo systemctl status news-scraper
 
 ### Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `DATABASE_URL` | required | PostgreSQL async connection string |
-| `SCRAPER_INTERVAL_MINUTES` | `10` | How often to run (minutes) |
-| `MAX_ARTICLES_PER_SOURCE` | `10` | Max URLs to fetch per source per run |
-| `MAX_CONCURRENT_SOURCES` | `10` | Max parallel source fetches |
-| `REQUEST_TIMEOUT` | `30` | HTTP request timeout (seconds) |
-| `LOG_LEVEL` | `INFO` | DEBUG / INFO / WARNING / ERROR |
-| `LOG_FILE` | `logs/scraper.log` | Log file path |
+| Variable                   | Default            | Description                          |
+| -------------------------- | ------------------ | ------------------------------------ |
+| `DATABASE_URL`             | required           | PostgreSQL async connection string   |
+| `SCRAPER_INTERVAL_MINUTES` | `10`               | How often to run (minutes)           |
+| `MAX_ARTICLES_PER_SOURCE`  | `10`               | Max URLs to fetch per source per run |
+| `MAX_CONCURRENT_SOURCES`   | `10`               | Max parallel source fetches          |
+| `REQUEST_TIMEOUT`          | `30`               | HTTP request timeout (seconds)       |
+| `LOG_LEVEL`                | `INFO`             | DEBUG / INFO / WARNING / ERROR       |
+| `LOG_FILE`                 | `logs/scraper.log` | Log file path                        |
 
 ---
 
@@ -429,6 +454,7 @@ sudo systemctl status news-scraper
 Sources are stored in the `sources` table and can be managed via your dashboard or directly via SQL.
 
 ### Add a new source (SQL)
+
 ```sql
 INSERT INTO sources (name, language, base_url, rss_url, sitemap_url, html_scrape_config, is_active, priority, created_at, updated_at)
 VALUES (
@@ -445,11 +471,12 @@ VALUES (
 ```
 
 ### Disable a source
+
 ```sql
 UPDATE sources SET is_active = false WHERE name = 'My News Source';
 ```
 
-### No redeployment needed. Changes take effect on the next run.**
+### No redeployment needed. Changes take effect on the next run.\*\*
 
 ---
 
@@ -458,6 +485,7 @@ UPDATE sources SET is_active = false WHERE name = 'My News Source';
 Categories are defined in `config/keywords/categories.json`.
 
 ### Structure
+
 ```json
 {
   "রাজনীতি": {
@@ -471,12 +499,14 @@ Categories are defined in `config/keywords/categories.json`.
 ```
 
 ### Matching Logic
+
 1. Child keywords are scanned first (most specific)
 2. Match found → child category + its parent both assigned to article
 3. Only parent keywords match → parent assigned only
 4. Multiple parent/child pairs can match one article
 
 ### Adding new categories
+
 Just edit `categories.json` — no code changes needed. New categories are created in the DB automatically on first match.
 
 ---
@@ -484,11 +514,13 @@ Just edit `categories.json` — no code changes needed. New categories are creat
 ## Location Detection
 
 ### Bangladesh (Bangla sources)
+
 Config file: `config/keywords/locations_bd.json`
 
 Hierarchy: **Division → District → City**
 
 When "মিরপুর" is detected in an article:
+
 - City: মিরপুর ✓
 - District: ঢাকা ✓
 - Division: ঢাকা বিভাগ ✓
@@ -496,11 +528,13 @@ When "মিরপুর" is detected in an article:
 All three are stored and linked to the article via `article_locations`.
 
 ### International (English sources)
+
 Config file: `config/keywords/countries.json`
 
 Only country-level detection. "Gaza" → Palestine (country record).
 
 ### No match
+
 If no location keyword is found, no location is stored. The article is saved normally without location data.
 
 ---
@@ -510,16 +544,19 @@ If no location keyword is found, no location is stored. The article is saved nor
 Tags are extracted dynamically. No fixed list.
 
 ### English sources
+
 - Title Case proper nouns: "Sheikh Hasina", "Prime Minister"
 - ALL CAPS acronyms: "BNP", "DSE", "GDP"
 - Quoted phrases
 
 ### Bangla sources
+
 - Phrases after title markers: মন্ত্রী, সভাপতি, রাষ্ট্রপতি, চেয়ারম্যান
 - Quoted Bangla phrases
 - English acronyms embedded in text
 
 ### Limits
+
 - Max 10 tags per article
 - Tag length: 3–60 characters
 - Common stopwords excluded automatically
@@ -530,12 +567,15 @@ Tags are extracted dynamically. No fixed list.
 ## Logs & Monitoring
 
 ### Console output
+
 Logs to stdout with timestamp, level, and module name.
 
 ### File logs
+
 Rotating log file at `logs/scraper.log` (10MB per file, 5 backups).
 
 ### Database logs
+
 Every run writes to `fetch_run_logs`. Query example:
 
 ```sql
@@ -567,16 +607,16 @@ WHERE f.run_id = (SELECT run_id FROM fetch_run_logs ORDER BY started_at DESC LIM
 
 The schema is ready for all common query patterns:
 
-| Query | How |
-|---|---|
-| Latest articles | `ORDER BY published_at DESC` |
-| Filter by category | JOIN `article_categories` |
-| Filter by tag | JOIN `article_tags` |
-| Filter by location | JOIN `article_locations` |
-| Search by keyword | `ILIKE` on title/body, or add `pg_trgm` GIN index |
-| Filter by date range | `WHERE published_at BETWEEN ? AND ?` |
-| Filter by source | `WHERE source_id = ?` |
-| Filter by language | `WHERE language = 'bn'` |
+| Query                | How                                               |
+| -------------------- | ------------------------------------------------- |
+| Latest articles      | `ORDER BY published_at DESC`                      |
+| Filter by category   | JOIN `article_categories`                         |
+| Filter by tag        | JOIN `article_tags`                               |
+| Filter by location   | JOIN `article_locations`                          |
+| Search by keyword    | `ILIKE` on title/body, or add `pg_trgm` GIN index |
+| Filter by date range | `WHERE published_at BETWEEN ? AND ?`              |
+| Filter by source     | `WHERE source_id = ?`                             |
+| Filter by language   | `WHERE language = 'bn'`                           |
 
 ### Add `pg_trgm` for fast full-text search
 
@@ -593,5 +633,106 @@ If you find that Bangla morphological variants are causing missed matches (e.g. 
 ### Content-level deduplication (future)
 
 The current dedup is URL-based only. For content-level dedup (syndicated articles), consider:
+
 - Storing a `content_hash` (MD5 of title + first 200 chars of body) in `articles`
 - Checking the hash before insert in addition to URL
+
+====================================
+
+Usage Guide
+Prerequisites
+
+# 1. Install dependencies
+
+pip install -r requirements.txt
+
+# 2. Copy and configure environment
+
+cp .env.example .env
+
+# Edit .env — set DATABASE_URL to your PostgreSQL connection string
+
+First-Time Setup
+
+# Option A — use main.py (creates tables via SQLAlchemy)
+
+python main.py --init-db
+
+# Option B — use Alembic (recommended for production, supports migrations)
+
+alembic upgrade head
+
+# Seed the database with sources + BD locations + countries
+
+python seed.py
+Running the Scraper
+
+# Run once and exit (great for testing / cron jobs)
+
+python main.py --once
+
+# Start the scheduler (runs every N minutes, default 10)
+
+python main.py
+
+# Change interval via .env
+
+SCRAPER_INTERVAL_MINUTES=15
+Environment Variables (.env)
+Variable Default Purpose
+DATABASE_URL postgresql+asyncpg://... PostgreSQL connection
+SCRAPER_INTERVAL_MINUTES 10 How often the scheduler runs
+MAX_ARTICLES_PER_SOURCE 10 URL cap per source per run
+MAX_CONCURRENT_SOURCES 10 Parallel source processing limit
+REQUEST_TIMEOUT 30 HTTP timeout in seconds
+LOG_LEVEL INFO DEBUG / INFO / WARNING
+LOG_FILE logs/scraper.log Log file path
+Adding New Sources
+Edit seed.py → SOURCES list and add an entry, then re-run python seed.py. Each source supports:
+
+rss_url — preferred fetcher
+sitemap_url — fallback
+html_scrape_config — last-resort CSS selectors (article_list, title, body, image, date)
+pip install -r requirements.txt
+Collecting httpx==0.27.0 (from -r requirements.txt (line 1))
+Using cached httpx-0.27.0-py3-none-any.whl.metadata (7.2 kB)
+Collecting feedparser==6.0.11 (from -r requirements.txt (line 2))
+Using cached feedparser-6.0.11-py3-none-any.whl.metadata (2.4 kB)
+Collecting lxml==5.2.2 (from -r requirements.txt (line 3))
+Using cached lxml-5.2.2.tar.gz (3.7 MB)
+Installing build dependencies ... done
+Getting requirements to build wheel ... error
+error: subprocess-exited-with-error
+
+× Getting requirements to build wheel did not run successfully.
+│ exit code: 1
+╰─> [3 lines of output]
+Building lxml version 5.2.2.
+Building without Cython.
+Error: Please make sure the libxml2 and libxslt development packages are installed.
+[end of output]
+
+note: This error originates from a subprocess, and is likely not a problem with pip.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.1.2
+[notice] To update, run: pip install --upgrade pip
+ERROR: Failed to build 'lxml' when getting requirements to build wheel
+You're on Fedora and Python 3.14 (seen from the cpython-314 pycache files). lxml has no pre-built wheel for Python 3.14 yet, so pip tries to compile from source and needs the C development headers.
+
+Bash Check Python version and current lxml state
+IN
+python3 --version && pip show lxml 2>/dev/null || true
+
+OUT
+Python 3.14.5
+Install the missing system libraries, then retry:
+
+sudo dnf install libxml2-devel libxslt-devel python3-devel gcc
+Then:
+
+pip install -r requirements.txt
+Why this happens: lxml is a C extension that wraps libxml2 and libxslt. When no pre-built wheel exists for your Python version (3.14 is very new), pip falls back to compiling from source — which needs the -devel packages that ship the .h headers.
+
+If you hit further wheel-build issues with other packages, also install:
+
+sudo dnf install python3-devel gcc-c++

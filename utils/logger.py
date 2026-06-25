@@ -14,7 +14,9 @@ load_dotenv()
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 LOG_FILE = os.getenv("LOG_FILE", "logs/scraper.log")
 
-os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
+_log_dir = os.path.dirname(LOG_FILE)
+if _log_dir:
+    os.makedirs(_log_dir, exist_ok=True)
 
 formatter = logging.Formatter(
     fmt="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",

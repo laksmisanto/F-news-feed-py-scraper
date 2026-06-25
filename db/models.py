@@ -76,12 +76,12 @@ class Source(Base):
 # ---------------------------------------------------------------------------
 
 class Category(Base):
-    __tablename__ = "categories"
+    __tablename__ = "scraper_categories"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False, unique=True)
     slug = Column(String(255), nullable=False, unique=True)
-    parent_id = Column(Integer, ForeignKey("categories.id", ondelete="SET NULL"), nullable=True)
+    parent_id = Column(Integer, ForeignKey("scraper_categories.id", ondelete="SET NULL"), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     parent = relationship("Category", remote_side=[id], back_populates="children")
@@ -94,7 +94,7 @@ class Category(Base):
 # ---------------------------------------------------------------------------
 
 class Tag(Base):
-    __tablename__ = "tags"
+    __tablename__ = "scraper_tags"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False, unique=True)
@@ -132,7 +132,7 @@ class Location(Base):
 # ---------------------------------------------------------------------------
 
 class Article(Base):
-    __tablename__ = "articles"
+    __tablename__ = "scraped_articles"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     source_id = Column(Integer, ForeignKey("sources.id", ondelete="SET NULL"), nullable=True)
@@ -157,10 +157,10 @@ class Article(Base):
 # ---------------------------------------------------------------------------
 
 class ArticleCategory(Base):
-    __tablename__ = "article_categories"
+    __tablename__ = "scraped_article_categories"
 
-    article_id = Column(UUID(as_uuid=True), ForeignKey("articles.id", ondelete="CASCADE"), primary_key=True)
-    category_id = Column(Integer, ForeignKey("categories.id", ondelete="CASCADE"), primary_key=True)
+    article_id = Column(UUID(as_uuid=True), ForeignKey("scraped_articles.id", ondelete="CASCADE"), primary_key=True)
+    category_id = Column(Integer, ForeignKey("scraper_categories.id", ondelete="CASCADE"), primary_key=True)
 
     article = relationship("Article", back_populates="categories")
     category = relationship("Category", back_populates="articles")
@@ -171,10 +171,10 @@ class ArticleCategory(Base):
 # ---------------------------------------------------------------------------
 
 class ArticleTag(Base):
-    __tablename__ = "article_tags"
+    __tablename__ = "scraped_article_tags"
 
-    article_id = Column(UUID(as_uuid=True), ForeignKey("articles.id", ondelete="CASCADE"), primary_key=True)
-    tag_id = Column(Integer, ForeignKey("tags.id", ondelete="CASCADE"), primary_key=True)
+    article_id = Column(UUID(as_uuid=True), ForeignKey("scraped_articles.id", ondelete="CASCADE"), primary_key=True)
+    tag_id = Column(Integer, ForeignKey("scraper_tags.id", ondelete="CASCADE"), primary_key=True)
 
     article = relationship("Article", back_populates="tags")
     tag = relationship("Tag", back_populates="articles")
@@ -185,9 +185,9 @@ class ArticleTag(Base):
 # ---------------------------------------------------------------------------
 
 class ArticleLocation(Base):
-    __tablename__ = "article_locations"
+    __tablename__ = "scraped_article_locations"
 
-    article_id = Column(UUID(as_uuid=True), ForeignKey("articles.id", ondelete="CASCADE"), primary_key=True)
+    article_id = Column(UUID(as_uuid=True), ForeignKey("scraped_articles.id", ondelete="CASCADE"), primary_key=True)
     location_id = Column(Integer, ForeignKey("locations.id", ondelete="CASCADE"), primary_key=True)
 
     article = relationship("Article", back_populates="locations")

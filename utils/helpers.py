@@ -45,9 +45,7 @@ def parse_date(date_str: Optional[str]) -> Optional[datetime]:
         return None
     try:
         dt = dateutil_parser.parse(date_str, fuzzy=True)
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
-        else:
+        if dt.tzinfo is not None:
             dt = dt.astimezone(timezone.utc).replace(tzinfo=None)
         return dt
     except Exception:
@@ -56,11 +54,11 @@ def parse_date(date_str: Optional[str]) -> Optional[datetime]:
 
 def parse_struct_time(struct_time) -> Optional[datetime]:
     """
-    Convert feedparser's struct_time to UTC datetime.
+    Convert feedparser's struct_time (UTC) to a naive UTC datetime.
     """
     try:
-        import time as time_module
-        ts = time_module.mktime(struct_time)
+        import calendar
+        ts = calendar.timegm(struct_time)
         return datetime.utcfromtimestamp(ts)
     except Exception:
         return None

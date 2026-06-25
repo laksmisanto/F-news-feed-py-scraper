@@ -7,6 +7,7 @@ import uuid
 from datetime import datetime
 from typing import Optional
 from sqlalchemy import select, exists
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.models import (
@@ -51,15 +52,14 @@ async def get_or_create_category(
     parent_id: Optional[int] = None
 ) -> Category:
     slug = slugify(name)
-    result = await session.execute(
-        select(Category).where(Category.slug == slug)
+    await session.execute(
+        pg_insert(Category)
+        .values(name=name, slug=slug, parent_id=parent_id, created_at=datetime.utcnow())
+        .on_conflict_do_nothing(index_elements=["name"])
     )
-    category = result.scalar_one_or_none()
-    if not category:
-        category = Category(name=name, slug=slug, parent_id=parent_id)
-        session.add(category)
-        await session.flush()
-    return category
+    await session.flush()
+    result = await session.execute(select(Category).where(Category.name == name))
+    return result.scalar_one()
 
 
 # ---------------------------------------------------------------------------
@@ -68,15 +68,14 @@ async def get_or_create_category(
 
 async def get_or_create_tag(session: AsyncSession, name: str) -> Tag:
     slug = slugify(name)
-    result = await session.execute(
-        select(Tag).where(Tag.slug == slug)
+    await session.execute(
+        pg_insert(Tag)
+        .values(name=name, slug=slug, created_at=datetime.utcnow())
+        .on_conflict_do_nothing(index_elements=["name"])
     )
-    tag = result.scalar_one_or_none()
-    if not tag:
-        tag = Tag(name=name, slug=slug)
-        session.add(tag)
-        await session.flush()
-    return tag
+    await session.flush()
+    result = await session.execute(select(Tag).where(Tag.name == name))
+    return result.scalar_one()
 
 
 # ---------------------------------------------------------------------------
@@ -90,24 +89,43 @@ async def get_or_create_location(
     parent_id: Optional[int] = None,
     country_code: Optional[str] = None
 ) -> Location:
-    result = await session.execute(
-        select(Location).where(
-            Location.name == name,
-            Location.type == loc_type,
-            Location.parent_id == parent_id
-        )
+    parent_filter = (
+        Location.parent_id == parent_id
+        if parent_id is not None
+        else Location.parent_id.is_(None)
     )
-    location = result.scalar_one_or_none()
-    if not location:
-        location = Location(
+    # SELECT first — avoids the NULL uniqueness problem where PostgreSQL's
+    # unique constraint allows duplicate (name, type, NULL) rows because
+    # NULL != NULL, so ON CONFLICT never fires for top-level locations.
+    result = await session.execute(
+        select(Location)
+        .where(Location.name == name, Location.type == loc_type, parent_filter)
+        .limit(1)
+    )
+    existing = result.scalar_one_or_none()
+    if existing:
+        return existing
+
+    await session.execute(
+        pg_insert(Location)
+        .values(
             name=name,
             type=loc_type,
             parent_id=parent_id,
-            country_code=country_code
+            country_code=country_code,
+            created_at=datetime.utcnow(),
         )
-        session.add(location)
-        await session.flush()
-    return location
+        .on_conflict_do_nothing(constraint="uq_location_name_type_parent")
+    )
+    await session.flush()
+
+    # LIMIT 1 — guards against any race-condition duplicates that slipped through
+    result = await session.execute(
+        select(Location)
+        .where(Location.name == name, Location.type == loc_type, parent_filter)
+        .limit(1)
+    )
+    return result.scalar_one()
 
 
 # ---------------------------------------------------------------------------
