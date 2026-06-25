@@ -637,102 +637,157 @@ The current dedup is URL-based only. For content-level dedup (syndicated article
 - Storing a `content_hash` (MD5 of title + first 200 chars of body) in `articles`
 - Checking the hash before insert in addition to URL
 
-====================================
+# Replacement Files — Instructions
 
-Usage Guide
-Prerequisites
+These files replace the corresponding files in your repo:
+**laksmisanto/F-news-feed-py-scraper**
 
-# 1. Install dependencies
+## What changed and why
 
+| File | Replaces | Why |
+|---|---|---|
+| `scrapers/article.py` | `scrapers/article.py` | Selector-based extractor replaced with extraction chain: extruct (JSON-LD/OG) → Trafilatura → Newspaper4k → readability-lxml. Works on any news site without per-source config. |
+| `processors/category.py` | `processors/category.py` | Adds URL-path parsing + JSON-LD `articleSection` as primary signals. Keyword matching is now supplemental only, prevents noisy false categories. |
+| `seed.py` | `seed.py` | 27 confirmed sources with verified RSS URLs. All `html_scrape_config = None` — generic extractor handles everything. |
+| `requirements.txt` | `requirements.txt` | Adds `trafilatura`, `newspaper4k`, `extruct`, `readability-lxml`. Keeps `lxml>=5.3.0` for Python 3.12+/3.14 compatibility. |
+
+## Installation steps
+
+```bash
+# 1. Pull the latest dependency list
 pip install -r requirements.txt
 
-# 2. Copy and configure environment
+# 2. If Newspaper4k complains on first run, install once:
+#    python -c "import nltk; nltk.download('punkt')"
+#    (optional — only needed if you use Newspaper4k's NLP features)
 
-cp .env.example .env
+# 3. Drop the new files into your repo at the exact paths above.
 
-# Edit .env — set DATABASE_URL to your PostgreSQL connection string
-
-First-Time Setup
-
-# Option A — use main.py (creates tables via SQLAlchemy)
-
-python main.py --init-db
-
-# Option B — use Alembic (recommended for production, supports migrations)
-
-alembic upgrade head
-
-# Seed the database with sources + BD locations + countries
-
+# 4. Re-run seed to refresh sources + clear stale html_scrape_config:
 python seed.py
-Running the Scraper
 
-# Run once and exit (great for testing / cron jobs)
-
+# 5. Test extraction on one source before running the scheduler:
 python main.py --once
 
-# Start the scheduler (runs every N minutes, default 10)
+# 6. Watch logs/scraper.log — the new extractor logs which extractor
+#    won per article (structured / trafilatura / newspaper4k / readability).
+#    If a source repeatedly shows "none", investigate that source.
 
+# 7. Start scheduler:
 python main.py
+```
 
-# Change interval via .env
+## Caller integration notes
 
-SCRAPER_INTERVAL_MINUTES=15
-Environment Variables (.env)
-Variable Default Purpose
-DATABASE_URL postgresql+asyncpg://... PostgreSQL connection
-SCRAPER_INTERVAL_MINUTES 10 How often the scheduler runs
-MAX_ARTICLES_PER_SOURCE 10 URL cap per source per run
-MAX_CONCURRENT_SOURCES 10 Parallel source processing limit
-REQUEST_TIMEOUT 30 HTTP timeout in seconds
-LOG_LEVEL INFO DEBUG / INFO / WARNING
-LOG_FILE logs/scraper.log Log file path
-Adding New Sources
-Edit seed.py → SOURCES list and add an entry, then re-run python seed.py. Each source supports:
+Your existing `runner.py` calls `scrapers/article.py` with some signature.
+The new `extract_article()` function has this signature:
 
-rss_url — preferred fetcher
-sitemap_url — fallback
-html_scrape_config — last-resort CSS selectors (article_list, title, body, image, date)
-pip install -r requirements.txt
-Collecting httpx==0.27.0 (from -r requirements.txt (line 1))
-Using cached httpx-0.27.0-py3-none-any.whl.metadata (7.2 kB)
-Collecting feedparser==6.0.11 (from -r requirements.txt (line 2))
-Using cached feedparser-6.0.11-py3-none-any.whl.metadata (2.4 kB)
-Collecting lxml==5.2.2 (from -r requirements.txt (line 3))
-Using cached lxml-5.2.2.tar.gz (3.7 MB)
-Installing build dependencies ... done
-Getting requirements to build wheel ... error
-error: subprocess-exited-with-error
+```python
+async def extract_article(
+    url: str,
+    html: str | None = None,
+    css_config: dict | None = None,
+) -> dict | None:
+    """Returns dict with: title, short_description, body, image_url,
+       published_at, author, section, extractors_used"""
+```
 
-× Getting requirements to build wheel did not run successfully.
-│ exit code: 1
-╰─> [3 lines of output]
-Building lxml version 5.2.2.
-Building without Cython.
-Error: Please make sure the libxml2 and libxslt development packages are installed.
-[end of output]
+If your `runner.py` currently calls the old function differently (e.g.
+`scrape_article(url, source)`), wrap or adapt the call site:
 
-note: This error originates from a subprocess, and is likely not a problem with pip.
+```python
+from scrapers.article import extract_article
 
-[notice] A new release of pip is available: 26.0.1 -> 26.1.2
-[notice] To update, run: pip install --upgrade pip
-ERROR: Failed to build 'lxml' when getting requirements to build wheel
-You're on Fedora and Python 3.14 (seen from the cpython-314 pycache files). lxml has no pre-built wheel for Python 3.14 yet, so pip tries to compile from source and needs the C development headers.
+# Pass source.html_scrape_config (will be None for 95% of sources)
+data = await extract_article(url, css_config=source.html_scrape_config)
+if data is None:
+    # Extraction failed — skip article
+    continue
 
-Bash Check Python version and current lxml state
-IN
-python3 --version && pip show lxml 2>/dev/null || true
+# Map dict keys to your Article ORM fields:
+article = Article(
+    source_id=source.id,
+    url=data["url"],
+    title=data["title"],
+    short_description=data["short_description"],
+    body=data["body"],
+    image_url=data["image_url"],
+    published_at=data["published_at"],
+    scraped_at=datetime.now(timezone.utc),
+    language=source.language,
+    is_published=True,
+)
+```
 
-OUT
-Python 3.14.5
-Install the missing system libraries, then retry:
+The `extractors_used` field is useful for debugging — log it so you can see
+which extractor handled each article in your `fetch_run_logs` table.
 
-sudo dnf install libxml2-devel libxslt-devel python3-devel gcc
-Then:
+## Caller integration for the new category processor
 
-pip install -r requirements.txt
-Why this happens: lxml is a C extension that wraps libxml2 and libxslt. When no pre-built wheel exists for your Python version (3.14 is very new), pip falls back to compiling from source — which needs the -devel packages that ship the .h headers.
+The `process_categories()` function signature also changed slightly:
 
-If you hit further wheel-build issues with other packages, also install:
+```python
+async def process_categories(
+    session,
+    article,
+    url: str,         # NEW — needed for URL path parsing
+    text: str,        # title + description + body
+    section: str | None = None,  # NEW — pass data["section"] from extractor
+) -> list[Category]:
+```
 
-sudo dnf install python3-devel gcc-c++
+Adapt your caller in `runner.py`:
+
+```python
+from processors.category import process_categories
+
+categories = await process_categories(
+    session,
+    article,
+    url=data["url"],
+    text=f"{data['title']} {data['short_description'] or ''} {data['body'] or ''}",
+    section=data["section"],
+)
+# Attach to article via article_categories M2M
+for cat in categories:
+    article.categories.append(cat)
+```
+
+## What stays unchanged
+
+Do NOT touch these files — they work fine:
+
+- `main.py`
+- `runner.py` (except for the two call-site adapters shown above)
+- `scheduler.py`
+- `fetchers/` (all files)
+- `scrapers/cleaner.py`
+- `processors/tag.py`
+- `processors/location.py`
+- `db/` (all files)
+- `utils/`
+- `migrations/`
+- `config/keywords/*.json` (your existing keyword files keep working as supplemental)
+
+## What to watch in production
+
+1. **Per-source extractor quality** — log `extractors_used` per article. If
+   one source always falls back to `readability` instead of `structured`,
+   that publisher doesn't emit clean JSON-LD — fine, but expect lower quality.
+
+2. **Body length** — articles with body < 200 chars are suspicious. Add a
+   metric in your `fetch_run_logs`.
+
+3. **Image hit rate** — track % of articles that got an image URL. Should be
+   >80% for major sources.
+
+4. **Add `html_scrape_config` only when needed** — if after a week one
+   source still has bad extraction, manually inspect that site's article
+   HTML, write CSS selectors for it, and update its `html_scrape_config`
+   in the DB. The chain will pick it up as the final override.
+
+## Important: no Playwright yet
+
+The 4 TV portals (Somoy, Jamuna, Ekattor, DBC) are seeded with
+`is_active=False`. These are JS-rendered and need Playwright. Phase 2 work.
+Enable them only after adding Playwright to your fetcher chain.
