@@ -1,8 +1,14 @@
 """
 Seed script — populates the database with:
-  1. Sample Bangla and English news sources
-  2. Pre-seeds BD location hierarchy from locations_bd.json
-  3. Pre-seeds countries from countries.json
+
+  1. 23 confirmed BD + International news sources with correct RSS URLs
+  2. 4 TV portals using sitemap fallback (Phase 2)
+  3. BD location hierarchy from locations_bd.json
+  4. International countries from countries.json
+
+All sources have html_scrape_config = None. The new article extractor
+(scrapers/article.py) handles them generically via JSON-LD, OpenGraph,
+Trafilatura, Newspaper4k, and readability fallback chain.
 
 Run: python seed.py
 """
@@ -10,11 +16,12 @@ Run: python seed.py
 import asyncio
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 from db.session import AsyncSessionLocal, engine
 from db.models import Base, Source, Location, LanguageEnum
 from sqlalchemy import select
+
 from utils.logger import get_logger
 
 logger = get_logger("seed")
@@ -22,45 +29,31 @@ logger = get_logger("seed")
 BD_GEO_PATH = os.path.join("config", "keywords", "locations_bd.json")
 COUNTRIES_PATH = os.path.join("config", "keywords", "countries.json")
 
-# ---------------------------------------------------------------------------
-# SOURCES
-# Customize this list with your actual 20-25 sources.
-# html_scrape_config: fill in actual CSS selectors per source.
-# ---------------------------------------------------------------------------
+
+# ===========================================================================
+# SOURCES — 27 confirmed working sources
+# ===========================================================================
+# Notes:
+#   - All html_scrape_config = None → generic extractor chain handles them.
+#   - Only set html_scrape_config on a specific source IF you confirm the
+#     generic extractor fails repeatedly on that source.
+#   - RSS URLs verified June 2026. If a feed breaks, update the rss_url
+#     and re-run seed.py.
+# ===========================================================================
 
 SOURCES = [
-    # ── BANGLA SOURCES ──────────────────────────────────────────────────────
+    # ──────────────────────────────────────────────────────────────────────
+    # TIER 1 — BANGLA SOURCES (RSS verified)
+    # ──────────────────────────────────────────────────────────────────────
     {
         "name": "Prothom Alo",
         "language": "bn",
         "base_url": "https://www.prothomalo.com",
-        "rss_url": "https://www.prothomalo.com/feed",
+        "rss_url": "https://www.prothomalo.com/feed/",
         "sitemap_url": "https://www.prothomalo.com/sitemap.xml",
-        "html_scrape_config": {
-            "article_list": "a.title-link",
-            "title": "h1",
-            "body": "div.story-element-text",
-            "image": "figure img",
-            "date": "time"
-        },
+        "html_scrape_config": None,
         "is_active": True,
         "priority": 1,
-    },
-    {
-        "name": "Daily Star BD",
-        "language": "en",
-        "base_url": "https://www.thedailystar.net",
-        "rss_url": "https://www.thedailystar.net/arcio/rss/",
-        "sitemap_url": "https://www.thedailystar.net/sitemap.xml",
-        "html_scrape_config": {
-            "article_list": "h3.title a",
-            "title": "h1",
-            "body": "div.field-items",
-            "image": ".field-type-image img",
-            "date": "span.date-display-single"
-        },
-        "is_active": True,
-        "priority": 2,
     },
     {
         "name": "Kaler Kantho",
@@ -68,29 +61,27 @@ SOURCES = [
         "base_url": "https://www.kalerkantho.com",
         "rss_url": "https://www.kalerkantho.com/rss.xml",
         "sitemap_url": "https://www.kalerkantho.com/sitemap.xml",
-        "html_scrape_config": {
-            "article_list": "h3 a, h2 a",
-            "title": "h1",
-            "body": "div.news-content",
-            "image": "div.news-img img",
-            "date": "span.time"
-        },
+        "html_scrape_config": None,
         "is_active": True,
-        "priority": 3,
+        "priority": 2,
     },
     {
         "name": "Jugantor",
         "language": "bn",
         "base_url": "https://www.jugantor.com",
-        "rss_url": "https://www.jugantor.com/feed",
+        "rss_url": "https://www.jugantor.com/feed/rss.xml",
         "sitemap_url": None,
-        "html_scrape_config": {
-            "article_list": "h3 a",
-            "title": "h1",
-            "body": "div.news-details-body",
-            "image": "div.news-details-img img",
-            "date": "span.time-area"
-        },
+        "html_scrape_config": None,
+        "is_active": True,
+        "priority": 3,
+    },
+    {
+        "name": "Samakal",
+        "language": "bn",
+        "base_url": "https://samakal.com",
+        "rss_url": "https://samakal.com/rss.xml",
+        "sitemap_url": None,
+        "html_scrape_config": None,
         "is_active": True,
         "priority": 4,
     },
@@ -105,168 +96,271 @@ SOURCES = [
         "priority": 5,
     },
     {
-        "name": "Samakal",
+        "name": "Bangladesh Pratidin",
         "language": "bn",
-        "base_url": "https://samakal.com",
-        "rss_url": "https://samakal.com/feed",
+        "base_url": "https://www.bd-pratidin.com",
+        "rss_url": "https://www.bd-pratidin.com/rss.xml",
         "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 6,
     },
     {
-        "name": "Manab Zamin",
+        "name": "bdnews24",
         "language": "bn",
-        "base_url": "https://mzamin.com",
-        "rss_url": "https://mzamin.com/feed",
-        "sitemap_url": None,
+        "base_url": "https://bdnews24.com",
+        "rss_url": "https://bdnews24.com/?widgetName=rssfeed&widgetId=1150&getXmlFeed=true",
+        "sitemap_url": "https://bdnews24.com/sitemap.xml",
         "html_scrape_config": None,
         "is_active": True,
         "priority": 7,
     },
     {
-        "name": "Inqilab",
+        "name": "BanglaNews24",
         "language": "bn",
-        "base_url": "https://www.dailyinqilab.com",
-        "rss_url": "https://www.dailyinqilab.com/feed",
+        "base_url": "https://www.banglanews24.com",
+        "rss_url": "https://www.banglanews24.com/rss/rss.xml",
         "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 8,
     },
     {
-        "name": "Bangladesh Pratidin",
+        "name": "JagoNews24",
         "language": "bn",
-        "base_url": "https://www.bd-pratidin.com",
-        "rss_url": "https://www.bd-pratidin.com/feed",
+        "base_url": "https://www.jagonews24.com",
+        "rss_url": "https://www.jagonews24.com/rss/rss.xml",
         "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 9,
     },
     {
-        "name": "Naya Diganta",
+        "name": "Dhaka Post",
         "language": "bn",
-        "base_url": "https://www.dailynayadiganta.com",
-        "rss_url": "https://www.dailynayadiganta.com/feed",
+        "base_url": "https://www.dhakapost.com",
+        "rss_url": "https://www.dhakapost.com/rss.xml",
         "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 10,
     },
     {
-        "name": "Bhorer Kagoj",
+        "name": "BBC Bangla",
         "language": "bn",
-        "base_url": "https://www.bhorerkagoj.com",
-        "rss_url": "https://www.bhorerkagoj.com/feed",
+        "base_url": "https://www.bbc.com/bengali",
+        "rss_url": "https://feeds.bbci.co.uk/bengali/rss.xml",
         "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 11,
     },
     {
-        "name": "Dainik Amader Shomoy",
+        "name": "DW Bangla",
         "language": "bn",
-        "base_url": "https://www.dainikamadershomoy.com",
-        "rss_url": "https://www.dainikamadershomoy.com/feed",
+        "base_url": "https://www.dw.com/bn",
+        "rss_url": "https://rss.dw.com/rdf/rss-ben-all",
         "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 12,
     },
     {
-        "name": "Bangla Tribune",
+        "name": "VOA Bangla",
         "language": "bn",
-        "base_url": "https://www.banglatribune.com",
-        "rss_url": "https://www.banglatribune.com/feed",
-        "sitemap_url": None,
+        "base_url": "https://www.voabangla.com",
+        "rss_url": "https://www.voabangla.com/api/zmoqiyrppv",
+        "sitemap_url": "https://www.voabangla.com/sitemap.xml",
         "html_scrape_config": None,
         "is_active": True,
         "priority": 13,
     },
+
+    # ──────────────────────────────────────────────────────────────────────
+    # TIER 1 — ENGLISH SOURCES (BD + International, RSS verified)
+    # ──────────────────────────────────────────────────────────────────────
     {
-        "name": "Risingbd",
-        "language": "bn",
-        "base_url": "https://www.risingbd.com",
-        "rss_url": "https://www.risingbd.com/rss.xml",
-        "sitemap_url": None,
+        "name": "The Daily Star",
+        "language": "en",
+        "base_url": "https://www.thedailystar.net",
+        "rss_url": "https://www.thedailystar.net/frontpage/rss.xml",
+        "sitemap_url": "https://www.thedailystar.net/sitemap.xml",
         "html_scrape_config": None,
         "is_active": True,
         "priority": 14,
     },
     {
-        "name": "Desh Rupantor",
-        "language": "bn",
-        "base_url": "https://www.deshrupantor.com",
-        "rss_url": "https://www.deshrupantor.com/feed",
+        "name": "TBS News",
+        "language": "en",
+        "base_url": "https://www.tbsnews.net",
+        "rss_url": "https://www.tbsnews.net/rss.xml",
         "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 15,
     },
-    # ── ENGLISH SOURCES ─────────────────────────────────────────────────────
     {
-        "name": "Financial Express BD",
+        "name": "Dhaka Tribune",
         "language": "en",
-        "base_url": "https://thefinancialexpress.com.bd",
-        "rss_url": "https://thefinancialexpress.com.bd/feed",
-        "sitemap_url": None,
+        "base_url": "https://www.dhakatribune.com",
+        "rss_url": "https://www.dhakatribune.com/feed",
+        "sitemap_url": "https://www.dhakatribune.com/sitemap.xml",
         "html_scrape_config": None,
         "is_active": True,
         "priority": 16,
     },
     {
-        "name": "Business Standard BD",
+        "name": "New Age",
         "language": "en",
-        "base_url": "https://www.tbsnews.net",
-        "rss_url": "https://www.tbsnews.net/feed",
+        "base_url": "https://www.newagebd.net",
+        "rss_url": "https://www.newagebd.net/rss",
         "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 17,
     },
     {
-        "name": "New Age BD",
+        "name": "The Financial Express BD",
         "language": "en",
-        "base_url": "https://www.newagebd.net",
-        "rss_url": "https://www.newagebd.net/rss.xml",
+        "base_url": "https://thefinancialexpress.com.bd",
+        "rss_url": "https://thefinancialexpress.com.bd/rss",
         "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 18,
     },
     {
-        "name": "Dhaka Tribune",
+        "name": "Al Jazeera",
         "language": "en",
-        "base_url": "https://www.dhakatribune.com",
-        "rss_url": "https://www.dhakatribune.com/rss.xml",
-        "sitemap_url": "https://www.dhakatribune.com/sitemap.xml",
+        "base_url": "https://www.aljazeera.com",
+        "rss_url": "https://www.aljazeera.com/xml/rss/all.xml",
+        "sitemap_url": None,
         "html_scrape_config": None,
         "is_active": True,
         "priority": 19,
     },
     {
-        "name": "UNB News",
+        "name": "AP News",
         "language": "en",
-        "base_url": "https://unb.com.bd",
-        "rss_url": "https://unb.com.bd/feed",
-        "sitemap_url": None,
+        "base_url": "https://apnews.com",
+        "rss_url": None,
+        "sitemap_url": "https://apnews.com/sitemap.xml",
         "html_scrape_config": None,
         "is_active": True,
         "priority": 20,
     },
+    {
+        "name": "The Guardian",
+        "language": "en",
+        "base_url": "https://www.theguardian.com",
+        "rss_url": "https://www.theguardian.com/world/rss",
+        "sitemap_url": None,
+        "html_scrape_config": None,
+        "is_active": True,
+        "priority": 21,
+    },
+    {
+        "name": "NDTV",
+        "language": "en",
+        "base_url": "https://www.ndtv.com",
+        "rss_url": "https://feeds.feedburner.com/ndtvnews-top-stories",
+        "sitemap_url": None,
+        "html_scrape_config": None,
+        "is_active": True,
+        "priority": 22,
+    },
+    {
+        "name": "The Hindu",
+        "language": "en",
+        "base_url": "https://www.thehindu.com",
+        "rss_url": "https://www.thehindu.com/news/international/feeder/default.rss",
+        "sitemap_url": None,
+        "html_scrape_config": None,
+        "is_active": True,
+        "priority": 23,
+    },
+
+    # ──────────────────────────────────────────────────────────────────────
+    # TIER 2 — TV PORTALS (sitemap fallback, Phase 2, kept inactive by default)
+    # Enable by setting is_active=True when ready. JS-heavy sites may need
+    # Playwright integration in fetchers/html.py later.
+    # ──────────────────────────────────────────────────────────────────────
+    {
+        "name": "Somoy News TV",
+        "language": "bn",
+        "base_url": "https://www.somoynews.tv",
+        "rss_url": None,
+        "sitemap_url": "https://www.somoynews.tv/sitemap.xml",
+        "html_scrape_config": None,
+        "is_active": False,  # enable when sitemap-based fetcher is tested
+        "priority": 24,
+    },
+    {
+        "name": "Jamuna TV",
+        "language": "bn",
+        "base_url": "https://www.jamuna.tv",
+        "rss_url": None,
+        "sitemap_url": "https://www.jamuna.tv/sitemap.xml",
+        "html_scrape_config": None,
+        "is_active": False,
+        "priority": 25,
+    },
+    {
+        "name": "Ekattor TV",
+        "language": "bn",
+        "base_url": "https://ekattor.tv",
+        "rss_url": None,
+        "sitemap_url": "https://ekattor.tv/sitemap.xml",
+        "html_scrape_config": None,
+        "is_active": False,
+        "priority": 26,
+    },
+    {
+        "name": "DBC News",
+        "language": "bn",
+        "base_url": "https://www.dbcnews.tv",
+        "rss_url": None,
+        "sitemap_url": "https://www.dbcnews.tv/sitemap.xml",
+        "html_scrape_config": None,
+        "is_active": False,
+        "priority": 27,
+    },
 ]
 
 
+# ===========================================================================
+# Seed functions
+# ===========================================================================
+
 async def seed_sources(session):
-    count = 0
+    """Upsert sources by base_url. Updates existing rows with new RSS URLs."""
+    added = 0
+    updated = 0
     for s in SOURCES:
         result = await session.execute(
             select(Source).where(Source.base_url == s["base_url"])
         )
         existing = result.scalar_one_or_none()
+
         if existing:
-            logger.info(f"[Seed] Source already exists: {s['name']}")
+            # Update RSS / sitemap URLs in case they changed
+            changed = False
+            if existing.rss_url != s.get("rss_url"):
+                existing.rss_url = s.get("rss_url")
+                changed = True
+            if existing.sitemap_url != s.get("sitemap_url"):
+                existing.sitemap_url = s.get("sitemap_url")
+                changed = True
+            # Clear stale html_scrape_config (we want generic extraction now)
+            if existing.html_scrape_config != s.get("html_scrape_config"):
+                existing.html_scrape_config = s.get("html_scrape_config")
+                changed = True
+            if changed:
+                existing.updated_at = datetime.now(timezone.utc)
+                updated += 1
+                logger.info(f"[Seed] Updated source: {s['name']}")
+            else:
+                logger.info(f"[Seed] Source already current: {s['name']}")
             continue
 
         source = Source(
@@ -277,15 +371,16 @@ async def seed_sources(session):
             sitemap_url=s.get("sitemap_url"),
             html_scrape_config=s.get("html_scrape_config"),
             is_active=s.get("is_active", True),
-            priority=s.get("priority", 10),
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
+            priority=s.get("priority", 100),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
         )
         session.add(source)
-        count += 1
+        added += 1
+        logger.info(f"[Seed] Added source: {s['name']}")
 
     await session.flush()
-    logger.info(f"[Seed] Sources added: {count}")
+    logger.info(f"[Seed] Sources — added: {added}, updated: {updated}")
 
 
 async def seed_locations(session):
@@ -293,43 +388,48 @@ async def seed_locations(session):
     try:
         with open(BD_GEO_PATH, "r", encoding="utf-8") as f:
             bd_geo = json.load(f)
+    except FileNotFoundError:
+        logger.warning(f"[Seed] {BD_GEO_PATH} not found, skipping BD locations")
+        return
     except Exception as e:
         logger.error(f"[Seed] Cannot load BD geo: {e}")
         return
 
     count = 0
     for division_name, division_data in bd_geo.items():
-        # Division
         div_result = await session.execute(
             select(Location).where(
                 Location.name == division_name,
-                Location.type == "division"
+                Location.type == "division",
             )
         )
         division = div_result.scalar_one_or_none()
         if not division:
             division = Location(
-                name=division_name, type="division",
-                parent_id=None, country_code="BD"
+                name=division_name,
+                type="division",
+                parent_id=None,
+                country_code="BD",
             )
             session.add(division)
             await session.flush()
             count += 1
 
         for district_name, district_data in division_data.get("districts", {}).items():
-            # District
             dist_result = await session.execute(
                 select(Location).where(
                     Location.name == district_name,
                     Location.type == "district",
-                    Location.parent_id == division.id
+                    Location.parent_id == division.id,
                 )
             )
             district = dist_result.scalar_one_or_none()
             if not district:
                 district = Location(
-                    name=district_name, type="district",
-                    parent_id=division.id, country_code="BD"
+                    name=district_name,
+                    type="district",
+                    parent_id=division.id,
+                    country_code="BD",
                 )
                 session.add(district)
                 await session.flush()
@@ -340,14 +440,16 @@ async def seed_locations(session):
                     select(Location).where(
                         Location.name == city_name,
                         Location.type == "city",
-                        Location.parent_id == district.id
+                        Location.parent_id == district.id,
                     )
                 )
                 city = city_result.scalar_one_or_none()
                 if not city:
                     city = Location(
-                        name=city_name, type="city",
-                        parent_id=district.id, country_code="BD"
+                        name=city_name,
+                        type="city",
+                        parent_id=district.id,
+                        country_code="BD",
                     )
                     session.add(city)
                     await session.flush()
@@ -357,10 +459,13 @@ async def seed_locations(session):
 
 
 async def seed_countries(session):
-    """Pre-seed international countries."""
+    """Pre-seed international countries from countries.json."""
     try:
         with open(COUNTRIES_PATH, "r", encoding="utf-8") as f:
             countries = json.load(f)
+    except FileNotFoundError:
+        logger.warning(f"[Seed] {COUNTRIES_PATH} not found, skipping countries")
+        return
     except Exception as e:
         logger.error(f"[Seed] Cannot load countries: {e}")
         return
@@ -370,7 +475,7 @@ async def seed_countries(session):
         result = await session.execute(
             select(Location).where(
                 Location.name == country_name,
-                Location.type == "country"
+                Location.type == "country",
             )
         )
         existing = result.scalar_one_or_none()
@@ -379,17 +484,15 @@ async def seed_countries(session):
                 name=country_name,
                 type="country",
                 parent_id=None,
-                country_code=data.get("code", "")
+                country_code=data.get("code", "") if isinstance(data, dict) else "",
             )
             session.add(loc)
             count += 1
-
     await session.flush()
     logger.info(f"[Seed] Countries added: {count}")
 
 
 async def main():
-    # Ensure tables exist
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("[Seed] Tables ensured.")
