@@ -1,0 +1,152 @@
+{
+  "_README": [
+    "Starter crawl_config presets for sources in your seed.py.",
+    "These are tuned per-site based on their URL structure and content density.",
+    "",
+    "USAGE: After running the migration, you can apply any of these with:",
+    "",
+    "  UPDATE sources",
+    "  SET crawl_enabled = true,",
+    "      crawl_config = '<json from below>'::json",
+    "  WHERE name = '<source name>';",
+    "",
+    "Sources NOT listed here either work fine on RSS alone (no crawler needed)",
+    "or are JS-rendered and need Playwright (Phase 6).",
+    "",
+    "Recommendation: only turn on crawling for sources where RSS is missing",
+    "articles or is unreliable. Don't blanket-enable everything."
+  ],
+
+  "Prothom Alo": {
+    "_why": "Prothom Alo's RSS is sometimes incomplete. Crawler picks up missed articles.",
+    "seed_paths": ["/", "/politics", "/sports", "/business", "/international", "/bangladesh"],
+    "max_depth": 2,
+    "max_pages_per_run": 80,
+    "rate_limit_seconds": 1.5,
+    "article_url_patterns": ["/[a-z0-9-]+/[a-z0-9-]+-[a-z0-9]{6,}"],
+    "exclude_patterns": ["/tag/", "/topic/", "/author/", "/photo/", "/video/", "/lifestyle/recipe/"]
+  },
+
+  "Kaler Kantho": {
+    "_why": "RSS can go stale. Crawler supplements daily.",
+    "seed_paths": ["/", "/online/national", "/online/politics", "/online/sports", "/online/world"],
+    "max_depth": 2,
+    "max_pages_per_run": 80,
+    "rate_limit_seconds": 1.5,
+    "article_url_patterns": ["/online/[a-z-]+/\\d{4}/\\d{2}/\\d{2}/\\d+"],
+    "exclude_patterns": ["/tag/", "/print-edition/", "/epaper/"]
+  },
+
+  "Jugantor": {
+    "_why": "RSS feed is very minimal — crawler significantly improves coverage.",
+    "seed_paths": ["/", "/national", "/politics", "/sports", "/international"],
+    "max_depth": 2,
+    "max_pages_per_run": 100,
+    "rate_limit_seconds": 1.5,
+    "article_url_patterns": ["/[a-z-]+/\\d+/"],
+    "exclude_patterns": ["/tag/", "/epaper/", "/print/"]
+  },
+
+  "Samakal": {
+    "_why": "RSS often returns only 5-10 items. Crawler fills the gap.",
+    "seed_paths": ["/", "/national", "/politics", "/sports", "/economics", "/international"],
+    "max_depth": 2,
+    "max_pages_per_run": 80,
+    "rate_limit_seconds": 1.5,
+    "article_url_patterns": ["/[a-z-]+/article-\\d+"],
+    "exclude_patterns": ["/tag/", "/topic/"]
+  },
+
+  "Ittefaq": {
+    "_why": "Standard WordPress site; crawler finds articles RSS misses.",
+    "seed_paths": ["/", "/national", "/politics", "/sports", "/business"],
+    "max_depth": 2,
+    "max_pages_per_run": 80,
+    "rate_limit_seconds": 1.5,
+    "article_url_patterns": ["/[a-z-]+/\\d+/"],
+    "exclude_patterns": ["/tag/", "/author/", "/category/"]
+  },
+
+  "bdnews24": {
+    "_why": "Their RSS URL is non-standard and sometimes breaks. Crawler is a reliable backup.",
+    "seed_paths": ["/", "/bangladesh", "/politics", "/sport", "/world", "/business"],
+    "max_depth": 2,
+    "max_pages_per_run": 80,
+    "rate_limit_seconds": 1.5,
+    "article_url_patterns": ["/[a-z]+/[a-z0-9-]{20,}"],
+    "exclude_patterns": ["/tag/", "/topic/", "/opinion/column/"]
+  },
+
+  "Dhaka Post": {
+    "_why": "Active fast-moving portal. Crawler catches breaking news between RSS polls.",
+    "seed_paths": ["/", "/national", "/politics", "/sports", "/international"],
+    "max_depth": 2,
+    "max_pages_per_run": 100,
+    "rate_limit_seconds": 1.0,
+    "article_url_patterns": ["/[a-z-]+/\\d+"],
+    "exclude_patterns": ["/tag/", "/topic/"]
+  },
+
+  "The Daily Star": {
+    "_why": "RSS is solid but crawler picks up city/business/sports sub-feeds in one pass.",
+    "seed_paths": ["/", "/news", "/business", "/sports", "/city"],
+    "max_depth": 2,
+    "max_pages_per_run": 80,
+    "rate_limit_seconds": 2.0,
+    "article_url_patterns": ["/news/[a-z-]+/news/[a-z0-9-]+-\\d+", "/[a-z-]+/news/[a-z0-9-]+-\\d+"],
+    "exclude_patterns": ["/tags/", "/author/", "/topic/"]
+  },
+
+  "TBS News": {
+    "_why": "Business focus. Crawler helps capture markets/economy articles that RSS truncates.",
+    "seed_paths": ["/", "/economy", "/markets", "/world", "/bangladesh"],
+    "max_depth": 2,
+    "max_pages_per_run": 80,
+    "rate_limit_seconds": 1.5,
+    "article_url_patterns": ["/[a-z-]+/[a-z0-9-]+-\\d+"],
+    "exclude_patterns": ["/tags/", "/author/"]
+  },
+
+  "Dhaka Tribune": {
+    "_why": "RSS works but crawler doubles coverage on business/opinion sections.",
+    "seed_paths": ["/", "/bangladesh", "/business", "/sport", "/world", "/opinion"],
+    "max_depth": 2,
+    "max_pages_per_run": 80,
+    "rate_limit_seconds": 1.5,
+    "article_url_patterns": ["/[a-z-]+/\\d+/"],
+    "exclude_patterns": ["/tags/", "/topic/", "/author/"]
+  },
+
+  "AP News": {
+    "_why": "AP has no public RSS for our use — crawler IS the discovery mechanism here.",
+    "seed_paths": ["/", "/hub/world-news", "/hub/business", "/hub/politics", "/hub/sports"],
+    "max_depth": 2,
+    "max_pages_per_run": 60,
+    "rate_limit_seconds": 2.0,
+    "article_url_patterns": ["/article/[a-z0-9-]{20,}"],
+    "exclude_patterns": ["/hub/", "/tags/", "/photos/"],
+    "respect_robots": true
+  },
+
+  "Al Jazeera": {
+    "_why": "RSS is good but slow to update. Crawler catches breaking news faster.",
+    "seed_paths": ["/", "/news", "/economy", "/sports"],
+    "max_depth": 2,
+    "max_pages_per_run": 80,
+    "rate_limit_seconds": 2.0,
+    "article_url_patterns": ["/news/\\d{4}/\\d{1,2}/\\d{1,2}/[a-z0-9-]+"],
+    "exclude_patterns": ["/tag/", "/program/", "/opinions/"]
+  },
+
+  "_NOT_RECOMMENDED_FOR_CRAWLING": {
+    "BBC Bangla":   "RSS is excellent. No need.",
+    "DW Bangla":    "RSS is excellent. No need.",
+    "VOA Bangla":   "Use sitemap; site is fragile.",
+    "The Guardian": "Excellent RSS. Crawling adds noise.",
+    "NDTV":         "FeedBurner RSS works well.",
+    "Somoy TV":     "JS-rendered. Needs Playwright.",
+    "Jamuna TV":    "JS-rendered. Needs Playwright.",
+    "Ekattor TV":   "JS-rendered. Needs Playwright.",
+    "DBC News":     "JS-rendered. Needs Playwright."
+  }
+}

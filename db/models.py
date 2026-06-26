@@ -1,6 +1,11 @@
 """
 SQLAlchemy ORM models for news scraper.
 All tables follow the agreed schema from architecture review.
+
+Recent additions:
+- Source.crawl_enabled    → BOOL toggle to enable domain crawler per source
+- Source.crawl_config     → JSON crawler tuning (seed paths, depth, patterns)
+- FetcherUsedEnum.crawler → enum value for the new crawler fetcher
 """
 
 import uuid
@@ -31,6 +36,7 @@ class FetcherUsedEnum(str, enum.Enum):
     rss = "rss"
     sitemap = "sitemap"
     html = "html"
+    crawler = "crawler"   # NEW: domain crawler
 
 
 class RunStatusEnum(str, enum.Enum):
@@ -64,6 +70,21 @@ class Source(Base):
     is_active = Column(Boolean, default=True, nullable=False)
     # Lower number = higher priority
     priority = Column(Integer, default=10, nullable=False)
+
+    # ─── NEW: domain crawler toggle + config ──────────────────────────────
+    crawl_enabled = Column(Boolean, default=False, nullable=False)
+    # crawl_config JSON shape (all keys optional, sensible defaults applied):
+    # {
+    #   "seed_paths":           ["/", "/sports", "/business"],
+    #   "max_depth":            2,
+    #   "max_pages_per_run":    100,
+    #   "rate_limit_seconds":   1.0,
+    #   "article_url_patterns": ["/article/", "/\\d{4}/\\d{2}/"],
+    #   "exclude_patterns":     ["/tag/", "/author/", "/page/"],
+    #   "respect_robots":       true
+    # }
+    crawl_config = Column(JSON, nullable=True)
+
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
