@@ -15,14 +15,14 @@ load_dotenv()
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from db.models import Base
+from db.session import _prepare_engine_args
 
 config = context.config
 
-# Override sqlalchemy.url with env variable
-config.set_main_option("sqlalchemy.url", os.getenv(
-    "DATABASE_URL",
-    "postgresql+asyncpg://user:password@localhost:5432/news_scraper"
-))
+# Strip sslmode= (libpq syntax) — asyncpg doesn't accept it as a URL param
+_raw_url = os.getenv("DATABASE_URL", "postgresql+asyncpg://user:password@localhost:5432/news_scraper")
+_clean_url, _connect_args = _prepare_engine_args(_raw_url)
+config.set_main_option("sqlalchemy.url", _clean_url)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
@@ -53,6 +53,7 @@ async def run_async_migrations() -> None:
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
+        connect_args=_connect_args,
     )
     async with connectable.connect() as connection:
         await connection.run_sync(do_run_migrations)

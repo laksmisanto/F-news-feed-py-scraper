@@ -1,560 +1,120 @@
-2026-06-26 00:32:40 | INFO     | processor.category | [Category] Loaded 12 parent categories
-2026-06-26 00:32:40 | INFO     | main | [Main] Running single scrape pass...
-2026-06-26 00:32:40 | INFO     | runner | ━━━ Scraper run started | run_id=9af993da-14ac-4026-a623-8f20bc0bcba1 ━━━
-2026-06-26 00:36:24 | INFO     | main | [DB] All tables created successfully.
-2026-06-26 00:36:39 | INFO     | seed | [Seed] Tables ensured.
-2026-06-26 00:36:47 | INFO     | seed | [Seed] Sources added: 20
-2026-06-26 00:37:35 | INFO     | seed | [Seed] BD locations added: 101
-2026-06-26 00:37:43 | INFO     | seed | [Seed] Countries added: 29
-2026-06-26 00:37:43 | INFO     | seed | [Seed] ✓ Database seeded successfully.
-2026-06-26 00:37:51 | INFO     | processor.category | [Category] Loaded 12 parent categories
-2026-06-26 00:37:51 | INFO     | main | [Main] Running single scrape pass...
-2026-06-26 00:37:51 | INFO     | runner | ━━━ Scraper run started | run_id=ec2577d6-2b18-4bbb-90a4-0c3208dc7bf9 ━━━
-2026-06-26 00:37:57 | INFO     | runner | [Runner] 20 active sources to process
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Prothom Alo (LanguageEnum.bn)
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Daily Star BD (LanguageEnum.en)
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Kaler Kantho (LanguageEnum.bn)
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Jugantor (LanguageEnum.bn)
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Ittefaq (LanguageEnum.bn)
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Samakal (LanguageEnum.bn)
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Manab Zamin (LanguageEnum.bn)
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Inqilab (LanguageEnum.bn)
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Bangladesh Pratidin (LanguageEnum.bn)
-2026-06-26 00:37:57 | INFO     | runner | [Source] Starting: Naya Diganta (LanguageEnum.bn)
-2026-06-26 00:37:58 | INFO     | fetcher.rss | [RSS] Prothom Alo → 4 URLs found
-2026-06-26 00:37:58 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Ittefaq: Client error '404 Not Found' for url 'https://www.ittefaq.com.bd/feed'
+2026-06-27 17:14:36 | INFO     | main | [Main] Running single scrape pass...
+2026-06-27 17:14:36 | INFO     | runner | ━━━ Scraper run started | run_id=725b1641-10ec-4437-9c6d-c539dd2a7be6 ━━━
+2026-06-27 17:14:43 | INFO     | runner | [Runner] 20 active sources to process
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Prothom Alo (bn)
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Daily Star BD (en)
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Kaler Kantho (bn)
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Jugantor (bn)
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Ittefaq (bn)
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Samakal (bn)
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Manab Zamin (bn)
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Inqilab (bn)
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Bangladesh Pratidin (bn)
+2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Naya Diganta (bn)
+2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangladesh Pratidin: Client error '404 Not Found' for url 'https://www.bd-pratidin.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:37:58 | INFO     | fetcher.html | [HTML] Ittefaq → 4 URLs found
-2026-06-26 00:37:58 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Kaler Kantho: Client error '404 Not Found' for url 'https://www.kalerkantho.com/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:37:58 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangladesh Pratidin: Client error '404 Not Found' for url 'https://www.bd-pratidin.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:37:58 | WARNING  | fetcher.rss | [RSS] Empty feed for Samakal
-2026-06-26 00:37:58 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Jugantor: Client error '404 Not Found' for url 'https://www.jugantor.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:37:58 | INFO     | fetcher.html | [HTML] Samakal → 4 URLs found
-2026-06-26 00:37:58 | INFO     | fetcher.html | [HTML] Bangladesh Pratidin → 4 URLs found
-2026-06-26 00:37:58 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Daily Star BD: Client error '404 Not Found' for url 'https://www.thedailystar.net/arcio/rss/'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:37:58 | INFO     | fetcher.html | [HTML] Jugantor → 2 URLs found
-2026-06-26 00:37:58 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Inqilab: Client error '404 Not Found' for url 'https://dailyinqilab.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:37:58 | INFO     | fetcher.sitemap | [Sitemap] Kaler Kantho → 4 URLs from index
-2026-06-26 00:37:58 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Manab Zamin: Client error '404 Not Found' for url 'https://www.mzamin.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:37:59 | INFO     | fetcher.sitemap | [Sitemap] Daily Star BD → 4 URLs from index
-2026-06-26 00:37:59 | INFO     | fetcher.html | [HTML] Manab Zamin → 4 URLs found
-2026-06-26 00:37:59 | INFO     | fetcher.html | [HTML] Inqilab → 0 URLs found
-2026-06-26 00:37:59 | WARNING  | runner | [Source] No URLs fetched from Inqilab
-2026-06-26 00:38:00 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Naya Diganta: Server error '500 Internal Server Error' for url 'https://www.dailynayadiganta.com/feed'
+2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Empty feed for Samakal
+2026-06-27 17:14:43 | INFO     | fetcher.rss | [RSS] Prothom Alo → 4 URLs found
+2026-06-27 17:14:43 | INFO     | fetcher.html | [HTML] Samakal → 4 URLs found
+2026-06-27 17:14:43 | INFO     | fetcher.html | [HTML] Bangladesh Pratidin → 4 URLs found
+2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Naya Diganta: Server error '500 Internal Server Error' for url 'https://www.dailynayadiganta.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500
-2026-06-26 00:38:03 | INFO     | runner | [Source] Starting: Bhorer Kagoj (LanguageEnum.bn)
-2026-06-26 00:38:03 | INFO     | fetcher.html | [HTML] Naya Diganta → 4 URLs found
-2026-06-26 00:38:04 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bhorer Kagoj: Client error '404 Not Found' for url 'https://www.bhorerkagoj.net/feed'
+2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Jugantor: Client error '404 Not Found' for url 'https://www.jugantor.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:38:05 | INFO     | fetcher.html | [HTML] Bhorer Kagoj → 1 URLs found
-2026-06-26 00:38:09 | WARNING  | processor.location | [Location] BD save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:10 | ERROR    | runner | [Article] Error processing https://www.bhorerkagoj.com/apps/download/bkfamily.apk: invalid literal for int() with base 10: '7FK\x14;��<�y��Z\x14��M\x1d�T�:��4RU�����(��Hn��$�{�\x0b\x0f���\\�� �B�\x14��^&��.��u�& k<��]�\x0b\x1eQ���ס\x11�=��,D�[V��ӌ�\x11Fȫ\x1f�������8���Xyl5�\x07��ޒ�N�\x03\x02\x0b��d*IYr�R�s��\r��\r�(�j\x10
-Traceback (most recent call last):
-  File "/home/santo/Projects/Personal/news-scraper/scrapers/article.py", line 80, in _parse
-    soup = BeautifulSoup(html, "lxml")
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 335, in __init__
-    self._feed()
-    ~~~~~~~~~~^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 478, in _feed
-    self.builder.feed(self.markup)
-    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_lxml.py", line 380, in feed
-    self.parser.feed(markup)
-    ~~~~~~~~~~~~~~~~^^^^^^^^
-  File "src/lxml/parser.pxi", line 1361, in lxml.etree._FeedParser.feed
-  File "src/lxml/parser.pxi", line 1481, in lxml.etree._FeedParser.feed
-  File "src/lxml/parsertarget.pxi", line 161, in lxml.etree._TargetParserContext._handleParseResult
-  File "src/lxml/parsertarget.pxi", line 156, in lxml.etree._TargetParserContext._handleParseResult
-  File "src/lxml/etree.pyx", line 452, in lxml.etree._ExceptionContext._raise_if_stored
-  File "src/lxml/saxparser.pxi", line 451, in lxml.etree._handleSaxTargetStartNoNs
-  File "src/lxml/saxparser.pxi", line 466, in lxml.etree._callTargetSaxStart
-  File "src/lxml/parsertarget.pxi", line 94, in lxml.etree._PythonSaxParserTarget._handleSaxStart
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_lxml.py", line 292, in start
-    namespace, attr = self._getNsTag(attr)
-    ^^^^^^^^^^^^^^^
-ValueError: not enough values to unpack (expected 2, got 1)
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/santo/Projects/Personal/news-scraper/runner.py", line 210, in _process_url
-    article_data = await _article_scraper.scrape(url, client, config)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/santo/Projects/Personal/news-scraper/scrapers/article.py", line 76, in scrape
-    return self._parse(url, html, config or {})
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/santo/Projects/Personal/news-scraper/scrapers/article.py", line 82, in _parse
-    soup = BeautifulSoup(html, "html.parser")
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 335, in __init__
-    self._feed()
-    ~~~~~~~~~~^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 478, in _feed
-    self.builder.feed(self.markup)
-    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_htmlparser.py", line 381, in feed
-    parser.close()
-    ~~~~~~~~~~~~^^
-  File "/usr/lib64/python3.14/html/parser.py", line 173, in close
-    self.goahead(1)
-    ~~~~~~~~~~~~^^^
-  File "/usr/lib64/python3.14/html/parser.py", line 311, in goahead
-    self.handle_charref(rawdata[i+2:])
-    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_htmlparser.py", line 198, in handle_charref
-    real_name = int(name)
-ValueError: invalid literal for int() with base 10: '7FK\x14;��<�y��Z\x14��M\x1d�T�:��4RU�����(��Hn��$�{�\x0b\x0f���\\�� �B�\x14��^&��.��u�& k<��]�\x0b\x1eQ���ס\x11�=��,D�[V��ӌ�\x11Fȫ\x1f�������8���Xyl5�\x07��ޒ�N�\x03\x02\x0b��d*IYr�R�s��\r��\r�(�j\x10
-2026-06-26 00:38:10 | INFO     | runner | [Source] Bhorer Kagoj done | saved=0 dupes=0 errors=1 fetcher=html
-2026-06-26 00:38:13 | INFO     | runner | [Source] Starting: Dainik Amader Shomoy (LanguageEnum.bn)
-2026-06-26 00:38:16 | WARNING  | processor.location | [Location] BD save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:18 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dainik Amader Shomoy: Client error '404 Page not found: /feed' for url 'https://www.dainikamadershomoy.com/feed'
+2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Ittefaq: Client error '404 Not Found' for url 'https://www.ittefaq.com.bd/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:38:21 | INFO     | runner | [Source] Prothom Alo done | saved=4 dupes=0 errors=0 fetcher=rss
-2026-06-26 00:38:22 | INFO     | runner | [Source] Bangladesh Pratidin done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:38:24 | INFO     | runner | [Source] Starting: Bangla Tribune (LanguageEnum.bn)
-2026-06-26 00:38:24 | INFO     | runner | [Source] Kaler Kantho done | saved=4 dupes=0 errors=0 fetcher=sitemap
-2026-06-26 00:38:25 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangla Tribune: Client error '404 Not Found' for url 'https://www.banglatribune.com/feed'
+2026-06-27 17:14:43 | INFO     | fetcher.html | [HTML] Ittefaq → 4 URLs found
+2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Inqilab: Client error '404 Not Found' for url 'https://dailyinqilab.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:38:25 | INFO     | fetcher.html | [HTML] Bangla Tribune → 4 URLs found
-2026-06-26 00:38:25 | INFO     | runner | [Source] Starting: Risingbd (LanguageEnum.bn)
-2026-06-26 00:38:25 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Risingbd: Client error '404 Not Found' for url 'https://www.risingbd.com/rss.xml'
+2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Daily Star BD: Client error '404 Not Found' for url 'https://www.thedailystar.net/arcio/rss/'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:38:25 | INFO     | fetcher.html | [HTML] Risingbd → 4 URLs found
-2026-06-26 00:38:27 | INFO     | runner | [Source] Starting: Desh Rupantor (LanguageEnum.bn)
-2026-06-26 00:38:27 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Desh Rupantor: Client error '404 Not Found' for url 'https://www.deshrupantor.com/feed'
+2026-06-27 17:14:43 | INFO     | fetcher.html | [HTML] Jugantor → 2 URLs found
+2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Manab Zamin: Client error '404 Not Found' for url 'https://www.mzamin.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:38:28 | INFO     | fetcher.html | [HTML] Desh Rupantor → 4 URLs found
-2026-06-26 00:38:28 | INFO     | runner | [Source] Manab Zamin done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:38:31 | INFO     | runner | [Source] Starting: Financial Express BD (LanguageEnum.en)
-2026-06-26 00:38:31 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Financial Express BD: Client error '404 Not Found' for url 'https://thefinancialexpress.com.bd/feed'
+2026-06-27 17:14:44 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Kaler Kantho: Client error '404 Not Found' for url 'https://www.kalerkantho.com/rss.xml'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:38:32 | INFO     | fetcher.html | [HTML] Financial Express BD → 4 URLs found
-2026-06-26 00:38:32 | WARNING  | processor.location | [Location] BD save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:34 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:34 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:35 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:35 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:36 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:36 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:36 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:37 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:38:41 | INFO     | runner | [Source] Bangla Tribune done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:38:41 | INFO     | runner | [Source] Samakal done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:38:41 | INFO     | runner | [Source] Ittefaq done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:38:42 | INFO     | runner | [Source] Jugantor done | saved=2 dupes=0 errors=0 fetcher=html
-2026-06-26 00:38:42 | INFO     | runner | [Source] Desh Rupantor done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:38:42 | INFO     | runner | [Source] Starting: Business Standard BD (LanguageEnum.en)
-2026-06-26 00:38:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Business Standard BD: Client error '404 Not Found' for url 'https://www.tbsnews.net/feed'
+2026-06-27 17:14:44 | INFO     | fetcher.sitemap | [Sitemap] Kaler Kantho → 4 URLs from index
+2026-06-27 17:14:44 | INFO     | fetcher.html | [HTML] Naya Diganta → 4 URLs found
+2026-06-27 17:14:44 | INFO     | fetcher.html | [HTML] Inqilab → 0 URLs found
+2026-06-27 17:14:44 | WARNING  | runner | [Source] No URLs fetched from Inqilab
+2026-06-27 17:14:44 | INFO     | fetcher.html | [HTML] Manab Zamin → 4 URLs found
+2026-06-27 17:14:44 | INFO     | fetcher.sitemap | [Sitemap] Daily Star BD → 0 URLs from index
+2026-06-27 17:14:44 | INFO     | fetcher.html | [HTML] Daily Star BD → 4 URLs found
+2026-06-27 17:14:47 | INFO     | runner | [Source] Jugantor: all 2 URLs were duplicates
+2026-06-27 17:14:47 | INFO     | runner | [Source] Jugantor done | saved=0 dupes=2 errors=0 fetcher=html
+2026-06-27 17:14:48 | INFO     | runner | [Source] Starting: Bhorer Kagoj (bn)
+2026-06-27 17:14:49 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bhorer Kagoj: Client error '404 Not Found' for url 'https://www.bhorerkagoj.net/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:38:43 | INFO     | fetcher.html | [HTML] Business Standard BD → 4 URLs found
-2026-06-26 00:38:43 | INFO     | runner | [Source] Starting: New Age BD (LanguageEnum.en)
-2026-06-26 00:38:44 | INFO     | runner | [Source] Starting: Dhaka Tribune (LanguageEnum.en)
-2026-06-26 00:38:44 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dhaka Tribune: Client error '404 Not Found' for url 'https://www.dhakatribune.com/rss.xml'
+2026-06-27 17:14:50 | INFO     | runner | [Source] Ittefaq: all 4 URLs were duplicates
+2026-06-27 17:14:50 | INFO     | runner | [Source] Ittefaq done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:14:50 | INFO     | runner | [Source] Bangladesh Pratidin: all 4 URLs were duplicates
+2026-06-27 17:14:50 | INFO     | runner | [Source] Bangladesh Pratidin done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:14:50 | INFO     | fetcher.html | [HTML] Bhorer Kagoj → 1 URLs found
+2026-06-27 17:14:50 | INFO     | runner | [Source] Samakal: all 4 URLs were duplicates
+2026-06-27 17:14:50 | INFO     | runner | [Source] Samakal done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:14:50 | INFO     | runner | [Source] Kaler Kantho: all 4 URLs were duplicates
+2026-06-27 17:14:50 | INFO     | runner | [Source] Kaler Kantho done | saved=0 dupes=4 errors=0 fetcher=sitemap
+2026-06-27 17:14:51 | INFO     | runner | [Source] Naya Diganta: all 4 URLs were duplicates
+2026-06-27 17:14:51 | INFO     | runner | [Source] Naya Diganta done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:14:51 | INFO     | runner | [Source] Starting: Dainik Amader Shomoy (bn)
+2026-06-27 17:14:51 | INFO     | runner | [Source] Daily Star BD: all 4 URLs were duplicates
+2026-06-27 17:14:51 | INFO     | runner | [Source] Daily Star BD done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:14:51 | INFO     | runner | [Source] Manab Zamin: all 4 URLs were duplicates
+2026-06-27 17:14:51 | INFO     | runner | [Source] Manab Zamin done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:14:52 | INFO     | runner | [Source] Starting: Bangla Tribune (bn)
+2026-06-27 17:14:52 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dainik Amader Shomoy: Client error '404 Page not found: /feed' for url 'https://www.dainikamadershomoy.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:38:44 | INFO     | runner | [Source] Starting: UNB News (LanguageEnum.en)
-2026-06-26 00:38:44 | INFO     | fetcher.sitemap | [Sitemap] Dhaka Tribune → 4 URLs from index
-2026-06-26 00:38:44 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for New Age BD: Server error '500 Internal Server Error' for url 'https://www.newagebd.net/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500
-2026-06-26 00:38:44 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for UNB News: Client error '404 Not Found' for url 'https://unb.com.bd/feed'
+2026-06-27 17:14:52 | INFO     | runner | [Source] Starting: Risingbd (bn)
+2026-06-27 17:14:53 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangla Tribune: Client error '404 Not Found' for url 'https://www.banglatribune.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:38:45 | INFO     | fetcher.html | [HTML] UNB News → 4 URLs found
-2026-06-26 00:38:46 | INFO     | fetcher.html | [HTML] New Age BD → 4 URLs found
-2026-06-26 00:38:47 | INFO     | runner | [Source] Risingbd done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:38:51 | WARNING  | fetcher.base | [html] Timeout: https://www.dainikamadershomoy.com
-2026-06-26 00:38:51 | WARNING  | fetcher.html | [HTML] Could not fetch listing page for Dainik Amader Shomoy
-2026-06-26 00:38:51 | WARNING  | runner | [Source] No URLs fetched from Dainik Amader Shomoy
-2026-06-26 00:38:58 | INFO     | runner | [Source] Naya Diganta done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:39:00 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:03 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:20 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:21 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:21 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:22 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:22 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:22 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:22 | INFO     | runner | [Source] UNB News done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:39:23 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:23 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:24 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:24 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:24 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:25 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:25 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:25 | INFO     | runner | [Source] New Age BD done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:39:25 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:26 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:26 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:34 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:34 | INFO     | runner | [Source] Daily Star BD done | saved=4 dupes=0 errors=0 fetcher=sitemap
-2026-06-26 00:39:34 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:43 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:44 | INFO     | runner | [Source] Financial Express BD done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:39:46 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:46 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:56 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:39:56 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:40:06 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:40:06 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:40:19 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:40:19 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:40:20 | WARNING  | processor.location | [Location] Country save error: Multiple rows were found when exactly one was required
-2026-06-26 00:40:21 | INFO     | runner | [Source] Dhaka Tribune done | saved=4 dupes=0 errors=0 fetcher=sitemap
-2026-06-26 00:40:26 | INFO     | runner | [Source] Business Standard BD done | saved=4 dupes=0 errors=0 fetcher=html
-2026-06-26 00:40:27 | INFO     | runner | ━━━ Scraper run complete | run_id=ec2577d6-2b18-4bbb-90a4-0c3208dc7bf9 ━━━
-2026-06-26 00:40:27 | INFO     | main | [Main] Single pass complete.
-2026-06-26 00:41:26 | INFO     | processor.category | [Category] Loaded 12 parent categories
-2026-06-26 00:41:26 | INFO     | main | [Main] Running single scrape pass...
-2026-06-26 00:41:26 | INFO     | runner | ━━━ Scraper run started | run_id=eee8f28b-7569-44f4-901e-ee0405b3822a ━━━
-2026-06-26 00:41:32 | INFO     | runner | [Runner] 20 active sources to process
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Prothom Alo (LanguageEnum.bn)
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Daily Star BD (LanguageEnum.en)
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Kaler Kantho (LanguageEnum.bn)
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Jugantor (LanguageEnum.bn)
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Ittefaq (LanguageEnum.bn)
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Samakal (LanguageEnum.bn)
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Manab Zamin (LanguageEnum.bn)
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Inqilab (LanguageEnum.bn)
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Bangladesh Pratidin (LanguageEnum.bn)
-2026-06-26 00:41:32 | INFO     | runner | [Source] Starting: Naya Diganta (LanguageEnum.bn)
-2026-06-26 00:41:32 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Daily Star BD: Client error '404 Not Found' for url 'https://www.thedailystar.net/arcio/rss/'
+2026-06-27 17:14:53 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Risingbd: Client error '404 Not Found' for url 'https://www.risingbd.com/rss.xml'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:32 | INFO     | fetcher.rss | [RSS] Prothom Alo → 4 URLs found
-2026-06-26 00:41:32 | WARNING  | fetcher.rss | [RSS] Empty feed for Samakal
-2026-06-26 00:41:32 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Kaler Kantho: Client error '404 Not Found' for url 'https://www.kalerkantho.com/rss.xml'
+2026-06-27 17:14:53 | INFO     | fetcher.html | [HTML] Bangla Tribune → 4 URLs found
+2026-06-27 17:14:53 | INFO     | fetcher.html | [HTML] Risingbd → 4 URLs found
+2026-06-27 17:14:53 | INFO     | fetcher.html | [HTML] Dainik Amader Shomoy → 3 URLs found
+2026-06-27 17:14:53 | INFO     | runner | [Source] Starting: Desh Rupantor (bn)
+2026-06-27 17:14:54 | INFO     | runner | [Source] Starting: Financial Express BD (en)
+2026-06-27 17:14:56 | WARNING  | runner | [Article] No valid title, skipping: https://www.bhorerkagoj.com/apps/download/bkfamily.apk
+2026-06-27 17:14:56 | INFO     | runner | [Source] Bhorer Kagoj done | saved=0 dupes=0 errors=1 fetcher=html
+2026-06-27 17:14:56 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Desh Rupantor: Client error '404 Not Found' for url 'https://www.deshrupantor.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:32 | INFO     | fetcher.sitemap | [Sitemap] Kaler Kantho → 4 URLs from index
-2026-06-26 00:41:32 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Ittefaq: Client error '404 Not Found' for url 'https://www.ittefaq.com.bd/feed'
+2026-06-27 17:14:56 | INFO     | runner | [Source] Starting: Business Standard BD (en)
+2026-06-27 17:14:56 | INFO     | fetcher.html | [HTML] Desh Rupantor → 4 URLs found
+2026-06-27 17:14:56 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Financial Express BD: Client error '404 Not Found' for url 'https://thefinancialexpress.com.bd/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:32 | INFO     | fetcher.html | [HTML] Samakal → 4 URLs found
-2026-06-26 00:41:32 | INFO     | fetcher.html | [HTML] Ittefaq → 4 URLs found
-2026-06-26 00:41:32 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Jugantor: Client error '404 Not Found' for url 'https://www.jugantor.com/feed'
+2026-06-27 17:14:56 | INFO     | runner | [Source] Starting: New Age BD (en)
+2026-06-27 17:14:56 | INFO     | fetcher.html | [HTML] Financial Express BD → 4 URLs found
+2026-06-27 17:14:56 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Business Standard BD: Client error '404 Not Found' for url 'https://www.tbsnews.net/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:32 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangladesh Pratidin: Client error '404 Not Found' for url 'https://www.bd-pratidin.com/feed'
+2026-06-27 17:14:56 | INFO     | fetcher.html | [HTML] Business Standard BD → 4 URLs found
+2026-06-27 17:14:57 | INFO     | runner | [Source] Starting: Dhaka Tribune (en)
+2026-06-27 17:14:57 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dhaka Tribune: Client error '404 Not Found' for url 'https://www.dhakatribune.com/rss.xml'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:32 | INFO     | fetcher.html | [HTML] Jugantor → 2 URLs found
-2026-06-26 00:41:32 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Naya Diganta: Server error '500 Internal Server Error' for url 'https://www.dailynayadiganta.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500
-2026-06-26 00:41:32 | INFO     | fetcher.html | [HTML] Bangladesh Pratidin → 4 URLs found
-2026-06-26 00:41:33 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Manab Zamin: Client error '404 Not Found' for url 'https://www.mzamin.com/feed'
+2026-06-27 17:14:57 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for New Age BD: Client error '404 Not Found' for url 'https://www.newagebd.net/rss.xml'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:33 | INFO     | fetcher.sitemap | [Sitemap] Daily Star BD → 4 URLs from index
-2026-06-26 00:41:33 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Inqilab: Client error '404 Not Found' for url 'https://dailyinqilab.com/feed'
+2026-06-27 17:14:57 | INFO     | fetcher.sitemap | [Sitemap] Dhaka Tribune → 4 URLs from index
+2026-06-27 17:14:58 | INFO     | runner | [Source] Starting: UNB News (en)
+2026-06-27 17:14:58 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for UNB News: Client error '404 Not Found' for url 'https://unb.com.bd/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:33 | INFO     | fetcher.html | [HTML] Manab Zamin → 4 URLs found
-2026-06-26 00:41:33 | INFO     | fetcher.html | [HTML] Naya Diganta → 4 URLs found
-2026-06-26 00:41:34 | INFO     | fetcher.html | [HTML] Inqilab → 0 URLs found
-2026-06-26 00:41:34 | WARNING  | runner | [Source] No URLs fetched from Inqilab
-2026-06-26 00:41:36 | INFO     | runner | [Source] Jugantor: all 2 URLs were duplicates
-2026-06-26 00:41:36 | INFO     | runner | [Source] Jugantor done | saved=0 dupes=2 errors=0 fetcher=html
-2026-06-26 00:41:38 | INFO     | runner | [Source] Prothom Alo: all 4 URLs were duplicates
-2026-06-26 00:41:38 | INFO     | runner | [Source] Prothom Alo done | saved=0 dupes=4 errors=0 fetcher=rss
-2026-06-26 00:41:38 | INFO     | runner | [Source] Starting: Bhorer Kagoj (LanguageEnum.bn)
-2026-06-26 00:41:38 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bhorer Kagoj: Client error '404 Not Found' for url 'https://www.bhorerkagoj.net/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:39 | INFO     | runner | [Source] Samakal: all 4 URLs were duplicates
-2026-06-26 00:41:39 | INFO     | runner | [Source] Samakal done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:39 | INFO     | runner | [Source] Kaler Kantho: all 4 URLs were duplicates
-2026-06-26 00:41:39 | INFO     | runner | [Source] Kaler Kantho done | saved=0 dupes=4 errors=0 fetcher=sitemap
-2026-06-26 00:41:39 | INFO     | runner | [Source] Ittefaq: all 4 URLs were duplicates
-2026-06-26 00:41:39 | INFO     | runner | [Source] Ittefaq done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:39 | INFO     | fetcher.html | [HTML] Bhorer Kagoj → 1 URLs found
-2026-06-26 00:41:39 | INFO     | runner | [Source] Bangladesh Pratidin: all 4 URLs were duplicates
-2026-06-26 00:41:39 | INFO     | runner | [Source] Bangladesh Pratidin done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:40 | INFO     | runner | [Source] Starting: Dainik Amader Shomoy (LanguageEnum.bn)
-2026-06-26 00:41:40 | INFO     | runner | [Source] Naya Diganta: all 4 URLs were duplicates
-2026-06-26 00:41:40 | INFO     | runner | [Source] Naya Diganta done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:40 | INFO     | runner | [Source] Manab Zamin: all 4 URLs were duplicates
-2026-06-26 00:41:40 | INFO     | runner | [Source] Manab Zamin done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:41 | INFO     | runner | [Source] Daily Star BD: all 4 URLs were duplicates
-2026-06-26 00:41:41 | INFO     | runner | [Source] Daily Star BD done | saved=0 dupes=4 errors=0 fetcher=sitemap
-2026-06-26 00:41:41 | INFO     | runner | [Source] Starting: Bangla Tribune (LanguageEnum.bn)
-2026-06-26 00:41:41 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangla Tribune: Client error '404 Not Found' for url 'https://www.banglatribune.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:41 | INFO     | fetcher.html | [HTML] Bangla Tribune → 4 URLs found
-2026-06-26 00:41:42 | INFO     | runner | [Source] Starting: Risingbd (LanguageEnum.bn)
-2026-06-26 00:41:42 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Risingbd: Client error '404 Not Found' for url 'https://www.risingbd.com/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:42 | INFO     | fetcher.html | [HTML] Risingbd → 4 URLs found
-2026-06-26 00:41:42 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dainik Amader Shomoy: Client error '404 Page not found: /feed' for url 'https://www.dainikamadershomoy.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:43 | INFO     | runner | [Source] Starting: Desh Rupantor (LanguageEnum.bn)
-2026-06-26 00:41:43 | INFO     | runner | [Source] Starting: Financial Express BD (LanguageEnum.en)
-2026-06-26 00:41:43 | INFO     | runner | [Source] Starting: Business Standard BD (LanguageEnum.en)
-2026-06-26 00:41:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Desh Rupantor: Client error '404 Not Found' for url 'https://www.deshrupantor.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Business Standard BD: Client error '404 Not Found' for url 'https://www.tbsnews.net/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:43 | INFO     | fetcher.html | [HTML] Business Standard BD → 4 URLs found
-2026-06-26 00:41:43 | INFO     | fetcher.html | [HTML] Desh Rupantor → 4 URLs found
-2026-06-26 00:41:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Financial Express BD: Client error '404 Not Found' for url 'https://thefinancialexpress.com.bd/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:43 | INFO     | runner | [Source] Starting: New Age BD (LanguageEnum.en)
-2026-06-26 00:41:43 | INFO     | fetcher.html | [HTML] Financial Express BD → 4 URLs found
-2026-06-26 00:41:44 | ERROR    | runner | [Article] Error processing https://www.bhorerkagoj.com/apps/download/bkfamily.apk: invalid literal for int() with base 10: '7FK\x14;��<�y��Z\x14��M\x1d�T�:��4RU�����(��Hn��$�{�\x0b\x0f���\\�� �B�\x14��^&��.��u�& k<��]�\x0b\x1eQ���ס\x11�=��,D�[V��ӌ�\x11Fȫ\x1f�������8���Xyl5�\x07��ޒ�N�\x03\x02\x0b��d*IYr�R�s��\r��\r�(�j\x10
-Traceback (most recent call last):
-  File "/home/santo/Projects/Personal/news-scraper/scrapers/article.py", line 80, in _parse
-    soup = BeautifulSoup(html, "lxml")
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 335, in __init__
-    self._feed()
-    ~~~~~~~~~~^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 478, in _feed
-    self.builder.feed(self.markup)
-    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_lxml.py", line 380, in feed
-    self.parser.feed(markup)
-    ~~~~~~~~~~~~~~~~^^^^^^^^
-  File "src/lxml/parser.pxi", line 1361, in lxml.etree._FeedParser.feed
-  File "src/lxml/parser.pxi", line 1481, in lxml.etree._FeedParser.feed
-  File "src/lxml/parsertarget.pxi", line 161, in lxml.etree._TargetParserContext._handleParseResult
-  File "src/lxml/parsertarget.pxi", line 156, in lxml.etree._TargetParserContext._handleParseResult
-  File "src/lxml/etree.pyx", line 452, in lxml.etree._ExceptionContext._raise_if_stored
-  File "src/lxml/saxparser.pxi", line 451, in lxml.etree._handleSaxTargetStartNoNs
-  File "src/lxml/saxparser.pxi", line 466, in lxml.etree._callTargetSaxStart
-  File "src/lxml/parsertarget.pxi", line 94, in lxml.etree._PythonSaxParserTarget._handleSaxStart
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_lxml.py", line 292, in start
-    namespace, attr = self._getNsTag(attr)
-    ^^^^^^^^^^^^^^^
-ValueError: not enough values to unpack (expected 2, got 1)
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/santo/Projects/Personal/news-scraper/runner.py", line 210, in _process_url
-    article_data = await _article_scraper.scrape(url, client, config)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/santo/Projects/Personal/news-scraper/scrapers/article.py", line 76, in scrape
-    return self._parse(url, html, config or {})
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/santo/Projects/Personal/news-scraper/scrapers/article.py", line 82, in _parse
-    soup = BeautifulSoup(html, "html.parser")
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 335, in __init__
-    self._feed()
-    ~~~~~~~~~~^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 478, in _feed
-    self.builder.feed(self.markup)
-    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_htmlparser.py", line 381, in feed
-    parser.close()
-    ~~~~~~~~~~~~^^
-  File "/usr/lib64/python3.14/html/parser.py", line 173, in close
-    self.goahead(1)
-    ~~~~~~~~~~~~^^^
-  File "/usr/lib64/python3.14/html/parser.py", line 311, in goahead
-    self.handle_charref(rawdata[i+2:])
-    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_htmlparser.py", line 198, in handle_charref
-    real_name = int(name)
-ValueError: invalid literal for int() with base 10: '7FK\x14;��<�y��Z\x14��M\x1d�T�:��4RU�����(��Hn��$�{�\x0b\x0f���\\�� �B�\x14��^&��.��u�& k<��]�\x0b\x1eQ���ס\x11�=��,D�[V��ӌ�\x11Fȫ\x1f�������8���Xyl5�\x07��ޒ�N�\x03\x02\x0b��d*IYr�R�s��\r��\r�(�j\x10
-2026-06-26 00:41:44 | INFO     | runner | [Source] Bhorer Kagoj done | saved=0 dupes=0 errors=1 fetcher=html
-2026-06-26 00:41:44 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for New Age BD: Client error '404 Not Found' for url 'https://www.newagebd.net/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:44 | INFO     | fetcher.html | [HTML] Dainik Amader Shomoy → 3 URLs found
-2026-06-26 00:41:45 | INFO     | runner | [Source] Starting: Dhaka Tribune (LanguageEnum.en)
-2026-06-26 00:41:45 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dhaka Tribune: Client error '404 Not Found' for url 'https://www.dhakatribune.com/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:45 | INFO     | fetcher.sitemap | [Sitemap] Dhaka Tribune → 4 URLs from index
-2026-06-26 00:41:45 | INFO     | runner | [Source] Starting: UNB News (LanguageEnum.en)
-2026-06-26 00:41:45 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for UNB News: Client error '404 Not Found' for url 'https://unb.com.bd/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:41:46 | INFO     | fetcher.html | [HTML] UNB News → 4 URLs found
-2026-06-26 00:41:47 | INFO     | fetcher.html | [HTML] New Age BD → 4 URLs found
-2026-06-26 00:41:48 | INFO     | runner | [Source] Bangla Tribune: all 4 URLs were duplicates
-2026-06-26 00:41:48 | INFO     | runner | [Source] Bangla Tribune done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:48 | INFO     | runner | [Source] Risingbd: all 4 URLs were duplicates
-2026-06-26 00:41:48 | INFO     | runner | [Source] Risingbd done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:49 | INFO     | runner | [Source] Business Standard BD: all 4 URLs were duplicates
-2026-06-26 00:41:49 | INFO     | runner | [Source] Business Standard BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:49 | INFO     | runner | [Source] Desh Rupantor: all 4 URLs were duplicates
-2026-06-26 00:41:49 | INFO     | runner | [Source] Desh Rupantor done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:50 | INFO     | runner | [Source] Financial Express BD: all 4 URLs were duplicates
-2026-06-26 00:41:50 | INFO     | runner | [Source] Financial Express BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:50 | INFO     | runner | [Source] Dhaka Tribune: all 4 URLs were duplicates
-2026-06-26 00:41:50 | INFO     | runner | [Source] Dhaka Tribune done | saved=0 dupes=4 errors=0 fetcher=sitemap
-2026-06-26 00:41:52 | INFO     | runner | [Source] UNB News: all 4 URLs were duplicates
-2026-06-26 00:41:52 | INFO     | runner | [Source] UNB News done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:41:53 | INFO     | runner | [Source] New Age BD: all 4 URLs were duplicates
-2026-06-26 00:41:53 | INFO     | runner | [Source] New Age BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:42:02 | INFO     | runner | [Source] Dainik Amader Shomoy done | saved=3 dupes=0 errors=0 fetcher=html
-2026-06-26 00:42:04 | INFO     | runner | ━━━ Scraper run complete | run_id=eee8f28b-7569-44f4-901e-ee0405b3822a ━━━
-2026-06-26 00:42:04 | INFO     | main | [Main] Single pass complete.
-2026-06-26 00:43:13 | INFO     | processor.category | [Category] Loaded 12 parent categories
-2026-06-26 00:43:13 | INFO     | main | [Main] Running single scrape pass...
-2026-06-26 00:43:13 | INFO     | runner | ━━━ Scraper run started | run_id=326237f9-ce2f-40e0-981e-c506fb076a98 ━━━
-2026-06-26 00:43:19 | INFO     | runner | [Runner] 20 active sources to process
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Prothom Alo (LanguageEnum.bn)
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Daily Star BD (LanguageEnum.en)
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Kaler Kantho (LanguageEnum.bn)
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Jugantor (LanguageEnum.bn)
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Ittefaq (LanguageEnum.bn)
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Samakal (LanguageEnum.bn)
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Manab Zamin (LanguageEnum.bn)
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Inqilab (LanguageEnum.bn)
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Bangladesh Pratidin (LanguageEnum.bn)
-2026-06-26 00:43:19 | INFO     | runner | [Source] Starting: Naya Diganta (LanguageEnum.bn)
-2026-06-26 00:43:19 | INFO     | fetcher.rss | [RSS] Prothom Alo → 4 URLs found
-2026-06-26 00:43:19 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Ittefaq: Client error '404 Not Found' for url 'https://www.ittefaq.com.bd/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:19 | WARNING  | fetcher.rss | [RSS] Empty feed for Samakal
-2026-06-26 00:43:19 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangladesh Pratidin: Client error '404 Not Found' for url 'https://www.bd-pratidin.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:19 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Kaler Kantho: Client error '404 Not Found' for url 'https://www.kalerkantho.com/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:19 | INFO     | fetcher.sitemap | [Sitemap] Kaler Kantho → 4 URLs from index
-2026-06-26 00:43:19 | INFO     | fetcher.html | [HTML] Ittefaq → 4 URLs found
-2026-06-26 00:43:19 | INFO     | fetcher.html | [HTML] Samakal → 4 URLs found
-2026-06-26 00:43:19 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Jugantor: Client error '404 Not Found' for url 'https://www.jugantor.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:19 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Daily Star BD: Client error '404 Not Found' for url 'https://www.thedailystar.net/arcio/rss/'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:19 | INFO     | fetcher.html | [HTML] Bangladesh Pratidin → 4 URLs found
-2026-06-26 00:43:19 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Inqilab: Client error '404 Not Found' for url 'https://dailyinqilab.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:19 | INFO     | fetcher.html | [HTML] Jugantor → 2 URLs found
-2026-06-26 00:43:20 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Manab Zamin: Client error '404 Not Found' for url 'https://www.mzamin.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:20 | INFO     | fetcher.sitemap | [Sitemap] Daily Star BD → 4 URLs from index
-2026-06-26 00:43:20 | INFO     | fetcher.html | [HTML] Inqilab → 0 URLs found
-2026-06-26 00:43:20 | WARNING  | runner | [Source] No URLs fetched from Inqilab
-2026-06-26 00:43:20 | INFO     | fetcher.html | [HTML] Manab Zamin → 4 URLs found
-2026-06-26 00:43:21 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Naya Diganta: Server error '500 Internal Server Error' for url 'https://www.dailynayadiganta.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500
-2026-06-26 00:43:22 | INFO     | fetcher.html | [HTML] Naya Diganta → 4 URLs found
-2026-06-26 00:43:24 | INFO     | runner | [Source] Jugantor: all 2 URLs were duplicates
-2026-06-26 00:43:24 | INFO     | runner | [Source] Jugantor done | saved=0 dupes=2 errors=0 fetcher=html
-2026-06-26 00:43:25 | INFO     | runner | [Source] Starting: Bhorer Kagoj (LanguageEnum.bn)
-2026-06-26 00:43:25 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bhorer Kagoj: Client error '404 Not Found' for url 'https://www.bhorerkagoj.net/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:25 | INFO     | runner | [Source] Prothom Alo: all 4 URLs were duplicates
-2026-06-26 00:43:25 | INFO     | runner | [Source] Prothom Alo done | saved=0 dupes=4 errors=0 fetcher=rss
-2026-06-26 00:43:26 | INFO     | fetcher.html | [HTML] Bhorer Kagoj → 1 URLs found
-2026-06-26 00:43:26 | INFO     | runner | [Source] Samakal: all 4 URLs were duplicates
-2026-06-26 00:43:26 | INFO     | runner | [Source] Samakal done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:26 | INFO     | runner | [Source] Kaler Kantho: all 4 URLs were duplicates
-2026-06-26 00:43:26 | INFO     | runner | [Source] Kaler Kantho done | saved=0 dupes=4 errors=0 fetcher=sitemap
-2026-06-26 00:43:27 | INFO     | runner | [Source] Bangladesh Pratidin: all 4 URLs were duplicates
-2026-06-26 00:43:27 | INFO     | runner | [Source] Bangladesh Pratidin done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:27 | INFO     | runner | [Source] Ittefaq: all 4 URLs were duplicates
-2026-06-26 00:43:27 | INFO     | runner | [Source] Ittefaq done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:27 | INFO     | runner | [Source] Daily Star BD: all 4 URLs were duplicates
-2026-06-26 00:43:27 | INFO     | runner | [Source] Daily Star BD done | saved=0 dupes=4 errors=0 fetcher=sitemap
-2026-06-26 00:43:27 | INFO     | runner | [Source] Manab Zamin: all 4 URLs were duplicates
-2026-06-26 00:43:27 | INFO     | runner | [Source] Manab Zamin done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:27 | INFO     | runner | [Source] Starting: Dainik Amader Shomoy (LanguageEnum.bn)
-2026-06-26 00:43:29 | INFO     | runner | [Source] Starting: Bangla Tribune (LanguageEnum.bn)
-2026-06-26 00:43:29 | INFO     | runner | [Source] Starting: Risingbd (LanguageEnum.bn)
-2026-06-26 00:43:29 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Risingbd: Client error '404 Not Found' for url 'https://www.risingbd.com/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:29 | INFO     | fetcher.html | [HTML] Risingbd → 4 URLs found
-2026-06-26 00:43:29 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangla Tribune: Client error '404 Not Found' for url 'https://www.banglatribune.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:29 | INFO     | fetcher.html | [HTML] Bangla Tribune → 4 URLs found
-2026-06-26 00:43:30 | ERROR    | runner | [Article] Error processing https://www.bhorerkagoj.com/apps/download/bkfamily.apk: invalid literal for int() with base 10: '7FK\x14;��<�y��Z\x14��M\x1d�T�:��4RU�����(��Hn��$�{�\x0b\x0f���\\�� �B�\x14��^&��.��u�& k<��]�\x0b\x1eQ���ס\x11�=��,D�[V��ӌ�\x11Fȫ\x1f�������8���Xyl5�\x07��ޒ�N�\x03\x02\x0b��d*IYr�R�s��\r��\r�(�j\x10
-Traceback (most recent call last):
-  File "/home/santo/Projects/Personal/news-scraper/scrapers/article.py", line 80, in _parse
-    soup = BeautifulSoup(html, "lxml")
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 335, in __init__
-    self._feed()
-    ~~~~~~~~~~^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 478, in _feed
-    self.builder.feed(self.markup)
-    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_lxml.py", line 380, in feed
-    self.parser.feed(markup)
-    ~~~~~~~~~~~~~~~~^^^^^^^^
-  File "src/lxml/parser.pxi", line 1361, in lxml.etree._FeedParser.feed
-  File "src/lxml/parser.pxi", line 1481, in lxml.etree._FeedParser.feed
-  File "src/lxml/parsertarget.pxi", line 161, in lxml.etree._TargetParserContext._handleParseResult
-  File "src/lxml/parsertarget.pxi", line 156, in lxml.etree._TargetParserContext._handleParseResult
-  File "src/lxml/etree.pyx", line 452, in lxml.etree._ExceptionContext._raise_if_stored
-  File "src/lxml/saxparser.pxi", line 451, in lxml.etree._handleSaxTargetStartNoNs
-  File "src/lxml/saxparser.pxi", line 466, in lxml.etree._callTargetSaxStart
-  File "src/lxml/parsertarget.pxi", line 94, in lxml.etree._PythonSaxParserTarget._handleSaxStart
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_lxml.py", line 292, in start
-    namespace, attr = self._getNsTag(attr)
-    ^^^^^^^^^^^^^^^
-ValueError: not enough values to unpack (expected 2, got 1)
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/santo/Projects/Personal/news-scraper/runner.py", line 210, in _process_url
-    article_data = await _article_scraper.scrape(url, client, config)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/santo/Projects/Personal/news-scraper/scrapers/article.py", line 76, in scrape
-    return self._parse(url, html, config or {})
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/santo/Projects/Personal/news-scraper/scrapers/article.py", line 82, in _parse
-    soup = BeautifulSoup(html, "html.parser")
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 335, in __init__
-    self._feed()
-    ~~~~~~~~~~^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/__init__.py", line 478, in _feed
-    self.builder.feed(self.markup)
-    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_htmlparser.py", line 381, in feed
-    parser.close()
-    ~~~~~~~~~~~~^^
-  File "/usr/lib64/python3.14/html/parser.py", line 173, in close
-    self.goahead(1)
-    ~~~~~~~~~~~~^^^
-  File "/usr/lib64/python3.14/html/parser.py", line 311, in goahead
-    self.handle_charref(rawdata[i+2:])
-    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "/home/santo/Projects/.venv/lib64/python3.14/site-packages/bs4/builder/_htmlparser.py", line 198, in handle_charref
-    real_name = int(name)
-ValueError: invalid literal for int() with base 10: '7FK\x14;��<�y��Z\x14��M\x1d�T�:��4RU�����(��Hn��$�{�\x0b\x0f���\\�� �B�\x14��^&��.��u�& k<��]�\x0b\x1eQ���ס\x11�=��,D�[V��ӌ�\x11Fȫ\x1f�������8���Xyl5�\x07��ޒ�N�\x03\x02\x0b��d*IYr�R�s��\r��\r�(�j\x10
-2026-06-26 00:43:30 | INFO     | runner | [Source] Bhorer Kagoj done | saved=0 dupes=0 errors=1 fetcher=html
-2026-06-26 00:43:30 | INFO     | runner | [Source] Naya Diganta: all 4 URLs were duplicates
-2026-06-26 00:43:30 | INFO     | runner | [Source] Naya Diganta done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:31 | INFO     | runner | [Source] Starting: Desh Rupantor (LanguageEnum.bn)
-2026-06-26 00:43:31 | INFO     | runner | [Source] Starting: Financial Express BD (LanguageEnum.en)
-2026-06-26 00:43:31 | INFO     | runner | [Source] Starting: Business Standard BD (LanguageEnum.en)
-2026-06-26 00:43:31 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Desh Rupantor: Client error '404 Not Found' for url 'https://www.deshrupantor.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:31 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Business Standard BD: Client error '404 Not Found' for url 'https://www.tbsnews.net/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:31 | INFO     | fetcher.html | [HTML] Business Standard BD → 4 URLs found
-2026-06-26 00:43:31 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Financial Express BD: Client error '404 Not Found' for url 'https://thefinancialexpress.com.bd/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:31 | INFO     | fetcher.html | [HTML] Desh Rupantor → 4 URLs found
-2026-06-26 00:43:31 | INFO     | fetcher.html | [HTML] Financial Express BD → 4 URLs found
-2026-06-26 00:43:31 | INFO     | runner | [Source] Starting: New Age BD (LanguageEnum.en)
-2026-06-26 00:43:31 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dainik Amader Shomoy: Client error '404 Page not found: /feed' for url 'https://www.dainikamadershomoy.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:31 | INFO     | runner | [Source] Starting: Dhaka Tribune (LanguageEnum.en)
-2026-06-26 00:43:31 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dhaka Tribune: Client error '404 Not Found' for url 'https://www.dhakatribune.com/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:31 | INFO     | fetcher.sitemap | [Sitemap] Dhaka Tribune → 4 URLs from index
-2026-06-26 00:43:32 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for New Age BD: Client error '404 Not Found' for url 'https://www.newagebd.net/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:32 | INFO     | runner | [Source] Starting: UNB News (LanguageEnum.en)
-2026-06-26 00:43:34 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for UNB News: Client error '404 Not Found' for url 'https://unb.com.bd/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-26 00:43:34 | INFO     | fetcher.html | [HTML] UNB News → 4 URLs found
-2026-06-26 00:43:34 | INFO     | fetcher.html | [HTML] New Age BD → 4 URLs found
-2026-06-26 00:43:36 | INFO     | runner | [Source] Risingbd: all 4 URLs were duplicates
-2026-06-26 00:43:36 | INFO     | runner | [Source] Risingbd done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:36 | INFO     | runner | [Source] Bangla Tribune: all 4 URLs were duplicates
-2026-06-26 00:43:36 | INFO     | runner | [Source] Bangla Tribune done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:37 | INFO     | runner | [Source] Business Standard BD: all 4 URLs were duplicates
-2026-06-26 00:43:37 | INFO     | runner | [Source] Business Standard BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:37 | INFO     | runner | [Source] Desh Rupantor: all 4 URLs were duplicates
-2026-06-26 00:43:37 | INFO     | runner | [Source] Desh Rupantor done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:37 | INFO     | runner | [Source] Financial Express BD: all 4 URLs were duplicates
-2026-06-26 00:43:37 | INFO     | runner | [Source] Financial Express BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:37 | INFO     | runner | [Source] Dhaka Tribune: all 4 URLs were duplicates
-2026-06-26 00:43:37 | INFO     | runner | [Source] Dhaka Tribune done | saved=0 dupes=4 errors=0 fetcher=sitemap
-2026-06-26 00:43:38 | INFO     | fetcher.html | [HTML] Dainik Amader Shomoy → 3 URLs found
-2026-06-26 00:43:40 | INFO     | runner | [Source] UNB News: all 4 URLs were duplicates
-2026-06-26 00:43:40 | INFO     | runner | [Source] UNB News done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:40 | INFO     | runner | [Source] New Age BD: all 4 URLs were duplicates
-2026-06-26 00:43:40 | INFO     | runner | [Source] New Age BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-26 00:43:42 | INFO     | runner | [Source] Dainik Amader Shomoy: all 3 URLs were duplicates
-2026-06-26 00:43:42 | INFO     | runner | [Source] Dainik Amader Shomoy done | saved=0 dupes=3 errors=0 fetcher=html
-2026-06-26 00:43:44 | INFO     | runner | ━━━ Scraper run complete | run_id=326237f9-ce2f-40e0-981e-c506fb076a98 ━━━
-2026-06-26 00:43:44 | INFO     | main | [Main] Single pass complete.
+2026-06-27 17:14:58 | INFO     | fetcher.html | [HTML] UNB News → 4 URLs found
+2026-06-27 17:14:59 | INFO     | fetcher.html | [HTML] New Age BD → 4 URLs found
+2026-06-27 17:15:00 | INFO     | runner | [Source] Dainik Amader Shomoy: all 3 URLs were duplicates
+2026-06-27 17:15:00 | INFO     | runner | [Source] Dainik Amader Shomoy done | saved=0 dupes=3 errors=0 fetcher=html
+2026-06-27 17:15:00 | INFO     | runner | [Source] Risingbd: all 4 URLs were duplicates
+2026-06-27 17:15:00 | INFO     | runner | [Source] Risingbd done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:15:00 | INFO     | runner | [Source] Bangla Tribune: all 4 URLs were duplicates
+2026-06-27 17:15:00 | INFO     | runner | [Source] Bangla Tribune done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:15:02 | INFO     | runner | [Source] Desh Rupantor: all 4 URLs were duplicates
+2026-06-27 17:15:02 | INFO     | runner | [Source] Desh Rupantor done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:15:02 | INFO     | runner | [Source] Financial Express BD: all 4 URLs were duplicates
+2026-06-27 17:15:02 | INFO     | runner | [Source] Financial Express BD done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:15:02 | INFO     | runner | [Source] Business Standard BD: all 4 URLs were duplicates
+2026-06-27 17:15:02 | INFO     | runner | [Source] Business Standard BD done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:15:03 | INFO     | runner | [Source] UNB News: all 4 URLs were duplicates
+2026-06-27 17:15:03 | INFO     | runner | [Source] UNB News done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:15:04 | INFO     | runner | [Source] New Age BD: all 4 URLs were duplicates
+2026-06-27 17:15:04 | INFO     | runner | [Source] New Age BD done | saved=0 dupes=4 errors=0 fetcher=html
+2026-06-27 17:15:14 | INFO     | runner | [Source] Prothom Alo done | saved=4 dupes=0 errors=0 fetcher=rss
+2026-06-27 17:15:21 | INFO     | runner | [Source] Dhaka Tribune done | saved=2 dupes=2 errors=0 fetcher=sitemap
+2026-06-27 17:15:23 | INFO     | runner | ━━━ Scraper run complete | run_id=725b1641-10ec-4437-9c6d-c539dd2a7be6 ━━━
+2026-06-27 17:15:23 | INFO     | main | [Main] Single pass complete.

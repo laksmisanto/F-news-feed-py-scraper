@@ -15,7 +15,7 @@ from db.models import (
     ArticleCategory, ArticleTag, ArticleLocation, FetchRunLog,
     LanguageEnum, RunStatusEnum, FetcherUsedEnum
 )
-from utils.helpers import slugify
+from utils.helpers import slugify, generate_slug
 
 
 # ---------------------------------------------------------------------------
@@ -150,10 +150,16 @@ async def save_article(
     Insert article and all M2M relations in a single transaction block.
     Caller is responsible for committing.
     """
+    # Strip timezone from published_at — DB column is TIMESTAMP WITHOUT TIME ZONE
+    from datetime import timezone as _tz
+    if published_at is not None and published_at.tzinfo is not None:
+        published_at = published_at.astimezone(_tz.utc).replace(tzinfo=None)
+
     article = Article(
         id=uuid.uuid4(),
         source_id=source_id,
         url=url,
+        slug=generate_slug(title),
         title=title,
         short_description=short_description,
         body=body,

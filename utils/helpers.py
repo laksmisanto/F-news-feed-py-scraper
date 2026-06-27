@@ -3,6 +3,7 @@ General-purpose helper utilities.
 """
 
 import re
+import uuid as _uuid
 import unicodedata
 from datetime import datetime, timezone
 from typing import Optional
@@ -30,6 +31,13 @@ def slugify(text: str) -> str:
     text = re.sub(r"-+", "-", text)
     text = text.strip("-")
     return text or "unnamed"
+
+
+def generate_slug(title: str) -> str:
+    """Unique URL slug with 6-char random suffix to prevent collisions."""
+    base = slugify(title)[:150]
+    suffix = _uuid.uuid4().hex[:6]
+    return f"{base}-{suffix}"
 
 
 # ---------------------------------------------------------------------------

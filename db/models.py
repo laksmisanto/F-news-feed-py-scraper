@@ -158,6 +158,7 @@ class Article(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     source_id = Column(Integer, ForeignKey("sources.id", ondelete="SET NULL"), nullable=True)
     url = Column(String(2048), nullable=False, unique=True)
+    slug = Column(String(500), nullable=True, unique=True)
     title = Column(Text, nullable=False)
     short_description = Column(Text, nullable=True)
     body = Column(Text, nullable=True)
