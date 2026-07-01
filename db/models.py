@@ -1,11 +1,14 @@
 """
 SQLAlchemy ORM models for news scraper.
-All tables follow the agreed schema from architecture review.
 
-Recent additions:
+Recent additions (this delivery):
+- Source.requires_browser  → when True, use Playwright for discovery AND extraction
+- FetcherUsedEnum.headless → enum value for the Playwright-backed fetcher
+
+Earlier additions:
 - Source.crawl_enabled    → BOOL toggle to enable domain crawler per source
 - Source.crawl_config     → JSON crawler tuning (seed paths, depth, patterns)
-- FetcherUsedEnum.crawler → enum value for the new crawler fetcher
+- FetcherUsedEnum.crawler → enum value for the crawler fetcher
 """
 
 import uuid
@@ -36,7 +39,8 @@ class FetcherUsedEnum(str, enum.Enum):
     rss = "rss"
     sitemap = "sitemap"
     html = "html"
-    crawler = "crawler"   # NEW: domain crawler
+    crawler = "crawler"
+    headless = "headless"   # NEW: Playwright-backed discovery + render
 
 
 class RunStatusEnum(str, enum.Enum):
@@ -65,25 +69,20 @@ class Source(Base):
     base_url = Column(String(500), nullable=False)
     rss_url = Column(String(500), nullable=True)
     sitemap_url = Column(String(500), nullable=True)
-    # JSON: { article_list, title, body, image, date } CSS selectors
     html_scrape_config = Column(JSON, nullable=True)
     is_active = Column(Boolean, default=True, nullable=False)
-    # Lower number = higher priority
     priority = Column(Integer, default=10, nullable=False)
 
-    # ─── NEW: domain crawler toggle + config ──────────────────────────────
+    # ─── Crawler (httpx BFS) ──────────────────────────────────────────────
     crawl_enabled = Column(Boolean, default=False, nullable=False)
-    # crawl_config JSON shape (all keys optional, sensible defaults applied):
-    # {
-    #   "seed_paths":           ["/", "/sports", "/business"],
-    #   "max_depth":            2,
-    #   "max_pages_per_run":    100,
-    #   "rate_limit_seconds":   1.0,
-    #   "article_url_patterns": ["/article/", "/\\d{4}/\\d{2}/"],
-    #   "exclude_patterns":     ["/tag/", "/author/", "/page/"],
-    #   "respect_robots":       true
-    # }
     crawl_config = Column(JSON, nullable=True)
+
+    # ─── NEW: Playwright (browser-rendered) ───────────────────────────────
+    # When True: HeadlessFetcher is used for URL discovery, AND article
+    #   pages are rendered with Playwright before extraction.
+    # When False but crawl_config.auto_escalate=True: httpx is used first,
+    #   Playwright is invoked only when extraction produces thin results.
+    requires_browser = Column(Boolean, default=False, nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
@@ -93,7 +92,7 @@ class Source(Base):
 
 
 # ---------------------------------------------------------------------------
-# CATEGORIES  (self-referencing parent → child)
+# CATEGORIES (self-referencing parent → child)
 # ---------------------------------------------------------------------------
 
 class Category(Base):
@@ -111,7 +110,7 @@ class Category(Base):
 
 
 # ---------------------------------------------------------------------------
-# TAGS  (open / dynamic)
+# TAGS
 # ---------------------------------------------------------------------------
 
 class Tag(Base):
@@ -126,7 +125,7 @@ class Tag(Base):
 
 
 # ---------------------------------------------------------------------------
-# LOCATIONS  (BD hierarchy + international country)
+# LOCATIONS (BD hierarchy + international country)
 # ---------------------------------------------------------------------------
 
 class Location(Base):
@@ -175,7 +174,7 @@ class Article(Base):
 
 
 # ---------------------------------------------------------------------------
-# M2M: ARTICLE ↔ CATEGORY
+# M2M JUNCTION TABLES
 # ---------------------------------------------------------------------------
 
 class ArticleCategory(Base):
@@ -188,10 +187,6 @@ class ArticleCategory(Base):
     category = relationship("Category", back_populates="articles")
 
 
-# ---------------------------------------------------------------------------
-# M2M: ARTICLE ↔ TAG
-# ---------------------------------------------------------------------------
-
 class ArticleTag(Base):
     __tablename__ = "scraped_article_tags"
 
@@ -201,10 +196,6 @@ class ArticleTag(Base):
     article = relationship("Article", back_populates="tags")
     tag = relationship("Tag", back_populates="articles")
 
-
-# ---------------------------------------------------------------------------
-# M2M: ARTICLE ↔ LOCATION
-# ---------------------------------------------------------------------------
 
 class ArticleLocation(Base):
     __tablename__ = "scraped_article_locations"

@@ -128,7 +128,8 @@ class TagProcessor:
         for name in tag_names:
             try:
                 tag = await get_or_create_tag(session, name)
-                tag_ids.append(tag.id)
+                if tag is not None:
+                    tag_ids.append(tag.id)
             except Exception as e:
                 logger.warning(f"[Tag] DB error for '{name}': {e}")
 

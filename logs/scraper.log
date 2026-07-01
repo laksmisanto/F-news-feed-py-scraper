@@ -1,120 +1,229 @@
-2026-06-27 17:14:36 | INFO     | main | [Main] Running single scrape pass...
-2026-06-27 17:14:36 | INFO     | runner | ━━━ Scraper run started | run_id=725b1641-10ec-4437-9c6d-c539dd2a7be6 ━━━
-2026-06-27 17:14:43 | INFO     | runner | [Runner] 20 active sources to process
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Prothom Alo (bn)
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Daily Star BD (en)
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Kaler Kantho (bn)
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Jugantor (bn)
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Ittefaq (bn)
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Samakal (bn)
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Manab Zamin (bn)
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Inqilab (bn)
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Bangladesh Pratidin (bn)
-2026-06-27 17:14:43 | INFO     | runner | [Source] Starting: Naya Diganta (bn)
-2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangladesh Pratidin: Client error '404 Not Found' for url 'https://www.bd-pratidin.com/feed'
+2026-07-01 23:55:07 | INFO     | seed | [Seed] Tables ensured.
+2026-07-01 23:55:12 | INFO     | seed | [Seed] Source already current: Prothom Alo
+2026-07-01 23:55:12 | INFO     | seed | [Seed] Source already current: Kaler Kantho
+2026-07-01 23:55:12 | INFO     | seed | [Seed] Source already current: Jugantor
+2026-07-01 23:55:13 | INFO     | seed | [Seed] Source already current: Samakal
+2026-07-01 23:55:13 | INFO     | seed | [Seed] Source already current: Ittefaq
+2026-07-01 23:55:14 | INFO     | seed | [Seed] Source already current: Bangladesh Pratidin
+2026-07-01 23:55:14 | INFO     | seed | [Seed] Source already current: bdnews24
+2026-07-01 23:55:14 | INFO     | seed | [Seed] Source already current: BanglaNews24
+2026-07-01 23:55:15 | INFO     | seed | [Seed] Source already current: JagoNews24
+2026-07-01 23:55:16 | INFO     | seed | [Seed] Source already current: Dhaka Post
+2026-07-01 23:55:16 | INFO     | seed | [Seed] Source already current: BBC Bangla
+2026-07-01 23:55:17 | INFO     | seed | [Seed] Source already current: DW Bangla
+2026-07-01 23:55:17 | INFO     | seed | [Seed] Source already current: VOA Bangla
+2026-07-01 23:55:17 | INFO     | seed | [Seed] Source already current: The Daily Star
+2026-07-01 23:55:17 | INFO     | seed | [Seed] Source already current: TBS News
+2026-07-01 23:55:18 | INFO     | seed | [Seed] Source already current: Dhaka Tribune
+2026-07-01 23:55:18 | INFO     | seed | [Seed] Source already current: New Age
+2026-07-01 23:55:18 | INFO     | seed | [Seed] Source already current: The Financial Express BD
+2026-07-01 23:55:19 | INFO     | seed | [Seed] Source already current: Al Jazeera
+2026-07-01 23:55:19 | INFO     | seed | [Seed] Source already current: AP News
+2026-07-01 23:55:19 | INFO     | seed | [Seed] Source already current: The Guardian
+2026-07-01 23:55:19 | INFO     | seed | [Seed] Source already current: NDTV
+2026-07-01 23:55:20 | INFO     | seed | [Seed] Source already current: The Hindu
+2026-07-01 23:55:20 | INFO     | seed | [Seed] Updated source: Somoy News TV
+2026-07-01 23:55:21 | INFO     | seed | [Seed] Updated source: Jamuna TV
+2026-07-01 23:55:21 | INFO     | seed | [Seed] Updated source: Ekattor TV
+2026-07-01 23:55:21 | INFO     | seed | [Seed] Updated source: DBC News
+2026-07-01 23:55:22 | INFO     | seed | [Seed] Sources — added: 0, updated: 4
+2026-07-01 23:55:55 | INFO     | seed | [Seed] BD locations added: 0
+2026-07-01 23:56:04 | INFO     | seed | [Seed] Countries added: 0
+2026-07-01 23:56:05 | INFO     | seed | [Seed] ✓ Database seeded successfully.
+2026-07-01 23:57:25 | INFO     | main | [Main] Running single scrape pass...
+2026-07-01 23:57:25 | INFO     | runner | ━━━ Scraper run started | run_id=26cc214a-d87d-4ce6-a9c6-7c0d238d5a42 ━━━
+2026-07-01 23:57:36 | INFO     | runner | [Runner] 36 active sources to process
+2026-07-01 23:57:36 | INFO     | runner | [Runner] Playwright enabled this run (cap=50 renders)
+2026-07-01 23:57:37 | INFO     | browser | [Playwright] Browser launched
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: Prothom Alo (bn) [httpx]
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: Daily Star BD (en) [httpx]
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: Kaler Kantho (bn) [httpx]
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: Jugantor (bn) [httpx]
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: Ittefaq (bn) [httpx]
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: Samakal (bn) [httpx]
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: bdnews24 (bn) [httpx]
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: Manab Zamin (bn) [httpx]
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: Inqilab (bn) [httpx]
+2026-07-01 23:57:37 | INFO     | runner | [Source] Starting: BanglaNews24 (bn) [httpx]
+2026-07-01 23:57:37 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Kaler Kantho: Client error '403 Forbidden' for url 'https://www.kalerkantho.com/rss.xml'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+2026-07-01 23:57:37 | INFO     | fetcher.rss | [RSS] Daily Star BD → 4 URLs found
+2026-07-01 23:57:37 | INFO     | fetcher.sitemap | [Sitemap] Kaler Kantho → 4 URLs from index
+2026-07-01 23:57:37 | WARNING  | fetcher.rss | [RSS] Empty feed for bdnews24
+2026-07-01 23:57:37 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Ittefaq: Client error '404 Not Found' for url 'https://www.ittefaq.com.bd/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Empty feed for Samakal
-2026-06-27 17:14:43 | INFO     | fetcher.rss | [RSS] Prothom Alo → 4 URLs found
-2026-06-27 17:14:43 | INFO     | fetcher.html | [HTML] Samakal → 4 URLs found
-2026-06-27 17:14:43 | INFO     | fetcher.html | [HTML] Bangladesh Pratidin → 4 URLs found
-2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Naya Diganta: Server error '500 Internal Server Error' for url 'https://www.dailynayadiganta.com/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500
-2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Jugantor: Client error '404 Not Found' for url 'https://www.jugantor.com/feed'
+2026-07-01 23:57:37 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for BanglaNews24: Client error '404 Not Found' for url 'https://www.banglanews24.com/rss/rss.xml'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Ittefaq: Client error '404 Not Found' for url 'https://www.ittefaq.com.bd/feed'
+2026-07-01 23:57:37 | INFO     | fetcher.html | [HTML] Ittefaq → 4 URLs found
+2026-07-01 23:57:37 | INFO     | fetcher.sitemap | [Sitemap] bdnews24 → 4 URLs from index
+2026-07-01 23:57:37 | WARNING  | fetcher.rss | [RSS] Empty feed for Samakal
+2026-07-01 23:57:37 | INFO     | fetcher.html | [HTML] BanglaNews24 → 4 URLs found
+2026-07-01 23:57:37 | WARNING  | fetcher.rss | [RSS] Empty feed for Jugantor
+2026-07-01 23:57:37 | INFO     | fetcher.rss | [RSS] Prothom Alo → 4 URLs found
+2026-07-01 23:57:37 | INFO     | fetcher.html | [HTML] Samakal → 4 URLs found
+2026-07-01 23:57:37 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Manab Zamin: Client error '404 Not Found' for url 'https://www.mzamin.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:43 | INFO     | fetcher.html | [HTML] Ittefaq → 4 URLs found
-2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Inqilab: Client error '404 Not Found' for url 'https://dailyinqilab.com/feed'
+2026-07-01 23:57:37 | INFO     | fetcher.html | [HTML] Jugantor → 4 URLs found
+2026-07-01 23:57:38 | INFO     | fetcher.html | [HTML] Manab Zamin → 4 URLs found
+2026-07-01 23:57:38 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Inqilab: Client error '404 Not Found' for url 'https://dailyinqilab.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Daily Star BD: Client error '404 Not Found' for url 'https://www.thedailystar.net/arcio/rss/'
+2026-07-01 23:57:39 | INFO     | fetcher.html | [HTML] Inqilab → 0 URLs found
+2026-07-01 23:57:39 | WARNING  | runner | [Source] No URLs fetched from Inqilab
+2026-07-01 23:57:45 | INFO     | runner | [Source] Starting: Bangladesh Pratidin (bn) [httpx]
+2026-07-01 23:57:45 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangladesh Pratidin: Client error '403 Forbidden' for url 'https://www.bd-pratidin.com/rss.xml'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+2026-07-01 23:57:45 | WARNING  | fetcher.base | [html] HTTP 403: https://www.bd-pratidin.com
+2026-07-01 23:57:45 | WARNING  | fetcher.html | [HTML] Could not fetch listing page for Bangladesh Pratidin
+2026-07-01 23:57:45 | WARNING  | runner | [Source] No URLs fetched from Bangladesh Pratidin
+2026-07-01 23:57:46 | INFO     | runner | [Source] Daily Star BD done | saved=0 dupes=4 errors=0 fetcher=rss
+2026-07-01 23:57:46 | INFO     | runner | [Source] Kaler Kantho done | saved=0 dupes=4 errors=0 fetcher=sitemap
+2026-07-01 23:57:46 | INFO     | runner | [Source] bdnews24 done | saved=0 dupes=2 errors=2 fetcher=sitemap
+2026-07-01 23:57:47 | INFO     | runner | [Source] Jugantor done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:57:47 | INFO     | runner | [Source] Starting: JagoNews24 (bn) [httpx]
+2026-07-01 23:57:47 | INFO     | runner | [Source] Samakal done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:57:47 | INFO     | fetcher.rss | [RSS] JagoNews24 → 4 URLs found
+2026-07-01 23:57:48 | INFO     | runner | [Source] Ittefaq done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:57:48 | INFO     | runner | [Source] Manab Zamin done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:57:49 | INFO     | runner | [Source] BanglaNews24 done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:57:49 | INFO     | runner | [Source] Starting: Dhaka Post (bn) [httpx]
+2026-07-01 23:57:49 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dhaka Post: Client error '404 Not Found' for url 'https://www.dhakapost.com/rss.xml'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:43 | INFO     | fetcher.html | [HTML] Jugantor → 2 URLs found
-2026-06-27 17:14:43 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Manab Zamin: Client error '404 Not Found' for url 'https://www.mzamin.com/feed'
+2026-07-01 23:57:49 | INFO     | fetcher.html | [HTML] Dhaka Post → 4 URLs found
+2026-07-01 23:57:50 | INFO     | runner | [Source] Starting: Naya Diganta (bn) [httpx]
+2026-07-01 23:57:50 | INFO     | runner | [Source] Starting: Bhorer Kagoj (bn) [httpx]
+2026-07-01 23:57:51 | WARNING  | fetcher.rss | [RSS] Empty feed for Naya Diganta
+2026-07-01 23:57:52 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bhorer Kagoj: Client error '404 Not Found' for url 'https://www.bhorerkagoj.net/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:44 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Kaler Kantho: Client error '404 Not Found' for url 'https://www.kalerkantho.com/rss.xml'
+2026-07-01 23:57:52 | INFO     | fetcher.html | [HTML] Naya Diganta → 4 URLs found
+2026-07-01 23:57:52 | INFO     | runner | [Source] Starting: BBC Bangla (bn) [httpx]
+2026-07-01 23:57:53 | INFO     | fetcher.html | [HTML] Bhorer Kagoj → 1 URLs found
+2026-07-01 23:57:53 | INFO     | runner | [Source] Starting: DW Bangla (bn) [httpx]
+2026-07-01 23:57:53 | INFO     | runner | [Source] Starting: Dainik Amader Shomoy (bn) [httpx]
+2026-07-01 23:57:53 | INFO     | fetcher.rss | [RSS] BBC Bangla → 4 URLs found
+2026-07-01 23:57:53 | INFO     | fetcher.rss | [RSS] DW Bangla → 4 URLs found
+2026-07-01 23:57:54 | INFO     | runner | [Source] Starting: VOA Bangla (bn) [httpx]
+2026-07-01 23:57:54 | WARNING  | fetcher.rss | [RSS] Empty feed for VOA Bangla
+2026-07-01 23:57:54 | WARNING  | fetcher.sitemap | [Sitemap] Child sitemap parse error https://www.voabangla.com/sitemap_407_news.xml.gz: 'NoneType' object has no attribute 'findall'
+2026-07-01 23:57:54 | INFO     | fetcher.sitemap | [Sitemap] VOA Bangla → 0 URLs from index
+2026-07-01 23:57:55 | INFO     | runner | [Source] Starting: Bangla Tribune (bn) [httpx]
+2026-07-01 23:57:55 | INFO     | fetcher.html | [HTML] VOA Bangla → 4 URLs found
+2026-07-01 23:57:55 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangla Tribune: Client error '404 Not Found' for url 'https://www.banglatribune.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:44 | INFO     | fetcher.sitemap | [Sitemap] Kaler Kantho → 4 URLs from index
-2026-06-27 17:14:44 | INFO     | fetcher.html | [HTML] Naya Diganta → 4 URLs found
-2026-06-27 17:14:44 | INFO     | fetcher.html | [HTML] Inqilab → 0 URLs found
-2026-06-27 17:14:44 | WARNING  | runner | [Source] No URLs fetched from Inqilab
-2026-06-27 17:14:44 | INFO     | fetcher.html | [HTML] Manab Zamin → 4 URLs found
-2026-06-27 17:14:44 | INFO     | fetcher.sitemap | [Sitemap] Daily Star BD → 0 URLs from index
-2026-06-27 17:14:44 | INFO     | fetcher.html | [HTML] Daily Star BD → 4 URLs found
-2026-06-27 17:14:47 | INFO     | runner | [Source] Jugantor: all 2 URLs were duplicates
-2026-06-27 17:14:47 | INFO     | runner | [Source] Jugantor done | saved=0 dupes=2 errors=0 fetcher=html
-2026-06-27 17:14:48 | INFO     | runner | [Source] Starting: Bhorer Kagoj (bn)
-2026-06-27 17:14:49 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bhorer Kagoj: Client error '404 Not Found' for url 'https://www.bhorerkagoj.net/feed'
+2026-07-01 23:57:55 | INFO     | fetcher.html | [HTML] Bangla Tribune → 4 URLs found
+2026-07-01 23:57:56 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dainik Amader Shomoy: Client error '404 Page not found: /feed' for url 'https://www.dainikamadershomoy.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:50 | INFO     | runner | [Source] Ittefaq: all 4 URLs were duplicates
-2026-06-27 17:14:50 | INFO     | runner | [Source] Ittefaq done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:14:50 | INFO     | runner | [Source] Bangladesh Pratidin: all 4 URLs were duplicates
-2026-06-27 17:14:50 | INFO     | runner | [Source] Bangladesh Pratidin done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:14:50 | INFO     | fetcher.html | [HTML] Bhorer Kagoj → 1 URLs found
-2026-06-27 17:14:50 | INFO     | runner | [Source] Samakal: all 4 URLs were duplicates
-2026-06-27 17:14:50 | INFO     | runner | [Source] Samakal done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:14:50 | INFO     | runner | [Source] Kaler Kantho: all 4 URLs were duplicates
-2026-06-27 17:14:50 | INFO     | runner | [Source] Kaler Kantho done | saved=0 dupes=4 errors=0 fetcher=sitemap
-2026-06-27 17:14:51 | INFO     | runner | [Source] Naya Diganta: all 4 URLs were duplicates
-2026-06-27 17:14:51 | INFO     | runner | [Source] Naya Diganta done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:14:51 | INFO     | runner | [Source] Starting: Dainik Amader Shomoy (bn)
-2026-06-27 17:14:51 | INFO     | runner | [Source] Daily Star BD: all 4 URLs were duplicates
-2026-06-27 17:14:51 | INFO     | runner | [Source] Daily Star BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:14:51 | INFO     | runner | [Source] Manab Zamin: all 4 URLs were duplicates
-2026-06-27 17:14:51 | INFO     | runner | [Source] Manab Zamin done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:14:52 | INFO     | runner | [Source] Starting: Bangla Tribune (bn)
-2026-06-27 17:14:52 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dainik Amader Shomoy: Client error '404 Page not found: /feed' for url 'https://www.dainikamadershomoy.com/feed'
+2026-07-01 23:57:59 | INFO     | runner | [Source] Bhorer Kagoj done | saved=0 dupes=0 errors=1 fetcher=html
+2026-07-01 23:57:59 | INFO     | fetcher.html | [HTML] Dainik Amader Shomoy → 3 URLs found
+2026-07-01 23:58:00 | INFO     | runner | [Source] Dhaka Post done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:58:01 | INFO     | runner | [Source] Starting: Risingbd (bn) [httpx]
+2026-07-01 23:58:01 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Risingbd: Client error '404 Not Found' for url 'https://www.risingbd.com/rss.xml'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:52 | INFO     | runner | [Source] Starting: Risingbd (bn)
-2026-06-27 17:14:53 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Bangla Tribune: Client error '404 Not Found' for url 'https://www.banglatribune.com/feed'
+2026-07-01 23:58:02 | INFO     | fetcher.html | [HTML] Risingbd → 4 URLs found
+2026-07-01 23:58:03 | INFO     | runner | [Source] Starting: Desh Rupantor (bn) [httpx]
+2026-07-01 23:58:03 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Desh Rupantor: Client error '404 Not Found' for url 'https://www.deshrupantor.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:53 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Risingbd: Client error '404 Not Found' for url 'https://www.risingbd.com/rss.xml'
+2026-07-01 23:58:03 | INFO     | fetcher.html | [HTML] Desh Rupantor → 4 URLs found
+2026-07-01 23:58:04 | INFO     | runner | [Source] JagoNews24 done | saved=1 dupes=3 errors=0 fetcher=rss
+2026-07-01 23:58:04 | INFO     | runner | [Source] BBC Bangla done | saved=0 dupes=4 errors=0 fetcher=rss
+2026-07-01 23:58:04 | INFO     | runner | [Source] VOA Bangla done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:58:04 | INFO     | runner | [Source] DW Bangla done | saved=0 dupes=4 errors=0 fetcher=rss
+2026-07-01 23:58:06 | INFO     | runner | [Source] Dainik Amader Shomoy done | saved=0 dupes=3 errors=0 fetcher=html
+2026-07-01 23:58:06 | INFO     | runner | [Source] Bangla Tribune done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:58:06 | INFO     | runner | [Source] Starting: Financial Express BD (en) [httpx]
+2026-07-01 23:58:07 | INFO     | runner | [Source] Starting: Business Standard BD (en) [httpx]
+2026-07-01 23:58:07 | INFO     | fetcher.rss | [RSS] Business Standard BD → 4 URLs found
+2026-07-01 23:58:07 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Financial Express BD: Client error '404 Not Found' for url 'https://thefinancialexpress.com.bd/rss'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:53 | INFO     | fetcher.html | [HTML] Bangla Tribune → 4 URLs found
-2026-06-27 17:14:53 | INFO     | fetcher.html | [HTML] Risingbd → 4 URLs found
-2026-06-27 17:14:53 | INFO     | fetcher.html | [HTML] Dainik Amader Shomoy → 3 URLs found
-2026-06-27 17:14:53 | INFO     | runner | [Source] Starting: Desh Rupantor (bn)
-2026-06-27 17:14:54 | INFO     | runner | [Source] Starting: Financial Express BD (en)
-2026-06-27 17:14:56 | WARNING  | runner | [Article] No valid title, skipping: https://www.bhorerkagoj.com/apps/download/bkfamily.apk
-2026-06-27 17:14:56 | INFO     | runner | [Source] Bhorer Kagoj done | saved=0 dupes=0 errors=1 fetcher=html
-2026-06-27 17:14:56 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Desh Rupantor: Client error '404 Not Found' for url 'https://www.deshrupantor.com/feed'
+2026-07-01 23:58:07 | INFO     | runner | [Source] Starting: New Age BD (en) [httpx]
+2026-07-01 23:58:07 | INFO     | fetcher.html | [HTML] Financial Express BD → 4 URLs found
+2026-07-01 23:58:08 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for New Age BD: Client error '404 Not Found' for url 'https://www.newagebd.net/rss'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:56 | INFO     | runner | [Source] Starting: Business Standard BD (en)
-2026-06-27 17:14:56 | INFO     | fetcher.html | [HTML] Desh Rupantor → 4 URLs found
-2026-06-27 17:14:56 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Financial Express BD: Client error '404 Not Found' for url 'https://thefinancialexpress.com.bd/feed'
+2026-07-01 23:58:08 | INFO     | runner | [Source] Starting: Dhaka Tribune (en) [httpx]
+2026-07-01 23:58:08 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dhaka Tribune: Client error '404 Not Found' for url 'https://www.dhakatribune.com/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:56 | INFO     | runner | [Source] Starting: New Age BD (en)
-2026-06-27 17:14:56 | INFO     | fetcher.html | [HTML] Financial Express BD → 4 URLs found
-2026-06-27 17:14:56 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Business Standard BD: Client error '404 Not Found' for url 'https://www.tbsnews.net/feed'
+2026-07-01 23:58:08 | INFO     | runner | [Source] Starting: Al Jazeera (en) [httpx]
+2026-07-01 23:58:08 | INFO     | fetcher.sitemap | [Sitemap] Dhaka Tribune → 4 URLs from index
+2026-07-01 23:58:09 | INFO     | fetcher.rss | [RSS] Al Jazeera → 4 URLs found
+2026-07-01 23:58:10 | INFO     | runner | [Source] Risingbd done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:58:10 | INFO     | fetcher.html | [HTML] New Age BD → 4 URLs found
+2026-07-01 23:58:10 | INFO     | runner | [Source] Prothom Alo done | saved=3 dupes=1 errors=0 fetcher=rss
+2026-07-01 23:58:10 | INFO     | runner | [Source] Desh Rupantor done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:58:10 | INFO     | runner | [Source] Naya Diganta done | saved=1 dupes=3 errors=0 fetcher=html
+2026-07-01 23:58:11 | INFO     | runner | [Source] Starting: UNB News (en) [httpx]
+2026-07-01 23:58:12 | INFO     | runner | [Source] Starting: AP News (en) [httpx]
+2026-07-01 23:58:12 | INFO     | runner | [Source] Starting: The Guardian (en) [httpx]
+2026-07-01 23:58:12 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for UNB News: Client error '404 Not Found' for url 'https://unb.com.bd/feed'
 For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:56 | INFO     | fetcher.html | [HTML] Business Standard BD → 4 URLs found
-2026-06-27 17:14:57 | INFO     | runner | [Source] Starting: Dhaka Tribune (en)
-2026-06-27 17:14:57 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for Dhaka Tribune: Client error '404 Not Found' for url 'https://www.dhakatribune.com/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:57 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for New Age BD: Client error '404 Not Found' for url 'https://www.newagebd.net/rss.xml'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:57 | INFO     | fetcher.sitemap | [Sitemap] Dhaka Tribune → 4 URLs from index
-2026-06-27 17:14:58 | INFO     | runner | [Source] Starting: UNB News (en)
-2026-06-27 17:14:58 | WARNING  | fetcher.rss | [RSS] Failed to fetch RSS for UNB News: Client error '404 Not Found' for url 'https://unb.com.bd/feed'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-06-27 17:14:58 | INFO     | fetcher.html | [HTML] UNB News → 4 URLs found
-2026-06-27 17:14:59 | INFO     | fetcher.html | [HTML] New Age BD → 4 URLs found
-2026-06-27 17:15:00 | INFO     | runner | [Source] Dainik Amader Shomoy: all 3 URLs were duplicates
-2026-06-27 17:15:00 | INFO     | runner | [Source] Dainik Amader Shomoy done | saved=0 dupes=3 errors=0 fetcher=html
-2026-06-27 17:15:00 | INFO     | runner | [Source] Risingbd: all 4 URLs were duplicates
-2026-06-27 17:15:00 | INFO     | runner | [Source] Risingbd done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:15:00 | INFO     | runner | [Source] Bangla Tribune: all 4 URLs were duplicates
-2026-06-27 17:15:00 | INFO     | runner | [Source] Bangla Tribune done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:15:02 | INFO     | runner | [Source] Desh Rupantor: all 4 URLs were duplicates
-2026-06-27 17:15:02 | INFO     | runner | [Source] Desh Rupantor done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:15:02 | INFO     | runner | [Source] Financial Express BD: all 4 URLs were duplicates
-2026-06-27 17:15:02 | INFO     | runner | [Source] Financial Express BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:15:02 | INFO     | runner | [Source] Business Standard BD: all 4 URLs were duplicates
-2026-06-27 17:15:02 | INFO     | runner | [Source] Business Standard BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:15:03 | INFO     | runner | [Source] UNB News: all 4 URLs were duplicates
-2026-06-27 17:15:03 | INFO     | runner | [Source] UNB News done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:15:04 | INFO     | runner | [Source] New Age BD: all 4 URLs were duplicates
-2026-06-27 17:15:04 | INFO     | runner | [Source] New Age BD done | saved=0 dupes=4 errors=0 fetcher=html
-2026-06-27 17:15:14 | INFO     | runner | [Source] Prothom Alo done | saved=4 dupes=0 errors=0 fetcher=rss
-2026-06-27 17:15:21 | INFO     | runner | [Source] Dhaka Tribune done | saved=2 dupes=2 errors=0 fetcher=sitemap
-2026-06-27 17:15:23 | INFO     | runner | ━━━ Scraper run complete | run_id=725b1641-10ec-4437-9c6d-c539dd2a7be6 ━━━
-2026-06-27 17:15:23 | INFO     | main | [Main] Single pass complete.
+2026-07-01 23:58:13 | INFO     | fetcher.html | [HTML] UNB News → 4 URLs found
+2026-07-01 23:58:13 | INFO     | fetcher.rss | [RSS] The Guardian → 4 URLs found
+2026-07-01 23:58:13 | INFO     | fetcher.sitemap | [Sitemap] AP News → 0 URLs from index
+2026-07-01 23:58:13 | INFO     | fetcher.html | [HTML] AP News → 4 URLs found
+2026-07-01 23:58:14 | INFO     | runner | [Source] Starting: NDTV (en) [httpx]
+2026-07-01 23:58:14 | INFO     | runner | [Source] Starting: The Hindu (en) [httpx]
+2026-07-01 23:58:14 | INFO     | fetcher.rss | [RSS] The Hindu → 4 URLs found
+2026-07-01 23:58:15 | INFO     | fetcher.rss | [RSS] NDTV → 4 URLs found
+2026-07-01 23:58:16 | INFO     | runner | [Source] Financial Express BD done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:58:17 | INFO     | runner | [Source] Al Jazeera done | saved=0 dupes=4 errors=0 fetcher=rss
+2026-07-01 23:58:19 | INFO     | runner | [Source] Starting: Somoy News TV (bn) [PLAYWRIGHT]
+2026-07-01 23:58:19 | INFO     | runner | [Source] Starting: Jamuna TV (bn) [PLAYWRIGHT]
+2026-07-01 23:58:19 | INFO     | runner | [Source] New Age BD done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:58:20 | INFO     | runner | [Source] The Guardian done | saved=0 dupes=4 errors=0 fetcher=rss
+2026-07-01 23:58:21 | INFO     | fetcher.headless | [Headless] Jamuna TV → 4 articles from 1 rendered page(s)
+2026-07-01 23:58:21 | INFO     | runner | [Source] Starting: Ekattor TV (bn) [PLAYWRIGHT]
+2026-07-01 23:58:22 | INFO     | runner | [Source] UNB News done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:58:22 | INFO     | runner | [Source] Starting: DBC News (bn) [PLAYWRIGHT]
+2026-07-01 23:58:23 | INFO     | runner | [Source] AP News done | saved=0 dupes=4 errors=0 fetcher=html
+2026-07-01 23:58:24 | INFO     | runner | [Source] NDTV done | saved=0 dupes=0 errors=4 fetcher=rss
+2026-07-01 23:58:28 | INFO     | runner | [Source] Business Standard BD done | saved=1 dupes=3 errors=0 fetcher=rss
+2026-07-01 23:58:32 | INFO     | runner | [Source] Jamuna TV done | saved=1 dupes=3 errors=0 fetcher=headless
+2026-07-01 23:58:38 | INFO     | fetcher.headless | [Headless] Ekattor TV → 0 articles from 5 rendered page(s)
+2026-07-01 23:58:38 | WARNING  | runner | [Source] No URLs fetched from Ekattor TV
+2026-07-01 23:58:47 | INFO     | fetcher.headless | [Headless] DBC News → 0 articles from 5 rendered page(s)
+2026-07-01 23:58:47 | WARNING  | runner | [Source] No URLs fetched from DBC News
+2026-07-01 23:58:48 | INFO     | runner | [Source] The Hindu done | saved=2 dupes=2 errors=0 fetcher=rss
+2026-07-01 23:58:59 | WARNING  | browser | [Playwright] Render failed https://www.somoynews.tv/categories/international: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.somoynews.tv/categories/international", waiting until "networkidle"
+
+2026-07-01 23:59:06 | INFO     | runner | [Source] Dhaka Tribune done | saved=4 dupes=0 errors=0 fetcher=sitemap
+2026-07-01 23:59:30 | WARNING  | browser | [Playwright] Render failed https://www.somoynews.tv/categories/politics: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.somoynews.tv/categories/politics", waiting until "networkidle"
+
+2026-07-01 23:59:32 | INFO     | fetcher.headless | [Headless] Somoy News TV → 0 articles from 4 rendered page(s)
+2026-07-01 23:59:32 | WARNING  | runner | [Source] No URLs fetched from Somoy News TV
+2026-07-01 23:59:34 | INFO     | browser | [Playwright] Browser closed
+2026-07-01 23:59:34 | INFO     | runner | ━━━ Scraper run complete | run_id=26cc214a-d87d-4ce6-a9c6-7c0d238d5a42 | playwright_used=1/50 ━━━
+2026-07-01 23:59:34 | INFO     | main | [Main] Single pass complete.
+2026-07-02 00:08:19 | INFO     | seed | [Seed] Tables ensured.
+2026-07-02 00:08:22 | INFO     | seed | [Seed] Source already current: Prothom Alo
+2026-07-02 00:08:22 | INFO     | seed | [Seed] Source already current: Kaler Kantho
+2026-07-02 00:08:23 | INFO     | seed | [Seed] Source already current: Jugantor
+2026-07-02 00:08:23 | INFO     | seed | [Seed] Source already current: Samakal
+2026-07-02 00:08:23 | INFO     | seed | [Seed] Source already current: Ittefaq
+2026-07-02 00:08:23 | INFO     | seed | [Seed] Source already current: Bangladesh Pratidin
+2026-07-02 00:08:24 | INFO     | seed | [Seed] Source already current: bdnews24
+2026-07-02 00:08:24 | INFO     | seed | [Seed] Source already current: BanglaNews24
+2026-07-02 00:08:24 | INFO     | seed | [Seed] Source already current: JagoNews24
+2026-07-02 00:08:24 | INFO     | seed | [Seed] Source already current: Dhaka Post
+2026-07-02 00:08:25 | INFO     | seed | [Seed] Source already current: BBC Bangla
+2026-07-02 00:08:25 | INFO     | seed | [Seed] Source already current: DW Bangla
+2026-07-02 00:08:25 | INFO     | seed | [Seed] Source already current: VOA Bangla
+2026-07-02 00:08:25 | INFO     | seed | [Seed] Source already current: The Daily Star
+2026-07-02 00:08:25 | INFO     | seed | [Seed] Source already current: TBS News
+2026-07-02 00:08:26 | INFO     | seed | [Seed] Source already current: Dhaka Tribune
+2026-07-02 00:08:26 | INFO     | seed | [Seed] Source already current: New Age
+2026-07-02 00:08:26 | INFO     | seed | [Seed] Source already current: The Financial Express BD
+2026-07-02 00:08:26 | INFO     | seed | [Seed] Source already current: Al Jazeera
+2026-07-02 00:08:27 | INFO     | seed | [Seed] Source already current: AP News
+2026-07-02 00:08:27 | INFO     | seed | [Seed] Source already current: The Guardian
+2026-07-02 00:08:27 | INFO     | seed | [Seed] Source already current: NDTV
+2026-07-02 00:08:27 | INFO     | seed | [Seed] Source already current: The Hindu
+2026-07-02 00:08:27 | INFO     | seed | [Seed] Updated source: Somoy News TV
+2026-07-02 00:08:28 | INFO     | seed | [Seed] Source already current: Jamuna TV
+2026-07-02 00:08:28 | INFO     | seed | [Seed] Updated source: Ekattor TV
+2026-07-02 00:08:28 | INFO     | seed | [Seed] Updated source: DBC News
+2026-07-02 00:08:29 | INFO     | seed | [Seed] Sources — added: 0, updated: 3
+2026-07-02 00:08:53 | INFO     | seed | [Seed] BD locations added: 0
+2026-07-02 00:08:59 | INFO     | seed | [Seed] Countries added: 0
+2026-07-02 00:08:59 | INFO     | seed | [Seed] ✓ Database seeded successfully.

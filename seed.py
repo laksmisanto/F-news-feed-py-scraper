@@ -281,9 +281,7 @@ SOURCES = [
     },
 
     # ──────────────────────────────────────────────────────────────────────
-    # TIER 2 — TV PORTALS (sitemap fallback, Phase 2, kept inactive by default)
-    # Enable by setting is_active=True when ready. JS-heavy sites may need
-    # Playwright integration in fetchers/html.py later.
+    # TIER 2 — TV PORTALS (JS-rendered SPAs, require Playwright)
     # ──────────────────────────────────────────────────────────────────────
     {
         "name": "Somoy News TV",
@@ -292,7 +290,15 @@ SOURCES = [
         "rss_url": None,
         "sitemap_url": "https://www.somoynews.tv/sitemap.xml",
         "html_scrape_config": None,
-        "is_active": False,  # enable when sitemap-based fetcher is tested
+        "is_active": True,
+        "requires_browser": True,
+        "crawl_config": {
+            "seed_paths": ["/"],
+            "playwright_wait": "networkidle",
+            "max_pages_per_run": 4,
+            "rate_limit_seconds": 2.0,
+            "exclude_patterns": ["/tag/", "/video/", "/photo/", "/categories/"],
+        },
         "priority": 24,
     },
     {
@@ -302,7 +308,16 @@ SOURCES = [
         "rss_url": None,
         "sitemap_url": "https://www.jamuna.tv/sitemap.xml",
         "html_scrape_config": None,
-        "is_active": False,
+        "is_active": True,
+        "requires_browser": True,
+        "crawl_config": {
+            "seed_paths": ["/", "/national", "/international", "/politics", "/sports"],
+            "playwright_wait": "domcontentloaded",
+            "max_pages_per_run": 8,
+            "rate_limit_seconds": 1.5,
+            "article_url_patterns": ["/[^/]+/\\d{4,}$"],
+            "exclude_patterns": ["/tag/", "/video/", "/program/", "/category/"],
+        },
         "priority": 25,
     },
     {
@@ -312,7 +327,15 @@ SOURCES = [
         "rss_url": None,
         "sitemap_url": "https://ekattor.tv/sitemap.xml",
         "html_scrape_config": None,
-        "is_active": False,
+        "is_active": True,
+        "requires_browser": True,
+        "crawl_config": {
+            "seed_paths": ["/", "/national", "/international", "/politics", "/sports"],
+            "playwright_wait": "domcontentloaded",
+            "max_pages_per_run": 8,
+            "rate_limit_seconds": 1.5,
+            "exclude_patterns": ["/tag/", "/video/", "/program/", "/category/"],
+        },
         "priority": 26,
     },
     {
@@ -322,7 +345,15 @@ SOURCES = [
         "rss_url": None,
         "sitemap_url": "https://www.dbcnews.tv/sitemap.xml",
         "html_scrape_config": None,
-        "is_active": False,
+        "is_active": True,
+        "requires_browser": True,
+        "crawl_config": {
+            "seed_paths": ["/", "/national", "/international", "/politics", "/sports"],
+            "playwright_wait": "domcontentloaded",
+            "max_pages_per_run": 8,
+            "rate_limit_seconds": 1.5,
+            "exclude_patterns": ["/tag/", "/video/", "/program/", "/category/"],
+        },
         "priority": 27,
     },
 ]
@@ -343,7 +374,6 @@ async def seed_sources(session):
         existing = result.scalar_one_or_none()
 
         if existing:
-            # Update RSS / sitemap URLs in case they changed
             changed = False
             if existing.rss_url != s.get("rss_url"):
                 existing.rss_url = s.get("rss_url")
@@ -351,12 +381,20 @@ async def seed_sources(session):
             if existing.sitemap_url != s.get("sitemap_url"):
                 existing.sitemap_url = s.get("sitemap_url")
                 changed = True
-            # Clear stale html_scrape_config (we want generic extraction now)
             if existing.html_scrape_config != s.get("html_scrape_config"):
                 existing.html_scrape_config = s.get("html_scrape_config")
                 changed = True
+            if existing.is_active != s.get("is_active", True):
+                existing.is_active = s.get("is_active", True)
+                changed = True
+            if existing.requires_browser != s.get("requires_browser", False):
+                existing.requires_browser = s.get("requires_browser", False)
+                changed = True
+            if existing.crawl_config != s.get("crawl_config"):
+                existing.crawl_config = s.get("crawl_config")
+                changed = True
             if changed:
-                existing.updated_at = datetime.now(timezone.utc)
+                existing.updated_at = datetime.now(timezone.utc).replace(tzinfo=None)
                 updated += 1
                 logger.info(f"[Seed] Updated source: {s['name']}")
             else:
@@ -372,8 +410,11 @@ async def seed_sources(session):
             html_scrape_config=s.get("html_scrape_config"),
             is_active=s.get("is_active", True),
             priority=s.get("priority", 100),
-            created_at=datetime.now(timezone.utc),
-            updated_at=datetime.now(timezone.utc),
+            requires_browser=s.get("requires_browser", False),
+            crawl_config=s.get("crawl_config"),
+            crawl_enabled=s.get("crawl_enabled", False),
+            created_at=datetime.now(timezone.utc).replace(tzinfo=None),
+            updated_at=datetime.now(timezone.utc).replace(tzinfo=None),
         )
         session.add(source)
         added += 1
@@ -401,7 +442,7 @@ async def seed_locations(session):
             select(Location).where(
                 Location.name == division_name,
                 Location.type == "division",
-            )
+            ).limit(1)
         )
         division = div_result.scalar_one_or_none()
         if not division:
@@ -421,7 +462,7 @@ async def seed_locations(session):
                     Location.name == district_name,
                     Location.type == "district",
                     Location.parent_id == division.id,
-                )
+                ).limit(1)
             )
             district = dist_result.scalar_one_or_none()
             if not district:
@@ -441,7 +482,7 @@ async def seed_locations(session):
                         Location.name == city_name,
                         Location.type == "city",
                         Location.parent_id == district.id,
-                    )
+                    ).limit(1)
                 )
                 city = city_result.scalar_one_or_none()
                 if not city:
@@ -476,7 +517,7 @@ async def seed_countries(session):
             select(Location).where(
                 Location.name == country_name,
                 Location.type == "country",
-            )
+            ).limit(1)
         )
         existing = result.scalar_one_or_none()
         if not existing:

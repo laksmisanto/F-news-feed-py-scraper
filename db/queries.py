@@ -55,10 +55,10 @@ async def get_or_create_category(
     await session.execute(
         pg_insert(Category)
         .values(name=name, slug=slug, parent_id=parent_id, created_at=datetime.utcnow())
-        .on_conflict_do_nothing(index_elements=["name"])
+        .on_conflict_do_nothing()
     )
     await session.flush()
-    result = await session.execute(select(Category).where(Category.name == name))
+    result = await session.execute(select(Category).where(Category.name == name).limit(1))
     return result.scalar_one()
 
 
@@ -71,11 +71,11 @@ async def get_or_create_tag(session: AsyncSession, name: str) -> Tag:
     await session.execute(
         pg_insert(Tag)
         .values(name=name, slug=slug, created_at=datetime.utcnow())
-        .on_conflict_do_nothing(index_elements=["name"])
+        .on_conflict_do_nothing()
     )
     await session.flush()
-    result = await session.execute(select(Tag).where(Tag.name == name))
-    return result.scalar_one()
+    result = await session.execute(select(Tag).where(Tag.name == name).limit(1))
+    return result.scalar_one_or_none()
 
 
 # ---------------------------------------------------------------------------

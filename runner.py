@@ -1,32 +1,37 @@
 """
 Runner — orchestrates a single scraper run.
 
-Per run:
+Pipeline:
   1. Generate run_id
   2. Load active sources
-  3. Process each source concurrently (bounded by semaphore)
-  4. For each source:
-        a) Fetch URLs via the fetcher chain:
-           RSS → Sitemap → HTML  (primary chain)
-           + Crawler              (supplemental, when source.crawl_enabled=True)
-        b) Merge & deduplicate URLs
-        c) For each URL → dedup vs DB → extract article → process → save
+  3. Decide if Playwright is needed (any source.requires_browser or auto_escalate)
+  4. Launch shared Playwright browser if needed
+  5. Process each source concurrently (bounded by semaphore)
+  6. For each source:
+        a) Discovery:
+             - source.requires_browser → HeadlessFetcher (Playwright)
+             - else                    → RSS / Sitemap / HTML / Crawler chain (httpx)
+        b) For each URL:
+             - dedup vs DB
+             - render with Playwright (if requires_browser) or fetch with httpx
+             - extract via extraction chain
+             - auto-escalate to Playwright if body too short / 403 (opt-in)
+             - process categories/tags/locations
+             - save
 
-Bugs fixed in this version:
-  - Removed import of ArticleScraper / ArticleData (no longer exist)
-  - Removed import of CategoryProcessor (replaced by process_categories function)
-  - Adapted to new dict-returning extract_article()
-  - Adapted to new process_categories(session, article, url, text, section) signature
+Configuration via .env:
+  MIN_BODY_LEN              (default 200)  → bodies shorter trigger escalation
+  ESCALATE_ON_403           (default true) → 403 responses trigger escalation
+  MAX_PLAYWRIGHT_PER_RUN    (default 50)   → safety cap on Playwright renders
+  PLAYWRIGHT_TIMEOUT_MS     (default 30000)
 
-New in this version:
-  - CrawlerFetcher integration. When source.crawl_enabled = True the crawler
-    runs alongside the primary fetcher chain and its URLs are merged in.
-  - fetcher_used reporting tracks both primary fetcher and crawler contribution.
+Per-source opt-in for auto-escalation goes in crawl_config:
+  {"auto_escalate": true, "playwright_wait": "networkidle"}
 """
 
 import asyncio
-import uuid
 import os
+import uuid
 from datetime import datetime
 from typing import Optional
 
@@ -41,11 +46,13 @@ from fetchers.rss import RSSFetcher
 from fetchers.sitemap import SitemapFetcher
 from fetchers.html import HTMLFetcher
 from fetchers.crawler import CrawlerFetcher
+from fetchers.headless import HeadlessFetcher
 from fetchers.base import HEADERS
 from scrapers.article import extract_article
 from processors.category import process_categories
 from processors.tag import TagProcessor
 from processors.location import LocationProcessor
+from utils.browser import PlaywrightManager
 from utils.logger import get_logger
 
 logger = get_logger("runner")
@@ -54,21 +61,47 @@ MAX_ARTICLES = int(os.getenv("MAX_ARTICLES_PER_SOURCE", "10"))
 MAX_CONCURRENT = int(os.getenv("MAX_CONCURRENT_SOURCES", "10"))
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", "30"))
 
-# Shared processor instances (stateless, safe to reuse across tasks)
+# Playwright-specific tunables
+MIN_BODY_LEN = int(os.getenv("MIN_BODY_LEN", "200"))
+ESCALATE_ON_403 = os.getenv("ESCALATE_ON_403", "true").lower() == "true"
+MAX_PLAYWRIGHT_PER_RUN = int(os.getenv("MAX_PLAYWRIGHT_PER_RUN", "50"))
+PLAYWRIGHT_TIMEOUT_MS = int(os.getenv("PLAYWRIGHT_TIMEOUT_MS", "30000"))
+
+# Shared stateless instances
 _tag_proc = TagProcessor()
 _location_proc = LocationProcessor()
 
-# Fetchers (stateless wrappers around httpx — share one instance)
 _rss_fetcher = RSSFetcher(timeout=REQUEST_TIMEOUT)
 _sitemap_fetcher = SitemapFetcher(timeout=REQUEST_TIMEOUT)
 _html_fetcher = HTMLFetcher(timeout=REQUEST_TIMEOUT)
 _crawler_fetcher = CrawlerFetcher(timeout=REQUEST_TIMEOUT)
+_headless_fetcher = HeadlessFetcher(timeout=REQUEST_TIMEOUT)
 
+
+# ===========================================================================
+# Run-level state
+# ===========================================================================
+
+class RunBudget:
+    """Tracks per-run Playwright usage against the cap."""
+    def __init__(self, cap: int):
+        self.cap = cap
+        self.used = 0
+        self._lock = asyncio.Lock()
+
+    async def take(self) -> bool:
+        async with self._lock:
+            if self.used >= self.cap:
+                return False
+            self.used += 1
+            return True
+
+
+# ===========================================================================
+# Entry point
+# ===========================================================================
 
 async def run_scraper():
-    """
-    Entry point called by the scheduler every N minutes.
-    """
     run_id = uuid.uuid4()
     logger.info(f"━━━ Scraper run started | run_id={run_id} ━━━")
 
@@ -81,32 +114,63 @@ async def run_scraper():
 
     logger.info(f"[Runner] {len(sources)} active sources to process")
 
-    semaphore = asyncio.Semaphore(MAX_CONCURRENT)
-    async with httpx.AsyncClient() as client:
-        tasks = [
-            _process_source(source, client, run_id, semaphore)
-            for source in sources
-        ]
-        results = await asyncio.gather(*tasks, return_exceptions=True)
+    # Decide if we need Playwright at all this run
+    needs_browser = any(getattr(s, "requires_browser", False) for s in sources)
+    needs_browser = needs_browser or any(
+        (s.crawl_config or {}).get("auto_escalate", False) for s in sources
+    )
 
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT)
+    budget = RunBudget(MAX_PLAYWRIGHT_PER_RUN)
+
+    async with httpx.AsyncClient() as client:
+        if needs_browser:
+            logger.info(
+                f"[Runner] Playwright enabled this run "
+                f"(cap={MAX_PLAYWRIGHT_PER_RUN} renders)"
+            )
+            try:
+                async with PlaywrightManager() as pw:
+                    await _process_all(sources, client, pw, run_id, semaphore, budget)
+            except Exception as e:
+                logger.error(
+                    f"[Runner] Playwright init failed: {e}. "
+                    f"Falling back to httpx-only for this run.",
+                    exc_info=True,
+                )
+                await _process_all(sources, client, None, run_id, semaphore, budget)
+        else:
+            await _process_all(sources, client, None, run_id, semaphore, budget)
+
+    logger.info(
+        f"━━━ Scraper run complete | run_id={run_id} "
+        f"| playwright_used={budget.used}/{budget.cap} ━━━"
+    )
+
+
+async def _process_all(sources, client, pw, run_id, semaphore, budget):
+    tasks = [
+        _process_source(source, client, pw, run_id, semaphore, budget)
+        for source in sources
+    ]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
     errors = [r for r in results if isinstance(r, Exception)]
     if errors:
-        logger.error(
-            f"[Runner] {len(errors)} source(s) raised unhandled exceptions"
-        )
+        logger.error(f"[Runner] {len(errors)} source(s) raised unhandled exceptions")
 
-    logger.info(f"━━━ Scraper run complete | run_id={run_id} ━━━")
 
+# ===========================================================================
+# Per-source processing
+# ===========================================================================
 
 async def _process_source(
     source,
     client: httpx.AsyncClient,
+    pw: Optional[PlaywrightManager],
     run_id: uuid.UUID,
     semaphore: asyncio.Semaphore,
+    budget: RunBudget,
 ):
-    """
-    Full pipeline for one source: fetch → dedup → extract → process → save → log.
-    """
     async with semaphore:
         started_at = datetime.utcnow()
         counters = {
@@ -119,13 +183,24 @@ async def _process_source(
         error_detail = None
         status = "failed"
 
-        logger.info(f"[Source] Starting: {source.name} ({source.language.value})")
+        requires_browser = getattr(source, "requires_browser", False)
+        mode = "PLAYWRIGHT" if requires_browser else "httpx"
+        logger.info(f"[Source] Starting: {source.name} ({source.language.value}) [{mode}]")
 
         try:
             # ──────────────────────────────────────────────────────────────
-            # STEP 1: Fetch URLs (RSS → Sitemap → HTML, + Crawler if enabled)
+            # STEP 1: Discovery — pick the right fetcher
             # ──────────────────────────────────────────────────────────────
-            urls, fetcher_used = await _fetch_urls(source, client)
+            if requires_browser:
+                if pw is None:
+                    raise RuntimeError(
+                        f"{source.name} requires_browser=True but Playwright "
+                        f"is unavailable this run"
+                    )
+                urls, fetcher_used = await _discover_with_playwright(source, pw)
+            else:
+                urls, fetcher_used = await _discover_with_httpx(source, client)
+
             counters["urls_found"] = len(urls)
 
             if not urls:
@@ -134,13 +209,15 @@ async def _process_source(
                 error_detail = "All fetchers returned 0 URLs"
             else:
                 # ──────────────────────────────────────────────────────────
-                # STEP 2-4: Per URL pipeline
+                # STEP 2: Per-URL processing
                 # ──────────────────────────────────────────────────────────
                 for url in urls:
                     await _process_url(
                         url=url,
                         source=source,
                         client=client,
+                        pw=pw,
+                        budget=budget,
                         counters=counters,
                     )
 
@@ -151,10 +228,7 @@ async def _process_source(
                 if saved > 0:
                     status = "success"
                 elif dupes == len(urls):
-                    status = "success"  # All dupes = clean run
-                    logger.info(
-                        f"[Source] {source.name}: all {dupes} URLs were duplicates"
-                    )
+                    status = "success"
                 else:
                     status = "partial"
 
@@ -164,22 +238,17 @@ async def _process_source(
                 )
 
         except Exception as e:
-            logger.error(
-                f"[Source] Unhandled error for {source.name}: {e}",
-                exc_info=True,
-            )
+            logger.error(f"[Source] Unhandled error for {source.name}: {e}", exc_info=True)
             status = "failed"
             error_detail = str(e)
 
         # ────────────────────────────────────────────────────────────────
-        # STEP 5: Write run log
+        # STEP 3: Write run log
         # ────────────────────────────────────────────────────────────────
         try:
             async with AsyncSessionLocal() as session:
                 async with session.begin():
-                    log = await create_run_log(
-                        session, run_id, source.id, started_at
-                    )
+                    log = await create_run_log(session, run_id, source.id, started_at)
                     await finalize_run_log(
                         session=session,
                         log=log,
@@ -192,70 +261,53 @@ async def _process_source(
                         error_detail=error_detail,
                     )
         except Exception as e:
-            logger.error(
-                f"[Source] Failed to write run log for {source.name}: {e}"
-            )
+            logger.error(f"[Source] Failed to write run log for {source.name}: {e}")
 
 
-async def _fetch_urls(
+# ===========================================================================
+# Discovery
+# ===========================================================================
+
+async def _discover_with_httpx(
     source, client: httpx.AsyncClient
 ) -> tuple[list[str], Optional[str]]:
     """
-    Build the URL list for a source.
-
-    Logic:
-      1. Run the primary chain in order: RSS → Sitemap → HTML.
-         First fetcher that returns URLs wins as primary.
-      2. If source.crawl_enabled is True, ALSO run the crawler.
-      3. Merge URLs preserving order, deduped.
-
-    The fetcher_used field reflects the primary discovery method:
-      - 'rss' / 'sitemap' / 'html' if those were the primary
-      - 'crawler' if the crawler was the only one to return URLs
+    Standard chain: RSS → Sitemap → HTML, plus Crawler (supplemental).
     """
     primary_urls: list[str] = []
     primary_fetcher: Optional[str] = None
 
-    # RSS
     if source.rss_url:
         primary_urls = await _rss_fetcher.fetch_urls(source, client, MAX_ARTICLES)
         if primary_urls:
             primary_fetcher = "rss"
 
-    # Sitemap (only if RSS gave nothing)
     if not primary_urls and source.sitemap_url:
         primary_urls = await _sitemap_fetcher.fetch_urls(source, client, MAX_ARTICLES)
         if primary_urls:
             primary_fetcher = "sitemap"
 
-    # HTML last-resort listing scrape
     if not primary_urls:
         primary_urls = await _html_fetcher.fetch_urls(source, client, MAX_ARTICLES)
         if primary_urls:
             primary_fetcher = "html"
 
-    # Crawler (supplemental when enabled)
     crawler_urls: list[str] = []
     if getattr(source, "crawl_enabled", False):
         try:
-            crawler_urls = await _crawler_fetcher.fetch_urls(
-                source, client, MAX_ARTICLES
-            )
+            crawler_urls = await _crawler_fetcher.fetch_urls(source, client, MAX_ARTICLES)
         except Exception as e:
             logger.warning(f"[Runner] Crawler error for {source.name}: {e}")
 
-    # Merge + dedupe, preserving order: primary first, then new from crawler
+    # Merge + dedupe
     seen = set()
     merged: list[str] = []
     for u in primary_urls + crawler_urls:
         if u and u not in seen:
             seen.add(u)
             merged.append(u)
-
-    # Cap total to MAX_ARTICLES
     merged = merged[:MAX_ARTICLES]
 
-    # Decide fetcher_used label for the run log
     if primary_fetcher:
         fetcher_used = primary_fetcher
     elif crawler_urls:
@@ -266,20 +318,33 @@ async def _fetch_urls(
     return merged, fetcher_used
 
 
+async def _discover_with_playwright(
+    source, pw: PlaywrightManager
+) -> tuple[list[str], Optional[str]]:
+    """Use Playwright to render seed pages and extract article links."""
+    cfg = source.crawl_config or {}
+    locale = "bn-BD" if source.language.value == "bn" else "en-US"
+
+    async with pw.context(locale=locale) as ctx:
+        urls = await _headless_fetcher.fetch_urls_with_context(
+            source, ctx, max_articles=MAX_ARTICLES
+        )
+
+    return urls, ("headless" if urls else None)
+
+
+# ===========================================================================
+# Per-URL processing
+# ===========================================================================
+
 async def _process_url(
     url: str,
     source,
     client: httpx.AsyncClient,
+    pw: Optional[PlaywrightManager],
+    budget: RunBudget,
     counters: dict,
 ):
-    """
-    Full per-URL pipeline:
-      1. Dedup check against DB
-      2. Fetch HTML
-      3. Run extraction chain
-      4. Resolve categories, tags, locations
-      5. Save article + M2M rows
-    """
     try:
         # ──────────────────────────────────────────────────────────────
         # 1. DUPLICATE CHECK
@@ -287,47 +352,87 @@ async def _process_url(
         async with AsyncSessionLocal() as session:
             if await url_exists(session, url):
                 counters["duplicates_skipped"] += 1
-                logger.debug(f"[Dedup] Skipping duplicate: {url}")
                 return
 
-        # ──────────────────────────────────────────────────────────────
-        # 2. FETCH HTML using the shared httpx client (efficient pooling)
-        # ──────────────────────────────────────────────────────────────
-        try:
-            response = await client.get(
-                url,
-                headers=HEADERS,
-                timeout=REQUEST_TIMEOUT,
-                follow_redirects=True,
-            )
-            response.raise_for_status()
-            html = response.text
-        except Exception as e:
-            counters["errors_skipped"] += 1
-            logger.debug(f"[Article] Failed to fetch HTML {url}: {e}")
-            return
-
-        if not html:
-            counters["errors_skipped"] += 1
-            return
-
-        # ──────────────────────────────────────────────────────────────
-        # 3. EXTRACT ARTICLE (returns dict or None)
-        # ──────────────────────────────────────────────────────────────
+        requires_browser = getattr(source, "requires_browser", False)
+        cfg = source.crawl_config or {}
+        auto_escalate = bool(cfg.get("auto_escalate", False))
+        playwright_wait = cfg.get("playwright_wait", "domcontentloaded")
         css_config = source.html_scrape_config or None
-        article_data = await extract_article(
-            url=url,
-            html=html,
-            css_config=css_config,
-        )
 
+        # ──────────────────────────────────────────────────────────────
+        # 2. FETCH HTML — Playwright (forced) or httpx (default)
+        # ──────────────────────────────────────────────────────────────
+        html: Optional[str] = None
+        used_playwright = False
+        http_status: Optional[int] = None
+
+        if requires_browser:
+            if pw is None:
+                counters["errors_skipped"] += 1
+                logger.warning(f"[Article] {url}: requires_browser but pw unavailable")
+                return
+            if not await budget.take():
+                counters["errors_skipped"] += 1
+                logger.warning(f"[Article] {url}: Playwright budget exhausted")
+                return
+            async with pw.context() as ctx:
+                html = await ctx.render(
+                    url, wait_until=playwright_wait, timeout=PLAYWRIGHT_TIMEOUT_MS
+                )
+            used_playwright = True
+        else:
+            try:
+                response = await client.get(
+                    url,
+                    headers=HEADERS,
+                    timeout=REQUEST_TIMEOUT,
+                    follow_redirects=True,
+                )
+                http_status = response.status_code
+                if response.status_code < 400:
+                    html = response.text
+            except Exception as e:
+                logger.debug(f"[Article] httpx error {url}: {e}")
+                http_status = None
+
+        # ──────────────────────────────────────────────────────────────
+        # 3. EXTRACT
+        # ──────────────────────────────────────────────────────────────
+        article_data = None
+        if html:
+            article_data = await extract_article(
+                url=url, html=html, css_config=css_config
+            )
+
+        # ──────────────────────────────────────────────────────────────
+        # 4. AUTO-ESCALATE TO PLAYWRIGHT (opt-in, non-requires_browser only)
+        # ──────────────────────────────────────────────────────────────
+        if not used_playwright and auto_escalate and pw is not None:
+            should_escalate = _should_escalate(article_data, http_status)
+            if should_escalate and await budget.take():
+                logger.info(f"[Article] Escalating to Playwright: {url}")
+                async with pw.context() as ctx:
+                    html_pw = await ctx.render(
+                        url, wait_until=playwright_wait, timeout=PLAYWRIGHT_TIMEOUT_MS
+                    )
+                if html_pw:
+                    article_data_pw = await extract_article(
+                        url=url, html=html_pw, css_config=css_config
+                    )
+                    if article_data_pw and _is_better(article_data_pw, article_data):
+                        article_data = article_data_pw
+                        used_playwright = True
+
+        # ──────────────────────────────────────────────────────────────
+        # 5. QUALITY GATE
+        # ──────────────────────────────────────────────────────────────
         if not article_data or not article_data.get("title"):
             counters["errors_skipped"] += 1
-            logger.warning(f"[Article] No valid title, skipping: {url}")
             return
 
         # ──────────────────────────────────────────────────────────────
-        # 4. PROCESS: Category, Tag, Location
+        # 6. PROCESS + SAVE
         # ──────────────────────────────────────────────────────────────
         combined_text = " ".join(filter(None, [
             article_data.get("title"),
@@ -337,7 +442,6 @@ async def _process_url(
 
         async with AsyncSessionLocal() as session:
             async with session.begin():
-                # Categories: function returns Category ORM objects
                 category_objs = await process_categories(
                     session=session,
                     article=None,
@@ -346,20 +450,13 @@ async def _process_url(
                     section=article_data.get("section"),
                 )
                 category_ids = [c.id for c in category_objs] if category_objs else []
-
-                # Tags (still class-based)
                 tag_ids = await _tag_proc.resolve(
                     combined_text, source.language.value, session
                 )
-
-                # Locations (still class-based)
                 location_ids = await _location_proc.resolve(
                     combined_text, source.language.value, session
                 )
 
-                # ──────────────────────────────────────────────────────
-                # 5. SAVE ARTICLE
-                # ──────────────────────────────────────────────────────
                 await save_article(
                     session=session,
                     source_id=source.id,
@@ -379,9 +476,49 @@ async def _process_url(
         title_preview = article_data["title"][:60] + (
             "..." if len(article_data["title"]) > 60 else ""
         )
+        renderer = "pw" if used_playwright else "httpx"
         extractors = article_data.get("extractors_used", "?")
-        logger.debug(f"[Article] Saved ({extractors}): {title_preview}")
+        logger.debug(f"[Article] Saved ({renderer}/{extractors}): {title_preview}")
 
     except Exception as e:
         logger.error(f"[Article] Error processing {url}: {e}", exc_info=True)
         counters["errors_skipped"] += 1
+
+
+# ===========================================================================
+# Escalation heuristics
+# ===========================================================================
+
+def _should_escalate(article_data: Optional[dict], http_status: Optional[int]) -> bool:
+    """
+    Decide if a Playwright retry is worthwhile.
+    Returns True if:
+      - HTTP 403 (and ESCALATE_ON_403 is set), OR
+      - Extracted body is shorter than MIN_BODY_LEN, OR
+      - Extraction failed entirely (no title)
+    """
+    if ESCALATE_ON_403 and http_status == 403:
+        return True
+    if article_data is None:
+        return True
+    if not article_data.get("title"):
+        return True
+    body = article_data.get("body") or ""
+    if len(body) < MIN_BODY_LEN:
+        return True
+    return False
+
+
+def _is_better(new: dict, old: Optional[dict]) -> bool:
+    """Decide if a re-extracted article is meaningfully better than the prior."""
+    if old is None:
+        return True
+    new_body = len(new.get("body") or "")
+    old_body = len(old.get("body") or "")
+    # Prefer the version with the longer body
+    if new_body > old_body * 1.2:
+        return True
+    # Or that filled in a missing image
+    if not old.get("image_url") and new.get("image_url"):
+        return True
+    return False

@@ -85,7 +85,8 @@ ARTICLE_HEURISTIC_PATTERNS = [
     re.compile(r"/news/.+-\d"),                  # /news/some-slug-123456
     re.compile(r"/story[/-]"),
     re.compile(r"/post[/-]"),
-    re.compile(r"-\d{5,}(?:\.html|/?$)"),        # /...-123456 or .html
+    re.compile(r"-\d{5,}(?:\.html|/?$)"),        # slug-123456 or .html
+    re.compile(r"/\d{5,}(?:[/?#]|$)"),           # /category/659092 (BD TV portals)
     re.compile(r"\.html$"),
 ]
 
